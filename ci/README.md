@@ -35,6 +35,8 @@ Ils n'affichent jamais la valeur d'une variable — seulement son nom.
 | `lib.sh` | Fonctions communes. **À sourcer**, jamais à exécuter. | — | — |
 | `check-docs.sh` | Cohérence de `docs/` — délègue à `scripts/check_docs.py`. | aucun | — |
 | `check-config.sh` | `manage.py check`, `config_audit`, `generate_config_reference --check`. | PostgreSQL | — |
+| `check_lock_consistency.py` | Cohérence **déterministe** déclarations (`pyproject.toml`, `requirements-runtime.in`) ↔ locks d'exécution, empreintes présentes ; bloquant. | aucun | — |
+| `check_image_lock_parity.py` | Distributions installées dans l'image = lock (noms PEP 503, versions exactes). | image construite | — |
 | `test-backend-fast.sh` | Profil **FAST** — délègue à `make test-fast` (`--no-db`, aucun service). | aucun | rapport JUnit si `PYTEST_JUNIT_PATH` |
 | `test-backend-standard.sh` | Profil **STANDARD** — délègue à `make test-backend-all`. | PostgreSQL | rapport JUnit si `PYTEST_JUNIT_PATH` |
 | `test-backend-full.sh` | Profil **FULL** — délègue à `make test-full` (aucun filtre ; `external` sauté). | PostgreSQL | rapport JUnit si `PYTEST_JUNIT_PATH` |
