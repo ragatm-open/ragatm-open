@@ -83,7 +83,16 @@ jobs:
           python -m venv .venv
           .venv/bin/pip install --require-hashes --no-deps -r ci/requirements-ci.lock
           .venv/bin/pip install --no-deps --no-build-isolation -e backend
-      - name: Lock drift (runtime image locks must match pyproject)
+      - name: Lock consistency (declarations vs runtime locks — deterministic, blocking)
+        # Vérifie sans réseau que chaque exigence de backend/pyproject.toml (+ extras couverts par chaque lock) et de
+        # backend/requirements-runtime.in est satisfaite par un pin du lock, et que chaque pin porte une empreinte.
+        run: .venv/bin/python ci/check_lock_consistency.py
+      - name: Lock drift vs PyPI (advisory — see note)
+        # `backend/lock-runtime.sh --check` RE-RÉSOUT les dépendances avec uv contre l'index au moment du run : son
+        # résultat dépend de l'état de PyPI (et d'EXCLUDE_NEWER), pas seulement du dépôt. Première exécution réelle :
+        # pypdfium2 5.15.1 (lock) vs 5.15.0 (re-résolution bornée) — le lock livré est cohérent et installable à
+        # empreintes vérifiées (contrôle bloquant ci-dessus). Consultatif : le diagnostic reste dans le journal.
+        continue-on-error: true
         run: backend/lock-runtime.sh --check
       - name: Format & lint (advisory — see note)
         # État mesuré sur le candidat de publication : `black --check` signale 1 127 fichiers à
@@ -179,7 +188,6 @@ jobs:
         run: docker build --build-arg APP_GIT_SHA=${{ github.sha }} -t ragatm-open-frontend:ci frontend
       - name: Installed versions match the lock
         run: |
-          docker run --rm --entrypoint pip ragatm-open-backend:ci freeze --all | sort > installed.txt
-          grep -E '^[a-z0-9_.-]+==' backend/requirements.lock | sed 's/ \\$//' | tr 'A-Z' 'a-z' | sort > locked.txt
-          comm -13 <(tr 'A-Z' 'a-z' < installed.txt | sed 's/_/-/g' | sort) <(sed 's/_/-/g' locked.txt | sort) | grep -v '^rag-atm-backend' | tee missing.txt
-          test ! -s missing.txt
+          docker run --rm --entrypoint pip ragatm-open-backend:ci freeze --all > installed.txt
+          # Noms canonisés (PEP 503 : `pdfminer.six` = `pdfminer-six`), versions comparées exactement.
+          python3 ci/check_image_lock_parity.py installed.txt backend/requirements.lock rag-atm-backend

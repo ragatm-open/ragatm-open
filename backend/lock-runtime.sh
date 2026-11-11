@@ -47,7 +47,7 @@ compile requirements-ifc.lock tables ifc
 rc=0
 for f in requirements.lock requirements-ocr.lock requirements-ifc.lock; do
   if [[ $check_only -eq 1 ]]; then
-    if diff -q "backend/$f" "$work/$f" >/dev/null; then echo "[lock] backend/$f à jour"; else echo "[lock] backend/$f a DÉRIVÉ — régénérer avec backend/lock-runtime.sh" >&2; rc=1; fi
+    if diff -q "backend/$f" "$work/$f" >/dev/null; then echo "[lock] backend/$f à jour"; else echo "[lock] backend/$f a DÉRIVÉ — régénérer avec backend/lock-runtime.sh" >&2; diff "backend/$f" "$work/$f" | grep -E '^[<>] [A-Za-z0-9_.-]+==' | head -20 >&2; rc=1; fi
   else
     cp -- "$work/$f" "backend/$f"; echo "[lock] écrit backend/$f ($(grep -c '^[a-z]' "backend/$f") distributions)"
   fi
