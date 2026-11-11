@@ -1,0 +1,17 @@
+/* Composer : typographie et cibles tactiles responsives.
+ * Seuil mobile recopié de components/shell/breakpoints.ts (≤ 767 px). */
+
+.input {
+  font-size: 15px;
+}
+
+@media (max-width: 767px) {
+  /* < 16 px, Safari iOS zoome la page au focus du champ. */
+  .input {
+    font-size: 16px;
+  }
+  .action {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

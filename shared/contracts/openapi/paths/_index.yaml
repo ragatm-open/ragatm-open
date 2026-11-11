@@ -1,0 +1,14 @@
+# Bundler-only file.
+# Redocly will merge these into a single `paths` object.
+allOf:
+  - $ref: "./documents.yaml"
+  - $ref: "./chat.yaml"
+  - $ref: "./corpus.yaml"
+  - $ref: "./analyses.yaml"
+  # Add later:
+  # - $ref: "./auth.yaml"
+  # - $ref: "./workspaces.yaml"
+  # - $ref: "./ragspaces.yaml"
+  # - $ref: "./prompts.yaml"
+  # - $ref: "./audit.yaml"
+  # - $ref: "./bootstrap.yaml"

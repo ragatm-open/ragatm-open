@@ -1,0 +1,3351 @@
+{
+ "schema_version": 1,
+ "environment": "staging",
+ "deployment_sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678",
+ "generated_at": 1794046541.57,
+ "data_freshness": {
+  "gateway_probed_at": 1794046541.5706427,
+  "gateway_cached": false,
+  "gateway_cache_ttl_seconds": 30,
+  "worker_stale_after_seconds": 180
+ },
+ "summary": {
+  "formats": 26,
+  "extensions": 54,
+  "capabilities": 76,
+  "states": {
+   "ACTIVE_GLOBAL": 23,
+   "ACTIVE_SCOPED": 0,
+   "ACTIVE_CONDITIONAL": 3,
+   "DISABLED": 42,
+   "UNSUPPORTED": 8,
+   "UNAVAILABLE": 0,
+   "INCONSISTENT": 0,
+   "UNKNOWN": 0
+  },
+  "warnings": 8
+ },
+ "formats": [
+  {
+   "format_id": "pdf",
+   "label": "PDF",
+   "family": "PDF",
+   "extensions": [
+    ".pdf"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "PdfExtractor",
+   "registry_key": "pdf",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [
+    "≤ DOCUMENT_PDF_MAX_PAGES pages"
+   ],
+   "in_matrix": true
+  },
+  {
+   "format_id": "docx",
+   "label": "Word (DOCX)",
+   "family": "Office",
+   "extensions": [
+    ".docx",
+    ".dotx"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "DocxExtractor",
+   "registry_key": "docx",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": true
+  },
+  {
+   "format_id": "pptx",
+   "label": "PowerPoint (PPTX)",
+   "family": "Office",
+   "extensions": [
+    ".pptx"
+   ],
+   "status": "CONDITIONALLY_SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "PptxExtractor",
+   "registry_key": "pptx",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": true
+  },
+  {
+   "format_id": "xlsx",
+   "label": "Excel (XLSX)",
+   "family": "Office",
+   "extensions": [
+    ".xlsx"
+   ],
+   "status": "CONDITIONALLY_SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "ExcelExtractor",
+   "registry_key": "excel",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [
+    "refusé dans le corpus métier partagé"
+   ],
+   "in_matrix": true
+  },
+  {
+   "format_id": "csv",
+   "label": "CSV / TSV",
+   "family": "Texte tabulaire",
+   "extensions": [
+    ".csv",
+    ".tsv"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "CsvExtractor",
+   "registry_key": "csv",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "txt",
+   "label": "Texte brut",
+   "family": "Texte",
+   "extensions": [
+    ".txt"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "TextExtractor",
+   "registry_key": "txt",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "markdown",
+   "label": "Markdown",
+   "family": "Texte",
+   "extensions": [
+    ".md",
+    ".markdown"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "MarkdownExtractor",
+   "registry_key": "markdown",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "html",
+   "label": "HTML",
+   "family": "Texte",
+   "extensions": [
+    ".html",
+    ".htm"
+   ],
+   "status": "SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "HtmlExtractor",
+   "registry_key": "html",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "image",
+   "label": "Images (JPEG, PNG, TIFF, WEBP)",
+   "family": "Image autonome",
+   "extensions": [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".tif",
+    ".tiff",
+    ".webp"
+   ],
+   "status": "CONDITIONALLY_SUPPORTED",
+   "upload_enabled": true,
+   "extractor": "ImageExtractor",
+   "registry_key": "image",
+   "executing_service": "worker_visual",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [
+    "sous-formats : DOCUMENT_IMAGE_FORMATS"
+   ],
+   "in_matrix": true
+  },
+  {
+   "format_id": "image_optin",
+   "label": "Images GIF / BMP",
+   "family": "Image autonome",
+   "extensions": [
+    ".gif",
+    ".bmp"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "ImageExtractor",
+   "registry_key": "image",
+   "executing_service": "worker_visual",
+   "refusal_code": "image_unsupported_format",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [
+    "détectées ; acceptées seulement si ajoutées à DOCUMENT_IMAGE_FORMATS"
+   ],
+   "in_matrix": false
+  },
+  {
+   "format_id": "msg",
+   "label": "Courriel Outlook (MSG)",
+   "family": "Courriel",
+   "extensions": [
+    ".msg"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "MsgExtractor",
+   "registry_key": "msg",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 26214400,
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "notes": [],
+   "in_matrix": true
+  },
+  {
+   "format_id": "eml",
+   "label": "Courriel MIME (EML)",
+   "family": "Courriel",
+   "extensions": [
+    ".eml"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "EmlExtractor",
+   "registry_key": "eml",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 26214400,
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "notes": [],
+   "in_matrix": true
+  },
+  {
+   "format_id": "audio",
+   "label": "Audio",
+   "family": "Audio",
+   "extensions": [
+    ".mp3",
+    ".m4a",
+    ".wav",
+    ".flac",
+    ".ogg",
+    ".webm"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "AudioTranscriptExtractor (transcription persistée)",
+   "registry_key": "audio",
+   "executing_service": "worker_audio",
+   "refusal_code": "",
+   "max_upload_bytes": 600000000,
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_AUDIO_RAGSPACE_IDS"
+   },
+   "notes": [
+    "route dédiée /api/v1/documents/upload-audio/",
+    "audio seul : une piste vidéo est refusée"
+   ],
+   "in_matrix": true
+  },
+  {
+   "format_id": "xml",
+   "label": "XML",
+   "family": "Structuré",
+   "extensions": [
+    ".xml"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "XmlExtractor",
+   "registry_key": "xml",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "dxf",
+   "label": "CAO DXF",
+   "family": "CAO / BIM",
+   "extensions": [
+    ".dxf"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "DxfExtractor",
+   "registry_key": "dxf",
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "dwg",
+   "label": "CAO DWG",
+   "family": "CAO / BIM",
+   "extensions": [
+    ".dwg"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "DwgExtractor (LibreDWG → DXF)",
+   "registry_key": "dwg",
+   "executing_service": "worker_dwg",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "ifc",
+   "label": "BIM IFC",
+   "family": "CAO / BIM",
+   "extensions": [
+    ".ifc"
+   ],
+   "status": "DISABLED",
+   "upload_enabled": false,
+   "extractor": "IfcExtractor (ifcopenshell)",
+   "registry_key": "ifc",
+   "executing_service": "worker_ifc",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "text_fallback",
+   "label": "RTF, SVG, JSON",
+   "family": "Texte brut implicite",
+   "extensions": [
+    ".rtf",
+    ".svg",
+    ".json"
+   ],
+   "status": "TEXT_FALLBACK",
+   "upload_enabled": true,
+   "extractor": "TextExtractor (texte brut, sans extracteur dédié)",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "",
+   "max_upload_bytes": 52428800,
+   "scope": null,
+   "notes": [
+    "accepté comme texte brut par heuristique : le balisage est indexé tel quel",
+    "ne pas considérer comme un format pris en charge"
+   ],
+   "in_matrix": false
+  },
+  {
+   "format_id": "macro",
+   "label": "Office avec macros",
+   "family": "Refusé",
+   "extensions": [
+    ".docm",
+    ".xlsm",
+    ".pptm"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "macro_enabled_*_refused",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "legacy_office",
+   "label": "Office ancien (OLE2)",
+   "family": "Refusé",
+   "extensions": [
+    ".doc",
+    ".xls",
+    ".ppt"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "legacy_office_format",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "opendocument",
+   "label": "OpenDocument",
+   "family": "Refusé",
+   "extensions": [
+    ".odt",
+    ".ods",
+    ".odp"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "unsupported_*_format",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "archive",
+   "label": "Archives",
+   "family": "Refusé",
+   "extensions": [
+    ".zip",
+    ".7z",
+    ".rar"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "archive_not_supported",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "image_unsupported",
+   "label": "Images HEIC / AVIF",
+   "family": "Refusé",
+   "extensions": [
+    ".heic",
+    ".avif"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "unsupported_file_type",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "video",
+   "label": "Vidéo",
+   "family": "Refusé",
+   "extensions": [
+    ".mp4",
+    ".mov",
+    ".mkv"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "unsupported_file_type",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "opus",
+   "label": "Opus nu",
+   "family": "Refusé",
+   "extensions": [
+    ".opus"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "unsupported_audio",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  },
+  {
+   "format_id": "executable",
+   "label": "Exécutables (ELF, PE, Mach-O, script)",
+   "family": "Refusé",
+   "extensions": [
+    ".exe"
+   ],
+   "status": "UNSUPPORTED",
+   "upload_enabled": false,
+   "extractor": "—",
+   "registry_key": null,
+   "executing_service": "worker",
+   "refusal_code": "executable_refused",
+   "max_upload_bytes": null,
+   "scope": null,
+   "notes": [],
+   "in_matrix": false
+  }
+ ],
+ "capabilities": [
+  {
+   "id": "pdf.upload",
+   "format_id": "pdf",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Le fichier est accepté si son contenu est reconnu (jamais sur l'extension seule)",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.text",
+   "format_id": "pdf",
+   "category": "text",
+   "label": "Texte natif",
+   "description": "Texte de chaque page (pypdf, puis moteurs de repli si la qualité est insuffisant",
+   "content_type": "texte natif",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte découpé en fragments",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "page",
+   "numeric_evidence_class": "native_text",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_PDF_NATIVE_FALLBACK_ENABLED"
+   ],
+   "space_applicable": true
+  },
+  {
+   "id": "pdf.ocr",
+   "format_id": "pdf",
+   "category": "ocr",
+   "label": "OCR des pages sans texte",
+   "description": "Les pages scannées ou sans texte exploitable sont lues par Tesseract, localement",
+   "content_type": "page scannée",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "page sans texte natif exploitable",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte OCR",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [
+    "Tesseract local (jamais AI Gateway)",
+    "≤ DOCUMENT_OCR_MAX_PAGES pages"
+   ],
+   "flags": [
+    "DOCUMENT_OCR_ENABLED"
+   ],
+   "space_applicable": false
+  },
+  {
+   "id": "pdf.inline_image.detection",
+   "format_id": "pdf",
+   "category": "images",
+   "label": "Détection et extraction des images intégrées",
+   "description": "Les images raster intégrées (photographies, captures, illustrations) sont repéré",
+   "content_type": "image raster intégrée",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "image ≥ 96 px de côté, hors tableau natif, bornes par page et par document",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "image candidate (interne)",
+   "output_indexed": "INTERNAL_ONLY",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "qualification interne — visuels bureautiques",
+   "limitations": [
+    "images recouvrant un tableau natif écartées",
+    "répétitions et images uniformes filtrées"
+   ],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED",
+    "DOCUMENT_VISUAL_ANALYSIS_SOURCES"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.inline_image.ocr",
+   "format_id": "pdf",
+   "category": "ocr",
+   "label": "OCR des images intégrées",
+   "description": "Aucun OCR n'est appliqué aux images intégrées : seul le texte des pages sans tex",
+   "content_type": "image raster intégrée",
+   "implemented": "NO",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "—",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_APPLICABLE",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.inline_image.vision",
+   "format_id": "pdf",
+   "category": "vision",
+   "label": "Description des images intégrées (Vision)",
+   "description": "Chaque image éligible est décrite par AI Gateway (tâche describe) après la mise ",
+   "content_type": "image raster intégrée",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "image ≥ 96 px de côté, hors tableau natif, bornes par page et par document",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page + localisation de l'image",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "qualification interne — partielle (canari)",
+   "limitations": [
+    "une description n'est pas une extraction de valeurs",
+    "aucune relation structurée de schéma (tâche diagram non qualifiée)"
+   ],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED",
+    "DOCUMENT_VISUAL_ANALYSIS_SOURCES",
+    "AI_GATEWAY_VISION_MODEL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.vector_figures",
+   "format_id": "pdf",
+   "category": "vision",
+   "label": "Figures vectorielles (rendu puis description)",
+   "description": "Les régions dessinées en vectoriel (schémas, courbes) sont rendues en image puis",
+   "content_type": "figure vectorielle",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_PDF_VECTOR_REGION_RAGSPACE_IDS"
+   },
+   "content_trigger": "région vectorielle détectée et rail visuel PDF actif",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page + région",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "qualification interne — canari ; extraction visuelle : NO-GO métier",
+   "limitations": [
+    "hors espaces listés : seule la couche texte est indexée"
+   ],
+   "flags": [
+    "DOCUMENT_PDF_VECTOR_REGION_RENDER_ENABLED",
+    "DOCUMENT_PDF_VECTOR_REGION_RAGSPACE_IDS"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.tables.native_specialized",
+   "format_id": "pdf",
+   "category": "tables",
+   "label": "Tableaux natifs reconnus",
+   "description": "Tableaux de types reconnus extraits du texte natif (pdfplumber).",
+   "content_type": "tableau natif",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_CONDITIONAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "type de tableau reconnu sur page à texte natif",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragment de tableau",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "page",
+   "numeric_evidence_class": "native_table_structured",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — tableaux natifs",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.tables.native_generic",
+   "format_id": "pdf",
+   "category": "tables",
+   "label": "Tableaux natifs génériques",
+   "description": "Toute grille native découpée ligne par ligne avec ses cellules.",
+   "content_type": "tableau natif",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_PDF_GENERIC_TABLES_ALLOWED_RAGSPACE_IDS"
+   },
+   "content_trigger": "grille native détectée",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragments par ligne",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page + cellules",
+   "numeric_evidence_class": "native_table_structured",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "qualification interne — requalification des tableaux natifs",
+   "limitations": [
+    "jamais superposé au rail StructX (espaces exclus)"
+   ],
+   "flags": [
+    "DOCUMENT_PDF_GENERIC_TABLES_ENABLED",
+    "DOCUMENT_PDF_GENERIC_TABLES_ALLOWED_RAGSPACE_IDS"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.tables.ocr",
+   "format_id": "pdf",
+   "category": "tables",
+   "label": "Tableaux reconstruits depuis l'OCR",
+   "description": "Reconstruction de tableaux sur des pages OCRisées.",
+   "content_type": "tableau scanné",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "OCR exécuté sur la page",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "tableau OCR",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page",
+   "numeric_evidence_class": "ocr_table_unverified",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "NOT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_TABLE_OCR_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.charts",
+   "format_id": "pdf",
+   "category": "charts",
+   "label": "Graphiques PDF",
+   "description": "Pas de lecture native des graphiques PDF : ils ne sont exploités que par la desc",
+   "content_type": "graphique raster ou vectoriel",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "graphique présent comme image ou région vectorielle",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "",
+   "limitations": [
+    "aucune valeur de série native"
+   ],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "pdf.mineru",
+   "format_id": "pdf",
+   "category": "tables",
+   "label": "Rail hybride MinerU (sidecar local)",
+   "description": "Tableaux et texte de pages raster via un service local MinerU.",
+   "content_type": "page raster",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "page raster ou tableau détecté",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "tableaux importés",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [
+    "service local, pas AI Gateway"
+   ],
+   "flags": [
+    "DOCUMENT_MINERU_HYBRID_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.upload",
+   "format_id": "docx",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Le fichier est accepté si son contenu est reconnu (jamais sur l'extension seule)",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.text",
+   "format_id": "docx",
+   "category": "text",
+   "label": "Texte du corps",
+   "description": "Paragraphes, titres, listes et tableaux du corps du document.",
+   "content_type": "texte natif",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte découpé en fragments",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "document",
+   "numeric_evidence_class": "native_text",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [
+    "en-têtes, pieds de page, notes, commentaires et zones de texte non extraits"
+   ],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.inline_image.detection",
+   "format_id": "docx",
+   "category": "images",
+   "label": "Détection et extraction des images intégrées",
+   "description": "Les images raster intégrées (photographies, captures, illustrations) sont repéré",
+   "content_type": "image raster intégrée",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "image embarquée dans le corps (relations embarquées)",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "image candidate (interne)",
+   "output_indexed": "INTERNAL_ONLY",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "qualification interne — visuels bureautiques",
+   "limitations": [
+    "images liées, SmartArt, formes et EMF/WMF/SVG ignorés"
+   ],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED",
+    "DOCUMENT_VISUAL_ANALYSIS_SOURCES"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.inline_image.ocr",
+   "format_id": "docx",
+   "category": "ocr",
+   "label": "OCR des images intégrées",
+   "description": "Aucun OCR n'est appliqué aux images intégrées : seul le texte des pages sans tex",
+   "content_type": "image raster intégrée",
+   "implemented": "NO",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "—",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_APPLICABLE",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.inline_image.vision",
+   "format_id": "docx",
+   "category": "vision",
+   "label": "Description des images intégrées (Vision)",
+   "description": "Chaque image éligible est décrite par AI Gateway (tâche describe) après la mise ",
+   "content_type": "image raster intégrée",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "image embarquée dans le corps (relations embarquées)",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "localisation structurelle (pas de numéro de page)",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "qualification interne — partielle (canari)",
+   "limitations": [
+    "une description n'est pas une extraction de valeurs",
+    "aucune relation structurée de schéma (tâche diagram non qualifiée)"
+   ],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED",
+    "DOCUMENT_VISUAL_ANALYSIS_SOURCES",
+    "AI_GATEWAY_VISION_MODEL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.tables",
+   "format_id": "docx",
+   "category": "tables",
+   "label": "Tableaux Word",
+   "description": "Tableaux aplatis « cellule | cellule » dans le texte.",
+   "content_type": "tableau Office",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_CONDITIONAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "tableau présent",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "document",
+   "numeric_evidence_class": "native_text",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "",
+   "limitations": [
+    "pas de fragment de tableau structuré"
+   ],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "docx.office_charts",
+   "format_id": "docx",
+   "category": "charts",
+   "label": "Graphiques Office natifs",
+   "description": "Les séries en cache des graphiques Office sont lues et rendues comme un tableau ",
+   "content_type": "graphique Office natif",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "graphique chartN.xml présent",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "table de séries",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "document",
+   "numeric_evidence_class": "native_text",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "RAGATM-23B2",
+   "limitations": [
+    "graphiques chartex (cx:) non lus"
+   ],
+   "flags": [
+    "DOCUMENT_OFFICE_CHART_DATA_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.upload",
+   "format_id": "xlsx",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Le fichier est accepté si son contenu est reconnu (jamais sur l'extension seule)",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_EXCEL_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.cells",
+   "format_id": "xlsx",
+   "category": "tables",
+   "label": "Cellules et plages",
+   "description": "Valeurs des cellules (valeurs en cache ; formules jamais évaluées), découpées pa",
+   "content_type": "cellules",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragments de plages",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "feuille + plage de cellules",
+   "numeric_evidence_class": "unknown",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [
+    "formule sans valeur en cache : marquée à recalculer"
+   ],
+   "flags": [
+    "DOCUMENT_EXCEL_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.text",
+   "format_id": "xlsx",
+   "category": "text",
+   "label": "Texte des cellules",
+   "description": "Le texte des cellules est indexé avec les plages.",
+   "content_type": "texte",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragments de plages",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "feuille + plage",
+   "numeric_evidence_class": "unknown",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_EXCEL_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.images",
+   "format_id": "xlsx",
+   "category": "images",
+   "label": "Images intégrées",
+   "description": "Les images d'un classeur sont comptées puis ignorées.",
+   "content_type": "image intégrée",
+   "implemented": "NO",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "avertissement",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_APPLICABLE",
+   "qualification_evidence": "",
+   "limitations": [
+    "avertissement excel_visual_content_ignored"
+   ],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.charts",
+   "format_id": "xlsx",
+   "category": "charts",
+   "label": "Graphiques Excel",
+   "description": "Les graphiques et feuilles graphiques d'un classeur sont ignorés (le réglage des",
+   "content_type": "graphique Excel",
+   "implemented": "NO",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "—",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_APPLICABLE",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "xlsx.tabular_query",
+   "format_id": "xlsx",
+   "category": "tables",
+   "label": "Calcul tabulaire à la question",
+   "description": "Moteur de requêtes calculées sur les feuilles, exécuté au moment de la question ",
+   "content_type": "cellules",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "question tabulaire",
+   "content_trigger_conditional": true,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "réponse calculée",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_MEASURED",
+   "qualification_evidence": "",
+   "limitations": [
+    "hors ingestion"
+   ],
+   "flags": [
+    "TABULAR_QUERY_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "image.upload",
+   "format_id": "image",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Le fichier est accepté si son contenu est reconnu (jamais sur l'extension seule)",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_IMAGE_INGEST_ENABLED",
+    "DOCUMENT_IMAGE_FORMATS"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "image.ocr",
+   "format_id": "image",
+   "category": "ocr",
+   "label": "OCR de l'image",
+   "description": "Le texte de l'image est lu par Tesseract, localement.",
+   "content_type": "image",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte OCR",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "image",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [
+    "Tesseract local"
+   ],
+   "flags": [
+    "DOCUMENT_IMAGE_INGEST_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "image.vision",
+   "format_id": "image",
+   "category": "vision",
+   "label": "Description de l'image (Vision)",
+   "description": "L'image est décrite par AI Gateway avant la mise à disposition ; source principa",
+   "content_type": "image",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "ingestion (avant READY)",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "image",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED",
+    "DOCUMENT_VISUAL_ANALYSIS_SOURCES",
+    "AI_GATEWAY_VISION_MODEL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "image.charts",
+   "format_id": "image",
+   "category": "charts",
+   "label": "Graphique dans une image",
+   "description": "Décrit par Vision ; aucune série native.",
+   "content_type": "graphique raster",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "graphique présent",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex",
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/analyze (tâche describe)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "ingestion (avant READY)",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "description textuelle",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "image",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_VISUAL_ANALYSIS_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "visual.structx.table",
+   "format_id": "visual",
+   "category": "tables",
+   "label": "Tableaux dans les visuels (StructX)",
+   "description": "Après la description, les tableaux repérés dans une image ou un visuel sont stru",
+   "content_type": "tableau dans une image ou un scan",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "STRUCTURED_VISUAL_RAGSPACE_ALLOWLIST"
+   },
+   "content_trigger": "visuel décrit classé tableau",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_structured_extract_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "structured_extract",
+    "gateway_route": "/v1/vision/structured-extract",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": null,
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "cellules structurées",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page / localisation",
+   "numeric_evidence_class": "structured_unqualified",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "sonde Gateway structured-extract (protocole QP-22A)",
+   "limitations": [
+    "probant seulement si la qualification de l'extraction est acceptée (structured_accepted)",
+    "non reporté à la réindexation"
+   ],
+   "flags": [
+    "STRUCTURED_VISUAL_ENABLED",
+    "STRUCTURED_VISUAL_RAGSPACE_ALLOWLIST",
+    "STRUCTURED_VISUAL_ALLOWED_TASKS",
+    "STRUCTURED_VISUAL_PRODUCTION_ALLOWED",
+    "STRUCTURED_VISUAL_AUTO_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "visual.structx.chart",
+   "format_id": "visual",
+   "category": "charts",
+   "label": "Séries de graphiques (StructX)",
+   "description": "Extraction de séries depuis un graphique en image.",
+   "content_type": "graphique raster",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "STRUCTURED_VISUAL_RAGSPACE_ALLOWLIST"
+   },
+   "content_trigger": "visuel décrit classé graphique",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_structured_extract_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "structured_extract",
+    "gateway_route": "/v1/vision/structured-extract",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": null,
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "séries structurées",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "page / localisation",
+   "numeric_evidence_class": "structured_unqualified",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "NOT_QUALIFIED",
+   "qualification_evidence": "sonde Gateway structured-extract",
+   "limitations": [
+    "plafond de production : tâche table seulement"
+   ],
+   "flags": [
+    "STRUCTURED_VISUAL_ENABLED",
+    "STRUCTURED_VISUAL_RAGSPACE_ALLOWLIST",
+    "STRUCTURED_VISUAL_ALLOWED_TASKS",
+    "STRUCTURED_VISUAL_PRODUCTION_ALLOWED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "visual.curve_shadow",
+   "format_id": "visual",
+   "category": "charts",
+   "label": "Numérisation de courbes (audit fantôme)",
+   "description": "Analyse CPU des courbes en mode fantôme : rien n'est publié dans l'index.",
+   "content_type": "courbe",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "STRUCTURED_VISUAL_CURVE_SHADOW_RAGSPACE_ALLOWLIST"
+   },
+   "content_trigger": "graphique de courbes",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "rapport d'audit",
+   "output_indexed": "INTERNAL_ONLY",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "EXPERIMENTAL",
+   "qualification_evidence": "qualification interne — numérisation de courbes (shadow)",
+   "limitations": [],
+   "flags": [
+    "STRUCTURED_VISUAL_CURVE_SHADOW_ENABLED",
+    "STRUCTURED_VISUAL_CURVE_SHADOW_RAGSPACE_ALLOWLIST"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "visual.vision_v2",
+   "format_id": "visual",
+   "category": "vision",
+   "label": "Vision V2 (régions recadrées)",
+   "description": "Analyse expérimentale de régions recadrées ; les résultats restent internes et n",
+   "content_type": "région de page",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "VISUAL_V2_RAGSPACE_ALLOWLIST"
+   },
+   "content_trigger": "politique d'espace activée",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_vision_unknown",
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "vision",
+    "gateway_route": "/v1/vision/capacity + /v1/vision/analyze (V2)",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "enrichissement différé",
+    "gateway_model_setting": "AI_GATEWAY_VISION_MODEL",
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "résultat interne",
+   "output_indexed": "INTERNAL_ONLY",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "EXPERIMENTAL",
+   "qualification_evidence": "",
+   "limitations": [
+    "aucun fragment produit"
+   ],
+   "flags": [
+    "VISUAL_V2_ORCHESTRATION_ENABLED",
+    "VISUAL_V2_RAGSPACE_ALLOWLIST",
+    "VISUAL_V2_PRODUCTION_ALLOWED",
+    "AI_GATEWAY_VISION_V2_ALLOWED_FINGERPRINTS"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "visual.technical_diagram",
+   "format_id": "visual",
+   "category": "charts",
+   "label": "Analyse des schémas techniques",
+   "description": "Les schémas, organigrammes et plans ne reçoivent qu'une description : la Gateway",
+   "content_type": "schéma",
+   "implemented": "PARTIAL",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_visual_not_observed"
+   ],
+   "executing_service": "worker_visual",
+   "consumers": [
+    "worker_visual"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "—",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [
+    "aucune relation structurée"
+   ],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "msg.upload",
+   "format_id": "msg",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Accepté si le format est activé, le parseur présent et l'espace admis (mode géné",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_MSG_ENABLED",
+    "DOCUMENT_EMAIL_GLOBAL_ENABLED",
+    "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "msg.body",
+   "format_id": "msg",
+   "category": "text",
+   "label": "Corps du courriel",
+   "description": "Corps texte et HTML nettoyés, signatures séparées.",
+   "content_type": "corps",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "sections",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "objet + partie corps",
+   "numeric_evidence_class": "unknown",
+   "numeric_evidence_reliable": true,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "qualification interne — courriels (synthétique)",
+   "limitations": [
+    "contenu encadré comme non fiable si RAG_EMAIL_UNTRUSTED_FRAMING_ENABLED"
+   ],
+   "flags": [
+    "DOCUMENT_MSG_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "msg.attachments",
+   "format_id": "msg",
+   "category": "email",
+   "label": "Pièces jointes et messages imbriqués",
+   "description": "Chaque pièce jointe est extraite par l'extracteur de SON format ; les messages i",
+   "content_type": "pièce jointe",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "content_trigger": "pièce jointe présente (bornes de nombre, de taille et de profondeur)",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragments de la pièce",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "courriel + pièce jointe",
+   "numeric_evidence_class": "classe du format de la pièce",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "qualification interne — courriels (synthétique)",
+   "limitations": [
+    "IFC/DWG refusés en pièce jointe",
+    "aucune Vision sur les pièces jointes"
+   ],
+   "flags": [
+    "DOCUMENT_EMAIL_ATTACHMENT_INGEST_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "msg.inline_image.ocr",
+   "format_id": "msg",
+   "category": "ocr",
+   "label": "OCR des images du courriel",
+   "description": "Les images intégrées (CID, logos, photographies) sont traitées comme des pièces ",
+   "content_type": "image intégrée au courriel",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS"
+   },
+   "content_trigger": "image présente ; sans texte → aucun contenu",
+   "content_trigger_conditional": true,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "texte OCR",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "courriel + pièce jointe",
+   "numeric_evidence_class": "ocr_other",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_EMAIL_ATTACHMENT_INGEST_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "msg.inline_image.vision",
+   "format_id": "msg",
+   "category": "vision",
+   "label": "Description Vision des images du courriel",
+   "description": "Les images de courriel ne sont jamais envoyées à Vision.",
+   "content_type": "image intégrée au courriel",
+   "implemented": "NO",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "UNSUPPORTED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "—",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "NOT_APPLICABLE",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "audio.upload",
+   "format_id": "audio",
+   "category": "upload",
+   "label": "Acceptation à l'import",
+   "description": "Route dédiée ; accepté si l'audio est activé et l'espace admis (mode général ou ",
+   "content_type": "fichier",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_AUDIO_RAGSPACE_IDS"
+   },
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend",
+    "worker_audio"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "document créé",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "qualification interne — documents réels",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_AUDIO_INGEST_ENABLED",
+    "DOCUMENT_AUDIO_GLOBAL_ENABLED",
+    "DOCUMENT_AUDIO_RAGSPACE_IDS",
+    "DOCUMENT_AUDIO_MAX_UPLOAD_BYTES"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "audio.asr",
+   "format_id": "audio",
+   "category": "audio",
+   "label": "Transcription horodatée (ASR)",
+   "description": "L'audio est préparé (FLAC 16 kHz, parties bornées) puis transcrit par AI Gateway",
+   "content_type": "parole",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "INCONSISTENT",
+   "activation_scope": "SCOPED",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_AUDIO_RAGSPACE_IDS"
+   },
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_asr_unknown",
+    "worker_audio_not_observed"
+   ],
+   "executing_service": "worker_audio",
+   "consumers": [
+    "backend",
+    "worker_audio",
+    "worker"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "asr",
+    "gateway_route": "/v1/audio/transcriptions",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "ingestion (worker_audio)",
+    "gateway_model_setting": "AUDIO_ASR_MODEL_LOGICAL",
+    "model_logical": "whisper-turbo",
+    "model_concrete": "faster-whisper-large-v3-turbo",
+    "service_status": "UNAVAILABLE"
+   },
+   "output_type": "transcription horodatée",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "plage HH:MM:SS → HH:MM:SS",
+   "numeric_evidence_class": "asr_transcript",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "qualification interne — audio (synthétique)",
+   "limitations": [
+    "qualité sur enregistrements réels non mesurée",
+    "un seul job de transcription à la fois",
+    "aucune synthèse longue",
+    "aucune analyse visuelle"
+   ],
+   "flags": [
+    "DOCUMENT_AUDIO_INGEST_ENABLED",
+    "DOCUMENT_AUDIO_GLOBAL_ENABLED",
+    "AUDIO_ASR_MODEL_LOGICAL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "audio.text",
+   "format_id": "audio",
+   "category": "text",
+   "label": "Texte transcrit",
+   "description": "Unités de transcription (≤ 1000 caractères, ≤ 120 s).",
+   "content_type": "transcription",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": {
+    "admitted_spaces": 0,
+    "listed": 0,
+    "existing": 0,
+    "stale_entries": 0,
+    "global_mode": false,
+    "list_setting": "DOCUMENT_AUDIO_RAGSPACE_IDS"
+   },
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "unités horodatées",
+   "output_indexed": "INDEXED",
+   "output_searchable": false,
+   "citation_support": "plage temporelle",
+   "numeric_evidence_class": "asr_transcript",
+   "numeric_evidence_reliable": false,
+   "qualification_status": "SYNTHETIC_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [
+    "DOCUMENT_AUDIO_INGEST_ENABLED"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "common.chunking",
+   "format_id": "common",
+   "category": "common",
+   "label": "Découpage en fragments",
+   "description": "Découpage déterministe des sorties indexées.",
+   "content_type": "toutes sorties",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "fragments",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  },
+  {
+   "id": "common.embeddings",
+   "format_id": "common",
+   "category": "common",
+   "label": "Vectorisation (embeddings)",
+   "description": "Fournisseur et modèle propres à CHAQUE RagSpace (AI Gateway ou fournisseur direc",
+   "content_type": "fragments",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "worker_not_observed"
+   ],
+   "executing_service": "worker",
+   "consumers": [
+    "worker",
+    "worker_reindex"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "embeddings",
+    "gateway_route": "/v1/embeddings",
+    "gateway_call_type": "DEPENDS_ON_RAGSPACE",
+    "stage": "indexation et question",
+    "gateway_model_setting": null,
+    "model_logical": null,
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "vecteurs",
+   "output_indexed": "INDEXED",
+   "output_searchable": true,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [
+    "le défaut ne concerne que les nouveaux espaces"
+   ],
+   "flags": [
+    "AI_GATEWAY_EMBEDDINGS_ENABLED",
+    "DEFAULT_RAGSPACE_EMBEDDING_PROVIDER",
+    "DEFAULT_RAGSPACE_EMBEDDING_MODEL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "common.rerank",
+   "format_id": "common",
+   "category": "common",
+   "label": "Reclassement des résultats",
+   "description": "Reclassement des passages retrouvés, au moment de la question.",
+   "content_type": "passages",
+   "implemented": "YES",
+   "configured_enabled": false,
+   "configuration_error": "",
+   "state": "DISABLED",
+   "activation_scope": "NONE",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "UNKNOWN",
+   "runtime_reasons": [
+    "gateway_rerank_unknown"
+   ],
+   "executing_service": "backend",
+   "consumers": [
+    "backend"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": true,
+    "gateway_service": "rerank",
+    "gateway_route": "/v1/rerank",
+    "gateway_call_type": "DIRECT_GATEWAY",
+    "stage": "question (après la recherche)",
+    "gateway_model_setting": "RAG_RERANKER_MODEL_LOGICAL",
+    "model_logical": "rerank-default",
+    "model_concrete": null,
+    "service_status": "UNKNOWN"
+   },
+   "output_type": "classement",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "PARTIAL",
+   "qualification_evidence": "",
+   "limitations": [
+    "intervient à la question, pas à l'import"
+   ],
+   "flags": [
+    "RAG_RERANKER_ENABLED",
+    "RAG_RERANKER_MODEL_LOGICAL"
+   ],
+   "space_applicable": null
+  },
+  {
+   "id": "common.citations",
+   "format_id": "common",
+   "category": "common",
+   "label": "Citations",
+   "description": "Sources normalisées avec la localisation propre au format.",
+   "content_type": "sources",
+   "implemented": "YES",
+   "configured_enabled": true,
+   "configuration_error": "",
+   "state": "ACTIVE_GLOBAL",
+   "activation_scope": "GLOBAL",
+   "scope": null,
+   "content_trigger": "always",
+   "content_trigger_conditional": false,
+   "runtime_available": "AVAILABLE",
+   "runtime_reasons": [],
+   "executing_service": "backend",
+   "consumers": [
+    "backend"
+   ],
+   "gateway_dependency": {
+    "uses_ai_gateway": false,
+    "gateway_call_type": "LOCAL_ONLY"
+   },
+   "output_type": "citations",
+   "output_indexed": "NONE",
+   "output_searchable": false,
+   "citation_support": "—",
+   "numeric_evidence_class": "n/a",
+   "numeric_evidence_reliable": null,
+   "qualification_status": "REAL_DOCUMENT_QUALIFIED",
+   "qualification_evidence": "",
+   "limitations": [],
+   "flags": [],
+   "space_applicable": null
+  }
+ ],
+ "matrix": [
+  {
+   "format_id": "pdf",
+   "label": "PDF",
+   "format_status": "SUPPORTED",
+   "cells": {
+    "text": {
+     "state": "ACTIVE_GLOBAL",
+     "items": [
+      {
+       "id": "pdf.text",
+       "label": "Texte natif",
+       "state": "ACTIVE_GLOBAL"
+      }
+     ]
+    },
+    "ocr": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "pdf.ocr",
+       "label": "OCR des pages sans texte",
+       "state": "DISABLED"
+      },
+      {
+       "id": "pdf.inline_image.ocr",
+       "label": "OCR des images intégrées",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "images": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "pdf.inline_image.detection",
+       "label": "Détection et extraction des images intégrées",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "vision": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "pdf.inline_image.vision",
+       "label": "Description des images intégrées (Vision)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "pdf.vector_figures",
+       "label": "Figures vectorielles (rendu puis description)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.vision_v2",
+       "label": "Vision V2 (régions recadrées)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "tables": {
+     "state": "ACTIVE_CONDITIONAL",
+     "items": [
+      {
+       "id": "pdf.tables.native_specialized",
+       "label": "Tableaux natifs reconnus",
+       "state": "ACTIVE_CONDITIONAL"
+      },
+      {
+       "id": "pdf.tables.native_generic",
+       "label": "Tableaux natifs génériques",
+       "state": "DISABLED"
+      },
+      {
+       "id": "pdf.tables.ocr",
+       "label": "Tableaux reconstruits depuis l'OCR",
+       "state": "DISABLED"
+      },
+      {
+       "id": "pdf.mineru",
+       "label": "Rail hybride MinerU (sidecar local)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.structx.table",
+       "label": "Tableaux dans les visuels (StructX)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "charts": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "pdf.charts",
+       "label": "Graphiques PDF",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.structx.chart",
+       "label": "Séries de graphiques (StructX)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.curve_shadow",
+       "label": "Numérisation de courbes (audit fantôme)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.technical_diagram",
+       "label": "Analyse des schémas techniques",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "audio": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "gateway": {
+     "state": "NOT_USED",
+     "services": []
+    }
+   }
+  },
+  {
+   "format_id": "docx",
+   "label": "Word (DOCX)",
+   "format_status": "SUPPORTED",
+   "cells": {
+    "text": {
+     "state": "ACTIVE_GLOBAL",
+     "items": [
+      {
+       "id": "docx.text",
+       "label": "Texte du corps",
+       "state": "ACTIVE_GLOBAL"
+      }
+     ]
+    },
+    "ocr": {
+     "state": "UNSUPPORTED",
+     "items": [
+      {
+       "id": "docx.inline_image.ocr",
+       "label": "OCR des images intégrées",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "images": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "docx.inline_image.detection",
+       "label": "Détection et extraction des images intégrées",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "vision": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "docx.inline_image.vision",
+       "label": "Description des images intégrées (Vision)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.vision_v2",
+       "label": "Vision V2 (régions recadrées)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "tables": {
+     "state": "ACTIVE_CONDITIONAL",
+     "items": [
+      {
+       "id": "docx.tables",
+       "label": "Tableaux Word",
+       "state": "ACTIVE_CONDITIONAL"
+      },
+      {
+       "id": "visual.structx.table",
+       "label": "Tableaux dans les visuels (StructX)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "charts": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "docx.office_charts",
+       "label": "Graphiques Office natifs",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.structx.chart",
+       "label": "Séries de graphiques (StructX)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.curve_shadow",
+       "label": "Numérisation de courbes (audit fantôme)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.technical_diagram",
+       "label": "Analyse des schémas techniques",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "audio": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "gateway": {
+     "state": "NOT_USED",
+     "services": []
+    }
+   }
+  },
+  {
+   "format_id": "image",
+   "label": "Images (JPEG, PNG, TIFF, WEBP)",
+   "format_status": "CONDITIONALLY_SUPPORTED",
+   "cells": {
+    "text": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "ocr": {
+     "state": "ACTIVE_GLOBAL",
+     "items": [
+      {
+       "id": "image.ocr",
+       "label": "OCR de l'image",
+       "state": "ACTIVE_GLOBAL"
+      }
+     ]
+    },
+    "images": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "vision": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "image.vision",
+       "label": "Description de l'image (Vision)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.vision_v2",
+       "label": "Vision V2 (régions recadrées)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "tables": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "visual.structx.table",
+       "label": "Tableaux dans les visuels (StructX)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "charts": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "image.charts",
+       "label": "Graphique dans une image",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.structx.chart",
+       "label": "Séries de graphiques (StructX)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.curve_shadow",
+       "label": "Numérisation de courbes (audit fantôme)",
+       "state": "DISABLED"
+      },
+      {
+       "id": "visual.technical_diagram",
+       "label": "Analyse des schémas techniques",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "audio": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "gateway": {
+     "state": "NOT_USED",
+     "services": []
+    }
+   }
+  },
+  {
+   "format_id": "msg",
+   "label": "Courriel Outlook (MSG)",
+   "format_status": "DISABLED",
+   "cells": {
+    "text": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "msg.body",
+       "label": "Corps du courriel",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "ocr": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "msg.inline_image.ocr",
+       "label": "OCR des images du courriel",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "images": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "vision": {
+     "state": "UNSUPPORTED",
+     "items": [
+      {
+       "id": "msg.inline_image.vision",
+       "label": "Description Vision des images du courriel",
+       "state": "UNSUPPORTED"
+      }
+     ]
+    },
+    "tables": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "charts": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "audio": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "gateway": {
+     "state": "NOT_USED",
+     "services": []
+    }
+   }
+  },
+  {
+   "format_id": "audio",
+   "label": "Audio",
+   "format_status": "DISABLED",
+   "cells": {
+    "text": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "audio.text",
+       "label": "Texte transcrit",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "ocr": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "images": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "vision": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "tables": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "charts": {
+     "state": "NOT_APPLICABLE",
+     "items": []
+    },
+    "audio": {
+     "state": "DISABLED",
+     "items": [
+      {
+       "id": "audio.asr",
+       "label": "Transcription horodatée (ASR)",
+       "state": "DISABLED"
+      }
+     ]
+    },
+    "gateway": {
+     "state": "NOT_USED",
+     "services": []
+    }
+   }
+  }
+ ],
+ "gateway_services": [
+  {
+   "service": "vision",
+   "status": "AVAILABLE",
+   "environment": "staging",
+   "build": "ab12cd34ef",
+   "model_logical": "vision-default",
+   "model_concrete": "qwen2.5vl:7b",
+   "tasks": [
+    "describe",
+    "ocr"
+   ],
+   "describe_available": true,
+   "semantic_enabled": false
+  },
+  {
+   "service": "structured_extract",
+   "status": "AVAILABLE",
+   "environment": "staging",
+   "build": "ab12cd34ef",
+   "contract": "v2",
+   "experimental": true,
+   "qualified_for_production": false,
+   "tasks": [
+    "chart",
+    "table"
+   ],
+   "task_qualification": {
+    "chart": "NOT_QUALIFIED",
+    "table": "PARTIAL"
+   },
+   "qualification_protocol": "p1",
+   "model_logical": "structx"
+  },
+  {
+   "service": "asr",
+   "status": "UNAVAILABLE",
+   "reason": "connection_error"
+  },
+  {
+   "service": "embeddings",
+   "status": "UNKNOWN",
+   "reason": "not_configured"
+  },
+  {
+   "service": "rerank",
+   "status": "DEGRADED",
+   "environment": "staging",
+   "build": null,
+   "model_logical": "bge-reranker",
+   "model_concrete": "bge-reranker-v2-m3",
+   "model_revision": null
+  }
+ ],
+ "scope_summary": {
+  "email": {
+   "scope": "email",
+   "list_setting": "DOCUMENT_EMAIL_RAGSPACE_IDS",
+   "global_mode": false,
+   "global_mode_error": "",
+   "listed": 0,
+   "invalid_entries": 0,
+   "existing": 0,
+   "stale_entries": 0,
+   "admitted_spaces": 0,
+   "total_spaces": 18
+  },
+  "audio": {
+   "scope": "audio",
+   "list_setting": "DOCUMENT_AUDIO_RAGSPACE_IDS",
+   "global_mode": false,
+   "global_mode_error": "",
+   "listed": 0,
+   "invalid_entries": 0,
+   "existing": 0,
+   "stale_entries": 0,
+   "admitted_spaces": 0,
+   "total_spaces": 18
+  }
+ },
+ "embeddings": {
+  "total_spaces": 18,
+  "ai_gateway_spaces": 0,
+  "ollama_direct_spaces": 17,
+  "other_provider_spaces": 1,
+  "unknown_provider_spaces": 0,
+  "providers": [
+   {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "spaces": 17,
+    "call_type": "OTHER_PROVIDER",
+    "service_status": "UNKNOWN"
+   },
+   {
+    "provider": "ai_gateway",
+    "model": "fr-en-retrieval",
+    "spaces": 1,
+    "call_type": "OTHER_PROVIDER",
+    "service_status": "UNKNOWN"
+   }
+  ],
+  "gateway_fallback_enabled": true,
+  "default_for_new_spaces": {
+   "provider": "ollama",
+   "model": "nomic-embed-text"
+  }
+ },
+ "runtime_consistency": {
+  "status": "PARTIAL",
+  "reason": "worker_visual_not_observed",
+  "roles": {
+   "backend": {
+    "state": "FRESH",
+    "instances": 1,
+    "deployment_sha": "a1b2c3d4e5f6",
+    "age_seconds": 12.4
+   },
+   "worker": {
+    "state": "STALE",
+    "instances": 1,
+    "deployment_sha": "0ff1ce00beef",
+    "age_seconds": 412
+   }
+  },
+  "flags": {
+   "DOCUMENT_PDF_OCR_ENABLED": {
+    "status": "CONFIGURATION_MISMATCH",
+    "consumers": [
+     "worker"
+    ],
+    "unobserved_consumers": []
+   }
+  },
+  "mismatches": [
+   {
+    "flag": "DOCUMENT_PDF_OCR_ENABLED",
+    "roles": [
+     "backend",
+     "worker"
+    ]
+   }
+  ],
+  "ignored_non_consumer_differences": 3,
+  "deployment_sha_mismatches": [
+   "worker"
+  ]
+ },
+ "warnings": [
+  {
+   "code": "SCOPE_EMPTY",
+   "capability_id": "audio.asr",
+   "flag": "DOCUMENT_AUDIO_RAGSPACE_IDS"
+  },
+  {
+   "code": "CONFIGURATION_MISMATCH",
+   "capability_id": "pdf.ocr",
+   "flag": "DOCUMENT_PDF_OCR_ENABLED"
+  },
+  {
+   "code": "WORKER_STALE",
+   "service": "worker",
+   "detail": "dernière empreinte il y a 412 s"
+  },
+  {
+   "code": "DEPLOYMENT_SHA_MISMATCH",
+   "service": "worker"
+  },
+  {
+   "code": "SERVICE_UNAVAILABLE",
+   "service": "asr",
+   "detail": "connection_error"
+  },
+  {
+   "code": "SERVICE_DEGRADED",
+   "service": "rerank",
+   "detail": ""
+  },
+  {
+   "code": "SCOPE_STALE_ENTRY",
+   "scope": "email",
+   "flag": "DOCUMENT_EMAIL_RAGSPACE_IDS",
+   "detail": "1 espace(s) listé(s) inexistant(s), 0 entrée(s) invalide(s)"
+  },
+  {
+   "code": "SOMETHING_NEW",
+   "detail": "code futur"
+  }
+ ],
+ "ragspace_view": null,
+ "read_only": true
+}

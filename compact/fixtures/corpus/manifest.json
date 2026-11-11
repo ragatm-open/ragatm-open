@@ -1,0 +1,260 @@
+{
+  "corpus": "OFLA — corpus synthétique de qualification RAGatm Open Compact",
+  "version": "1.0.0",
+  "generated_at": "2026-11-09T10:38:25Z",
+  "origin": "synthetic — généré par generate_corpus.py ; aucun document, lieu, mesure ou nom réel",
+  "license": "contenu synthétique produit pour le programme RAGatm Open (réutilisation autorisée dans ce programme)",
+  "documents": [
+    {
+      "name": "fr_lac_vermeil.txt",
+      "sha256": "76e9d9912d276a52141947f7d30306cdd16fb4eb6d16e917c9bb76a03c414d38",
+      "bytes": 1124,
+      "language": "fr",
+      "format": "txt",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Fiche lac de Vermeil"
+      ]
+    },
+    {
+      "name": "fr_lac_aurore.md",
+      "sha256": "fef321006b450c7df332f8c26b984d7b257c292947b0735f2facb4472a3db8a6",
+      "bytes": 611,
+      "language": "fr",
+      "format": "md",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Fiche lac Aurore"
+      ]
+    },
+    {
+      "name": "en_sensors_note.txt",
+      "sha256": "82d61a040059f24c8364afe59d55c95494200c7d3e672b986cd37a9a98f6eeca",
+      "bytes": 1151,
+      "language": "en",
+      "format": "txt",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Instrumentation note"
+      ]
+    },
+    {
+      "name": "en_stations_table.md",
+      "sha256": "5a915a3a1f506cb2b87035cdd44b95b004c379687bcf7135848a94fc6b8ba873",
+      "bytes": 812,
+      "language": "en",
+      "format": "md",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Stations table (Markdown table)"
+      ]
+    },
+    {
+      "name": "fr_menu_cantine.txt",
+      "sha256": "84c45b0ecf9454dfad6f90927a5871c29da7b4f34b86f63b57bf21de56b3d3d2",
+      "bytes": 646,
+      "language": "fr",
+      "format": "txt",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Document SANS réponse (menu)"
+      ]
+    },
+    {
+      "name": "fr_note_baie_melezes.txt",
+      "sha256": "96683e76ec4e501f629ace6c3a0145cea669dbf65652a0782cb2ebd76f213fc0",
+      "bytes": 2556,
+      "language": "fr",
+      "format": "txt",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Paragraphe très long (> 1200 car.)"
+      ]
+    },
+    {
+      "name": "fr_protocole_echantillonnage.pdf",
+      "sha256": "0ba290aeded13017aea229cf89f3280ed926df71ac2d4d16c2259bfe92a9740b",
+      "bytes": 15627,
+      "language": "fr",
+      "format": "pdf",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Document long, 14 pages"
+      ]
+    },
+    {
+      "name": "fr_registre_etalonnage.docx",
+      "sha256": "50021691d315ba8f653054a808be11f2b16543472566121212293b77519c7e18",
+      "bytes": 4638,
+      "language": "fr",
+      "format": "docx",
+      "origin": "synthetic",
+      "version": "1.0.0",
+      "notes": [
+        "Tableau DOCX"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q01-factuelle-fr",
+      "kind": "factual",
+      "lang": "fr",
+      "question": "Quelle est la profondeur maximale du lac de Vermeil ?",
+      "expected_answer_terms": [
+        "47"
+      ],
+      "expected_docs": [
+        "fr_lac_vermeil.txt"
+      ],
+      "expected_passage": "profondeur maximale du lac de Vermeil est de 47 mètres",
+      "answerable": true
+    },
+    {
+      "id": "Q02-reformulee-fr",
+      "kind": "rephrased",
+      "lang": "fr",
+      "question": "Jusqu'à quelle profondeur le lac de Vermeil descend-il au plus bas ?",
+      "expected_answer_terms": [
+        "47"
+      ],
+      "expected_docs": [
+        "fr_lac_vermeil.txt"
+      ],
+      "expected_passage": "47 mètres",
+      "answerable": true
+    },
+    {
+      "id": "Q03-passage-long-fr",
+      "kind": "long_passage",
+      "lang": "fr",
+      "question": "Quel est le code du point de prélèvement de la baie des Mélèzes ?",
+      "expected_answer_terms": [
+        "V3"
+      ],
+      "expected_docs": [
+        "fr_protocole_echantillonnage.pdf",
+        "fr_note_baie_melezes.txt"
+      ],
+      "expected_pages": {
+        "fr_protocole_echantillonnage.pdf": 3
+      },
+      "answerable": true
+    },
+    {
+      "id": "Q04-multi-passages-fr",
+      "kind": "multi_passage",
+      "lang": "fr",
+      "question": "Quelles sont les deux conditions qui suspendent une campagne de prélèvements ?",
+      "expected_answer_terms": [
+        "40",
+        "cinq"
+      ],
+      "expected_answer_terms_alt": [
+        "40",
+        "-5"
+      ],
+      "expected_docs": [
+        "fr_protocole_echantillonnage.pdf"
+      ],
+      "expected_pages": {
+        "fr_protocole_echantillonnage.pdf": 5
+      },
+      "answerable": true
+    },
+    {
+      "id": "Q05-multi-documents",
+      "kind": "multi_document",
+      "lang": "fr",
+      "question": "Quelle station a enregistré la température de surface la plus élevée en 2025 et quelle est son altitude ?",
+      "expected_answer_terms": [
+        "Nord",
+        "2310"
+      ],
+      "expected_answer_terms_alt": [
+        "North",
+        "2 310"
+      ],
+      "expected_docs": [
+        "fr_lac_vermeil.txt",
+        "en_stations_table.md"
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q06-fr-vers-en",
+      "kind": "cross_lingual_fr_en",
+      "lang": "fr",
+      "question": "Quel est le modèle du capteur de turbidité utilisé par l'observatoire ?",
+      "expected_answer_terms": [
+        "Hydra-TX-9"
+      ],
+      "expected_docs": [
+        "en_sensors_note.txt"
+      ],
+      "expected_passage": "turbidity sensor model is Hydra-TX-9",
+      "answerable": true
+    },
+    {
+      "id": "Q07-en-vers-fr",
+      "kind": "cross_lingual_en_fr",
+      "lang": "en",
+      "question": "What is the maximum depth of Lake Vermeil?",
+      "expected_answer_terms": [
+        "47"
+      ],
+      "expected_docs": [
+        "fr_lac_vermeil.txt"
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q08-sans-reponse",
+      "kind": "unanswerable",
+      "lang": "fr",
+      "question": "Quel est le budget annuel de l'observatoire OFLA ?",
+      "expected_answer_terms": [],
+      "expected_docs": [],
+      "answerable": false
+    },
+    {
+      "id": "Q09-tableau-md",
+      "kind": "table_markdown",
+      "lang": "fr",
+      "question": "Quelle est l'altitude de la station Nord ?",
+      "expected_answer_terms": [
+        "2310"
+      ],
+      "expected_answer_terms_alt": [
+        "2 310"
+      ],
+      "expected_docs": [
+        "en_stations_table.md"
+      ],
+      "answerable": true
+    },
+    {
+      "id": "Q10-tableau-docx",
+      "kind": "table_docx",
+      "lang": "fr",
+      "question": "Quand la sonde OxyLume S3 doit-elle être réétalonnée ?",
+      "expected_answer_terms": [
+        "13 octobre 2025"
+      ],
+      "expected_answer_terms_alt": [
+        "2025-10-13"
+      ],
+      "expected_docs": [
+        "fr_registre_etalonnage.docx"
+      ],
+      "answerable": true
+    }
+  ]
+}

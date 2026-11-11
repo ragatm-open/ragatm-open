@@ -1,0 +1,20 @@
+{
+  "showPassword": "Show password",
+  "hidePassword": "Hide password",
+  "showLanguages": "Show languages",
+  "closeLanguages": "Close language menu",
+  "signingIn": "Signing in",
+  "loginError": "Sign-in error",
+  "openMenu": "Open menu",
+  "closeMenu": "Close menu",
+  "openUserMenu": "Open user menu",
+  "mainNavigation": "Main navigation",
+  "breadcrumb": "Breadcrumb",
+  "goBack": "Go back",
+  "loadingContent": "Content loading",
+  "zoomIn": "Zoom in",
+  "zoomOut": "Zoom out",
+  "previousPage": "Previous page",
+  "nextPage": "Next page",
+  "closeDialog": "Close dialog"
+}

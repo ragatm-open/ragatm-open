@@ -1,0 +1,19 @@
+/* Mise en page responsive locale de /documents.
+ * Seuil mobile = celui du shell (components/shell/breakpoints.ts : ≤ 767 px). */
+
+.page {
+  padding: 24px 32px 56px;
+}
+
+/* Les cinq filtres (≈ 393 px) ne tiennent pas dans un mobile : ils passent à la
+ * ligne dans leur pastille au lieu d'élargir la page. Sans effet en desktop. */
+.filterTabs {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding: 16px 16px 40px;
+  }
+}

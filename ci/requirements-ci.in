@@ -1,0 +1,21 @@
+# ci/requirements-ci.in — compléments au `backend/pyproject.toml` pour la CI.
+#
+# `backend/pyproject.toml` déclare son backend de construction :
+#
+#     [build-system]
+#     requires = ["setuptools>=68.0", "wheel"]
+#
+# `uv pip compile` ne résout QUE les dépendances d'exécution : ces deux paquets
+# n'entreraient donc pas dans le lock. Or l'image doit pouvoir installer le
+# paquet LOCAL du dépôt en `--no-deps --no-build-isolation`, HORS LIGNE — sans
+# quoi pip tenterait de télécharger setuptools à l'exécution du job, ce qui
+# rouvrirait la porte que le lock ferme.
+#
+# Sans eux, `tests/tests_root/actions/test_wiring_flag.py` échoue : il lance un
+# subprocess hermétique qui n'importe `config.settings` que grâce au chemin
+# ajouté par l'installation éditable.
+#
+# Les versions restent des PLAGES ici : c'est la compilation qui les fige, avec
+# leurs empreintes, dans ci/requirements-ci.lock.
+setuptools>=68.0
+wheel

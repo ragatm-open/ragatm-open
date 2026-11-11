@@ -1,0 +1,22 @@
+OFLA — Instrumentation note: sensors deployed on the monitored lakes (synthetic document)
+
+This note describes the fictional instrumentation used by the Fictional Observatory of
+Alpine Lakes (OFLA). All device names are invented.
+
+Temperature. Water temperature is measured with the Thermion-Alp 220 chain, which carries
+twelve thermistors spaced one metre apart from the surface to twelve metres depth. The
+chain logs every ten minutes.
+
+Turbidity. The turbidity sensor model is Hydra-TX-9. It uses a 860 nm infrared source and
+reports in formazin nephelometric units (FNU). The Hydra-TX-9 is cleaned by a wiper every
+six hours.
+
+Dissolved oxygen. Dissolved oxygen is measured with an optical probe named OxyLume S3.
+The probe is recalibrated every 90 days against water-saturated air.
+
+Water level. Water level is measured by a pressure transducer named LevelSentinel P40
+installed at the natural sill of each lake.
+
+Data transmission. Each station transmits over a fictional low-power radio link named
+AlpLink once per hour. Data are stored on the OFLA server named "glacier-01", which is a
+fictional hostname used only in this synthetic corpus.

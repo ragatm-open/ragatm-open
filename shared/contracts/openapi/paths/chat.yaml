@@ -1,0 +1,74 @@
+/api/v1/chat/:
+  post:
+    tags: [Chat]
+    summary: Chat (non-streaming)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/chat.yaml#/ChatRequest"
+    responses:
+      "200":
+        description: Chat response
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/chat.yaml#/ChatResponse"
+
+/api/v1/chat/stream/:
+  post:
+    tags: [Chat]
+    summary: Chat (streaming SSE)
+    description: |
+      Returns text/event-stream.
+      Events: meta, sources, token, done, error.
+      The stream closes right after `done`: on a `no_answer`, rephrasing suggestions are
+      generated asynchronously (Celery) and retrieved via
+      `GET /api/v1/chat/threads/{thread_id}/rephrasing-suggestions/`.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/chat.yaml#/ChatRequest"
+    responses:
+      "200":
+        description: SSE stream
+        content:
+          text/event-stream:
+            schema:
+              type: string
+
+/api/v1/chat/threads/{thread_id}/rephrasing-suggestions/:
+  get:
+    tags: [Chat]
+    summary: Rephrasing suggestions for a no_answer turn (async result)
+    description: |
+      Poll the result of the asynchronous rephrasing-suggestions generation triggered on a
+      `no_answer`. Feature-flagged (`RAG_REPHRASING_SUGGESTIONS_ENABLED`, off by default):
+      when disabled no task is enqueued and the status stays `none`.
+      Returns 404 for a thread not owned by the caller (no enumeration).
+    parameters:
+      - name: thread_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: request_id
+        in: query
+        required: false
+        description: Turn identifier (from the `meta` SSE event). Defaults to the latest result.
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Current generation status
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/chat.yaml#/RephrasingSuggestionsResponse"
+      "404":
+        description: Thread not found or not owned by the caller
+

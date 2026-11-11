@@ -1,0 +1,305 @@
+/* frontend/src/components/login/PremiumRagPipelineHero.module.css
+ *
+ * Boucle de 14 s, découpée en fenêtres :
+ *   0–20 %  ingestion (documents → ingestion → vision → embeddings)
+ *  24–46 %  indexation, activation du noyau
+ *  44–66 %  question → recherche → reranking
+ *  64–84 %  LLM → réponse
+ *  82–96 %  sources, puis retour au repos
+ * Seules `opacity`, `transform` et `stroke-dashoffset` sont animées. Chaque élément a
+ * un état de REPOS complet : sans animation (prefers-reduced-motion), la scène reste
+ * entière et lisible — rien n'apparaît ni ne disparaît pendant la boucle.
+ */
+
+.hero {
+  --cycle: 14s;
+  --copper: #c58b62;
+  --champagne: #e3c39d;
+  --cream: #f7f2eb;
+  --green: #20885f;
+  position: relative;
+  margin: 0;
+  width: 100%;
+  max-width: 680px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  color: var(--cream);
+}
+
+.header {
+  padding-right: 96px; /* jamais sous le sélecteur de langue */
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(22px, 2.1vw, 30px);
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 54ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(247, 242, 235, 0.72);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.stage {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 0;
+  transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: perspective(1400px) rotateX(0deg) rotateY(0deg);
+}
+
+.hero:hover .stage {
+  transform: perspective(1400px) rotateX(2deg) rotateY(-3deg);
+}
+
+.scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 210px);
+  overflow: visible;
+  font-family: var(--app-font);
+}
+
+/* --- Sol ------------------------------------------------------------------------- */
+.boundary {
+  fill: rgba(197, 139, 98, 0.035);
+  stroke: rgba(227, 195, 157, 0.38);
+  stroke-width: 1.1;
+  stroke-dasharray: 2 6;
+}
+
+.zoneLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: rgba(247, 242, 235, 0.78);
+}
+
+/* --- Volumes ------------------------------------------------------------------------ */
+.faceTop,
+.faceLeft,
+.faceRight {
+  stroke-linejoin: round;
+}
+
+.bronze .faceTop { fill: #6b4630; stroke: rgba(227, 195, 157, 0.55); stroke-width: 1; }
+.bronze .faceLeft { fill: #4a3021; stroke: rgba(227, 195, 157, 0.25); stroke-width: 0.8; }
+.bronze .faceRight { fill: #33221a; stroke: rgba(227, 195, 157, 0.2); stroke-width: 0.8; }
+
+.glass .faceTop { fill: rgba(227, 195, 157, 0.16); stroke: rgba(227, 195, 157, 0.55); stroke-width: 0.9; }
+.glass .faceLeft { fill: rgba(227, 195, 157, 0.1); stroke: rgba(227, 195, 157, 0.3); stroke-width: 0.8; }
+.glass .faceRight { fill: rgba(20, 12, 8, 0.28); stroke: rgba(227, 195, 157, 0.25); stroke-width: 0.8; }
+
+.pane .faceTop { fill: rgba(247, 230, 205, 0.1); stroke: rgba(247, 230, 205, 0.6); stroke-width: 0.8; }
+.pane .faceLeft { fill: rgba(247, 230, 205, 0.16); stroke: rgba(247, 230, 205, 0.4); stroke-width: 0.6; }
+.pane .faceRight { fill: rgba(247, 230, 205, 0.1); stroke: rgba(247, 230, 205, 0.3); stroke-width: 0.6; }
+
+.block .faceTop { fill: #e3c39d; }
+.block .faceLeft { fill: #b07a52; }
+.block .faceRight { fill: #7c5133; }
+
+.chip .faceTop { fill: #8a5d3e; stroke: rgba(243, 214, 176, 0.75); stroke-width: 0.9; }
+.chip .faceLeft { fill: #5c3c28; stroke: rgba(243, 214, 176, 0.3); stroke-width: 0.6; }
+.chip .faceRight { fill: #3f2a1d; stroke: rgba(243, 214, 176, 0.25); stroke-width: 0.6; }
+
+.chipQuery .faceTop { fill: #d8b48b; stroke: rgba(255, 244, 228, 0.9); stroke-width: 0.9; }
+.chipQuery .faceLeft { fill: #a77a52; stroke: rgba(255, 244, 228, 0.35); stroke-width: 0.6; }
+.chipQuery .faceRight { fill: #7a5236; stroke: rgba(255, 244, 228, 0.3); stroke-width: 0.6; }
+
+.stem {
+  stroke: rgba(227, 195, 157, 0.32);
+  stroke-width: 1;
+  stroke-dasharray: 1.5 3;
+}
+
+/* --- Noyau ------------------------------------------------------------------------ */
+.coreBody { stroke: rgba(247, 230, 205, 0.5); stroke-width: 0.8; }
+.coreTop { fill: #f0d6b2; stroke: rgba(255, 246, 232, 0.9); stroke-width: 1; }
+.coreEye { fill: #c58b62; opacity: 0.85; }
+.coreGlow { opacity: 0.55; animation: coreGlow var(--cycle) ease-in-out infinite; }
+
+.ring {
+  fill: none;
+  stroke: rgba(227, 195, 157, 0.55);
+  stroke-width: 1.1;
+  stroke-dasharray: 3 9;
+  animation: ringTurn 26s linear infinite;
+}
+.ringSlow {
+  stroke: rgba(227, 195, 157, 0.32);
+  stroke-dasharray: 18 10 2 10;
+  animation-duration: 48s;
+  animation-direction: reverse;
+}
+
+.brandPlate { animation: float 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.beam { stroke: rgba(243, 214, 176, 0.45); stroke-width: 1.2; stroke-dasharray: 2 4; }
+.brandPill { fill: rgba(36, 28, 24, 0.88); stroke: rgba(227, 195, 157, 0.7); stroke-width: 1; }
+.brandText { font-size: 18px; font-weight: 750; letter-spacing: -0.01em; fill: var(--cream); }
+.brandAccent { fill: #e08a5c; }
+
+.indexBlock { opacity: 0.88; animation: indexBlocks var(--cycle) ease-in-out infinite; }
+
+/* --- Modules ------------------------------------------------------------------------ */
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--cream);
+  paint-order: stroke;
+  stroke: rgba(36, 28, 24, 0.85);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.glyph { fill: none; stroke: #fff6ea; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.glyphFill { fill: #fff6ea; }
+.chipGlow { opacity: 0; }
+.chipFlash { fill: #fff1dc; fill-opacity: 0.6; opacity: 0; }
+.docsGlow { opacity: 0; animation: winFlowIngest var(--cycle) ease-in-out infinite; }
+.answerFlash { fill: none; stroke: #9fe3c4; stroke-width: 1.6; opacity: 0; animation: winAnswer2 var(--cycle) ease-in-out infinite; }
+
+.g_ingest { animation: winIngest var(--cycle) ease-in-out infinite; }
+.g_vision { animation: winVision var(--cycle) ease-in-out infinite; }
+.g_embed { animation: winEmbed var(--cycle) ease-in-out infinite; }
+.g_index { animation: winIndex var(--cycle) ease-in-out infinite; }
+.g_search { animation: winSearch var(--cycle) ease-in-out infinite; }
+.g_rerank { animation: winRerank var(--cycle) ease-in-out infinite; }
+.g_llm { animation: winLlm var(--cycle) ease-in-out infinite; }
+
+/* --- Documents ------------------------------------------------------------------------ */
+.doc { animation: float 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.paper { fill: #f3e7d6; stroke: rgba(255, 255, 255, 0.5); stroke-width: 0.6; }
+.docEdge { fill: #8d6a4f; }
+.folder { fill: #d9bf98; stroke: rgba(255, 255, 255, 0.45); stroke-width: 0.6; }
+.docFmt { font-size: 8.5px; font-weight: 800; letter-spacing: 0.06em; fill: #fff9f0; }
+.folderText { fill: #4a3021; letter-spacing: 0.02em; }
+.docLine { fill: #c9b49a; }
+.docArt { fill: #7fae92; }
+
+/* --- Flux ------------------------------------------------------------------------ */
+.flowBase {
+  fill: none;
+  stroke: rgba(227, 195, 157, 0.36);
+  stroke-width: 1.3;
+  stroke-dasharray: 2 5;
+}
+.pulse {
+  fill: none;
+  stroke: #ffe7c6;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 12 88;
+  stroke-dashoffset: 100;
+  opacity: 0;
+}
+.pIngest { animation: dash 2s linear infinite, winFlowIngest var(--cycle) ease-in-out infinite; }
+.pPrep { animation: dash 2.6s linear infinite, winFlowPrep var(--cycle) ease-in-out infinite; }
+.pIndex { animation: dash 1.8s linear infinite, winFlowIndex var(--cycle) ease-in-out infinite; }
+.pQuestion { animation: dash 1.6s linear infinite, winFlowQuestion var(--cycle) ease-in-out infinite; }
+.pAnswer { animation: dash 2.2s linear infinite, winFlowAnswer var(--cycle) ease-in-out infinite; stroke: #8fe0bc; }
+
+/* --- Question ------------------------------------------------------------------------ */
+.question { animation: float 6.5s ease-in-out infinite; animation-delay: -2s; transform-box: fill-box; transform-origin: center; }
+.questionCard { fill: #f7f2eb; stroke: #fff; stroke-width: 0.8; }
+.questionDot { fill: #c2562f; }
+.questionMark { font-size: 11px; font-weight: 800; fill: #fff; }
+.questionText { font-size: 12.5px; font-weight: 650; fill: #3a2a20; }
+
+/* --- Réponse ------------------------------------------------------------------------ */
+.answer { animation: float 7.5s ease-in-out infinite; animation-delay: -4s; transform-box: fill-box; transform-origin: center; }
+.answerGlow { opacity: 0.25; animation: winAnswer var(--cycle) ease-in-out infinite; }
+.cardShadow { fill: rgba(0, 0, 0, 0.38); }
+.cardEdge { fill: #1c1410; stroke: rgba(227, 195, 157, 0.35); stroke-width: 0.6; }
+.answerCard { stroke: rgba(227, 195, 157, 0.75); stroke-width: 1; }
+.answerQuote { font-size: 22px; font-weight: 800; fill: var(--copper); }
+.answerTitle { font-size: 13px; font-weight: 700; fill: var(--cream); }
+.answerText { font-size: 9.2px; fill: rgba(247, 242, 235, 0.86); }
+.answerLine { fill: rgba(227, 195, 157, 0.38); }
+.answerRule { stroke: rgba(227, 195, 157, 0.3); stroke-width: 0.8; }
+.source { opacity: 0.9; }
+.source1 { animation: winSource1 var(--cycle) ease-in-out infinite; }
+.source2 { animation: winSource2 var(--cycle) ease-in-out infinite; }
+.sourceIcon { fill: none; stroke: var(--champagne); stroke-width: 1.1; }
+.sourceIconLine { stroke: var(--champagne); stroke-width: 0.9; }
+.sourceText { font-size: 10.5px; font-weight: 600; fill: var(--champagne); }
+.verifiedPill { fill: rgba(32, 136, 95, 0.22); stroke: rgba(63, 179, 134, 0.75); stroke-width: 0.8; }
+.verifiedTick { fill: none; stroke: #6fd2a6; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.verifiedText { font-size: 9.6px; font-weight: 700; fill: #bfeedb; }
+
+/* --- Accès contrôlés ------------------------------------------------------------------- */
+.lockBadge { fill: rgba(36, 28, 24, 0.92); stroke: rgba(227, 195, 157, 0.75); stroke-width: 1; }
+.lockBody { fill: var(--champagne); }
+.lockShackle { fill: none; stroke: var(--champagne); stroke-width: 1.4; }
+
+/* --- Images clés ------------------------------------------------------------------- */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes ringTurn { to { stroke-dashoffset: -240; } }
+@keyframes dash { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+
+@keyframes winFlowIngest { 0%, 1% { opacity: 0; } 4%, 14% { opacity: 1; } 18%, 100% { opacity: 0; } }
+@keyframes winFlowPrep { 0%, 6% { opacity: 0; } 10%, 30% { opacity: 1; } 35%, 100% { opacity: 0; } }
+@keyframes winFlowIndex { 0%, 46% { opacity: 0; } 50%, 60% { opacity: 1; } 64%, 100% { opacity: 0; } }
+@keyframes winFlowQuestion { 0%, 44% { opacity: 0; } 48%, 56% { opacity: 1; } 60%, 100% { opacity: 0; } }
+@keyframes winFlowAnswer { 0%, 56% { opacity: 0; } 60%, 80% { opacity: 1; } 85%, 100% { opacity: 0; } }
+
+@keyframes winIngest { 0%, 6% { opacity: 0; } 10%, 15% { opacity: 1; } 20%, 100% { opacity: 0; } }
+@keyframes winVision { 0%, 12% { opacity: 0; } 16%, 21% { opacity: 1; } 26%, 100% { opacity: 0; } }
+@keyframes winEmbed { 0%, 18% { opacity: 0; } 22%, 27% { opacity: 1; } 32%, 100% { opacity: 0; } }
+@keyframes winIndex { 0%, 24% { opacity: 0; } 28%, 34% { opacity: 1; } 39%, 100% { opacity: 0; } }
+@keyframes winSearch { 0%, 50% { opacity: 0; } 54%, 60% { opacity: 1; } 65%, 100% { opacity: 0; } }
+@keyframes winRerank { 0%, 57% { opacity: 0; } 61%, 66% { opacity: 1; } 71%, 100% { opacity: 0; } }
+@keyframes winLlm { 0%, 64% { opacity: 0; } 68%, 76% { opacity: 1; } 81%, 100% { opacity: 0; } }
+
+@keyframes coreGlow { 0%, 26% { opacity: 0.5; } 34%, 44% { opacity: 1; } 52%, 100% { opacity: 0.5; } }
+@keyframes indexBlocks { 0%, 30% { opacity: 0.6; } 36%, 46% { opacity: 1; } 54%, 100% { opacity: 0.6; } }
+@keyframes winAnswer { 0%, 72% { opacity: 0.25; } 78%, 92% { opacity: 1; } 98%, 100% { opacity: 0.25; } }
+@keyframes winAnswer2 { 0%, 74% { opacity: 0; } 80%, 92% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes winSource1 { 0%, 82% { opacity: 0.9; } 85%, 92% { opacity: 1; } 96%, 100% { opacity: 0.9; } }
+@keyframes winSource2 { 0%, 86% { opacity: 0.9; } 89%, 95% { opacity: 1; } 98%, 100% { opacity: 0.9; } }
+
+/* --- Écrans intermédiaires : moins d'éléments secondaires, libellés plus lisibles ---- */
+@media (max-width: 1180px) {
+  .header { padding-right: 84px; }
+  .label { font-size: 15px; }
+  .zoneLabel { font-size: 14px; }
+  .docFmt { display: none; }
+  .answerText, .answerLine { display: none; }
+  .subtitle { font-size: 13px; }
+}
+
+/* --- Mouvement réduit : composition complète et fixe ---------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero *,
+  .hero *::before,
+  .hero *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .hero:hover .stage { transform: none; }
+  .pulse { opacity: 0 !important; }
+  .flowBase { stroke: rgba(227, 195, 157, 0.5); stroke-dasharray: 3 4; }
+  .coreGlow { opacity: 0.85; }
+  .answerGlow { opacity: 0.55; }
+}

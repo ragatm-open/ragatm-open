@@ -1,0 +1,25 @@
+# PROFIL 12 Go (candidat, NON QUALIFIÉ lors de la qualification : aucun GPU de qualification isolé).
+# À n'activer qu'après : installation explicite de qwen2.5:7b-instruct, relevé de son digest
+# dans app/models_registry.yaml (compact-generation), mesures VRAM/latence.
+#   docker compose -f compose.yml -f compose.gpu-12gb.yml up -d
+# Prérequis hôte : pilotes NVIDIA + NVIDIA Container Toolkit.
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  ai-gateway:
+    environment:
+      OLLAMA_GENERATE_MODEL: compact-generation
+  backend:
+    environment:
+      DEFAULT_RAGSPACE_CHAT_MODEL: compact-generation
+      AI_GATEWAY_MODEL: compact-generation
+  worker:
+    environment:
+      DEFAULT_RAGSPACE_CHAT_MODEL: compact-generation
+      AI_GATEWAY_MODEL: compact-generation

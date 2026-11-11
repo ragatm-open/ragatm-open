@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: ragATM API
+  version: 1.0.0
+  description: >
+    ragATM API v1 (Django/DRF). Authentication uses DRF Token:
+    Authorization: Token <token>.
+servers:
+  - url: http://localhost:8011
+    description: Local backend
+  - url: /api
+    description: Frontend proxy (/api/[...path])
+
+tags:
+  - name: Auth
+  - name: Bootstrap
+  - name: Workspaces
+  - name: RagSpaces
+  - name: Documents
+  - name: Chat
+  - name: Corpus
+    description: >
+      Corpus documentaire métier (socle partagé). Administration réservée au
+      propriétaire global ragATM ; lecture seule pour les membres de workspace.
+  - name: Analyses
+    description: >
+      Analyses globales de corpus. Toute analyse déclare son périmètre réel :
+      documents considérés, analysés, exclus, et couverture mesurée. Un préfiltre
+      lexical n'est jamais présenté comme une garantie sémantique.
+  - name: Prompts
+  - name: Audit
+
+security:
+  - TokenAuth: []
+
+paths:
+  $ref: "./paths/_index.yaml"
+
+components:
+  securitySchemes:
+    $ref: "./components/securitySchemes.yaml"
+  schemas:
+    $ref: "./components/schemas/_index.yaml"

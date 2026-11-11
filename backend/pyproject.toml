@@ -1,0 +1,233 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rag-atm-backend"
+version = "0.1.0"
+description = "Backend Django pour la plateforme RAG-ATM"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [
+  { name = "RAGatm Open contributors" }
+]
+
+dependencies = [
+  # Django core (5.2 LTS — supportée jusqu'en 2028)
+  "Django>=5.2,<5.3",
+
+  # API
+  "djangorestframework>=3.15,<3.19",
+
+  # PostgreSQL
+  "psycopg[binary]>=3.1,<3.2",
+
+  # pgvector support
+  "pgvector>=0.3,<0.4",
+
+  # PDF texte (sans OCR) - Étape 5
+  "pypdf>=4.0,<7.0",
+
+  # Excel .xlsx (lot E2). Pur Python (MIT), AUCUNE dépendance système : le format
+  # doit fonctionner dans tous les environnements, d'où les deps CŒUR et non un extra.
+  # Toujours ouvert en read_only=True + data_only=True (spike E1 : 8,5x moins de
+  # mémoire à 1 M de cellules). Ne recalcule JAMAIS une formule, n'exécute JAMAIS
+  # de macro. .xlsm/.xls/.ods restent refusés. Ni pandas, ni xlrd, ni calamine.
+  "openpyxl>=3.1,<4.0",
+
+  # PowerPoint .pptx. Pur Python (MIT). Dépendance CŒUR et non un extra, pour
+  # la même raison qu'openpyxl : le format doit fonctionner dans TOUS les environnements
+  # (`DOCUMENT_PPTX_ENABLED=1` par défaut) — un extra oublié donnerait un refus au
+  # déploiement, pas une dégradation. L'import reste local à `pptx_extractor` et gardé
+  # (code stable `pptx_library_missing` si la lib manque malgré tout).
+  # Ne recalcule rien, n'exécute JAMAIS de macro : `.pptm`/`.ppt`/`.odp` sont refusés
+  # par CONTENU en amont. Ni LibreOffice, ni conversion PDF, ni processus externe.
+  # Tire lxml + XlsxWriter en transitif (wheels autonomes) ; Pillow était déjà là.
+  "python-pptx>=1.0,<2.0",
+
+
+  # XML générique `.xml`. Parseur SÉCURISÉ par construction :
+  # DTD, entités (internes, externes, paramètres) et références externes sont refusées
+  # (`forbid_dtd/forbid_entities/forbid_external`) — ni XXE, ni bombe d'entités, ni
+  # accès réseau ou fichier. Pur Python, aucune dépendance système ; `lxml` n'est PAS
+  # requis (l'API `ElementTree` suffit, lecture en flux `iterparse` bornée en
+  # profondeur/nœuds). Version FIGÉE : la porte `DOCUMENT_XML_ENABLED` est fermée par
+  # défaut et la surface de sécurité doit rester celle qui a été qualifiée.
+  #
+  # Licence : PSFL (Python Software Foundation License, permissive). Dépendance CŒUR
+  # pour la même raison qu'openpyxl : un extra oublié donnerait un refus au
+  # déploiement (`xml_dependency_unavailable`), pas une dégradation.
+  "defusedxml==0.7.1",
+
+  # Second facteur obligatoire (lot AUTH-MFA-01) — mêmes bibliothèques que
+  # un autre client interne : django-otp (TOTP RFC 6238, anti-rejeu, jetons de secours,
+  # temporisation après échec) et django-axes (verrouillage du mot de passe).
+  # Versions FIGÉES : surface de sécurité qualifiée telle quelle.
+  "django-otp==1.7.3",
+  "django-axes==8.3.1",
+
+  # DXF. Parsing documentaire des dessins CAO : textes, blocs et
+  # attributs, cotes, calques, layouts, XREF DÉCLARÉES (jamais ouvertes). Pur Python ;
+  # AUCUN extra de rendu (ni matplotlib, ni PySide6, ni PyMuPDF pour ce format), aucun
+  # convertisseur externe, aucun sous-processus. Lecture STRICTE (`ezdxf.read`) : le
+  # mode `recover` répare silencieusement et n'est pas utilisé. Version FIGÉE : la
+  # porte `DOCUMENT_DXF_ENABLED` est fermée par défaut.
+  #
+  # Licence : MIT. Tire en transitif fonttools (MIT) ; numpy, pyparsing et
+  # typing_extensions étaient déjà présents.
+  "ezdxf==1.4.4",
+
+
+  # Config / env
+  "python-dotenv>=1.0,<1.3",
+
+  # HTTP client (utilisé par apps/llm_router/router.py)
+  "requests>=2.31,<3.0",
+
+  # Utils (logging, typing)
+  "typing-extensions>=4.8,<5.0",
+
+  # Async jobs (Celery + Redis broker)
+  "celery[redis]>=5.4,<6.0",
+  "redis>=5.0,<6.0",
+  # kombu 5.7.0 (2026-11) exige redis-py >= 6.1 pour le transport Redis et fait échouer le
+  # démarrage du worker (`VersionMismatch`) avec le pin `redis<6` ci-dessus. Borne alignée sur
+  # le lock CI (kombu 5.6.2) ; à lever ensemble avec la montée de redis-py.
+  "kombu>=5.4,<5.7",
+
+  # Cache Django partagé (epoch RagATM_Core runtime config) — utilisé seulement si
+  # DJANGO_CACHE_URL est défini ; sinon fallback LocMemCache.
+  "django-redis>=5.4,<6.0",
+
+  # --- MOTEUR TABULAIRE DÉTERMINISTE (lot 1) — Excel / CSV -------------------
+  # Dépendances CŒUR et non un extra : le moteur est importé par `apps.chat`
+  # (routage) et par l'API. Un extra oublié ne dégraderait pas le service, il
+  # casserait le démarrage. Les trois sont sous flag à l'exécution
+  # (`TABULAR_QUERY_ENABLED=0` par défaut), mais présentes à l'import.
+  #
+  # duckdb — moteur analytique embarqué, en mémoire. AUCUN accès disque : les
+  # lignes sont insérées depuis Python et `enable_external_access=false` coupe
+  # read_csv/read_parquet/ATTACH/COPY/INSTALL. Wheel autonome, aucune dépendance
+  # système. Borne majeure : l'API Python de DuckDB bouge entre majeures.
+  "duckdb>=1.1,<2.0",
+
+  # pydantic — validation STRUCTURELLE du plan d'exécution (listes fermées,
+  # `extra="forbid"`). C'est la frontière de confiance du moteur : sans elle,
+  # un plan malformé atteindrait le compilateur. Déjà tiré en transitif par
+  # d'autres écosystèmes, mais on l'épingle explicitement — une dépendance de
+  # sécurité ne doit pas dépendre du hasard d'un transitif.
+  "pydantic>=2.7,<3.0",
+
+  # rapidfuzz — SIGNAL SECONDAIRE de résolution de colonnes, plafonné sous le
+  # niveau lexical : il départage, il n'élit jamais seul une colonne ambiguë.
+  # `column_resolver._fuzzy_ratio` sait se replier sur `difflib` si la lib
+  # manque : son absence dégrade la résolution, elle ne la casse pas.
+  "rapidfuzz>=3.9,<4.0",
+
+  # cryptography — chiffrement (Fernet : AES-128-CBC + HMAC-SHA256) et signature
+  # des paquets d'incident (`apps.feedback.export.crypto`). Aucune cryptographie
+  # maison n'est écrite dans ce dépôt : un paquet qui sort de production porte du
+  # contenu métier, ce n'est pas le lieu d'improviser. Déjà présente en transitif
+  # (Django/requests) ; épinglée ici car un chiffrement ne doit pas dépendre du
+  # hasard d'une dépendance indirecte.
+  "cryptography>=42.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9.0",
+  "pytest-django>=4.8,<5.0",
+
+  # Parallélisation de la suite backend. Elle était installée sur les postes mais
+  # ABSENTE de cet extra, donc indisponible en CI : `make test-backend` y tournait
+  # séquentiellement sans que personne ne l'ait décidé. Mesuré sur la voie
+  # standard : 1 190 s -> 514 s à `-n 4`, sans un seul échec (chaque worker a sa
+  # propre base `test_<db>_gwN`, son propre cache LocMem, son propre processus).
+  # Le nombre de workers n'est PAS figé ici : il vient de PYTEST_WORKERS
+  # (cf. Makefile), plafonné à 2 en CI où les runners n'ont que deux cœurs.
+  "pytest-xdist>=3.8,<4",
+
+  "black>=24.0,<25.0",
+  "ruff>=0.4,<0.5",
+
+  # Génération PDF pour tests (optionnel)
+  "reportlab>=4.0,<5.0",
+
+  # Manifeste de parité staging/production (`deploy/config-parity.yml`), lu par
+  # `manage.py check_config_parity`. Outil d'opérateur et de CI : la production
+  # n'en a pas besoin, d'où l'extra `dev` plutôt qu'une dépendance cœur.
+  "PyYAML>=6.0,<7.0"
+]
+
+# Étape 8 — Rerank réel (GPU-ready).
+# NOTE: torch CUDA dépend de ta plateforme/driver; en prod, installe la wheel CUDA adaptée
+# (ou laisse torch CPU si tu ne déploies pas sur GPU).
+rerank = [
+  "sentence-transformers>=2.7,<4.0",
+  "torch>=2.1,<3.0"
+]
+
+# P3 — extraction tabulaire structurée (PDF à couche texte). LOCAL, pur-python.
+# Import-gardé : son absence ne casse rien (extraction tabulaire simplement ignorée).
+# À installer/builder là où l'on veut activer l'extraction de tableaux.
+tables = [
+  "pdfplumber>=0.11,<0.11.10"
+]
+
+# Moteur natif PDF alternatif (PyMuPDF, licence AGPL-3.0 / commerciale). NON installé par
+# défaut dans RAGatm Open : l'édition Open se repose sur pypdf + pdfminer/pdfplumber (permissifs).
+# L'installer est un choix d'exploitation assumé par l'intégrateur (obligations AGPL).
+pdf-mupdf = [
+  "PyMuPDF>=1.24,<2.0"
+]
+
+# OCR optionnel (LOCAL uniquement). Désactivé par défaut (DOCUMENT_OCR_ENABLED=0).
+# Requiert aussi le binaire système `tesseract-ocr` (+ packs de langue).
+# Les extracteurs MD/DOCX/CSV/HTML ne dépendent d'AUCUNE de ces libs (stdlib pur).
+# IFC — EXTRA et non dépendance cœur : IfcOpenShell pèse ~147 Mo
+# de bibliothèque native et ~115 Mo RSS à l'import. Seul le worker de la file dédiée
+# `ingest_ifc` doit l'installer (`pip install ".[ifc]"`) ; l'image par défaut ne le
+# porte pas — sans lui, un `.ifc` est refusé proprement (`ifc_dependency_unavailable`).
+# Import PARESSEUX dans le code (jamais au démarrage Django). Extraction SÉMANTIQUE
+# seule : aucun `ifcopenshell.geom`, aucune géométrie, aucun rendu.
+#
+# Licence déclarée : LGPL-3.0-or-later (classifier PyPI « GNU Lesser General Public
+# License v3 or later (LGPLv3+) »). Observation d'empaquetage : le wheel manylinux
+# 0.8.5 (cp312, x86_64) N'EMBARQUE AUCUN fichier LICENSE — la licence n'est portée que
+# par les métadonnées et le dépôt amont. Tire en transitif : isodate, lark,
+# python-dateutil, shapely (bibliothèque géométrique, jamais appelée par RagATM),
+# numpy et typing_extensions déjà présents. Ce commentaire documente, il ne constitue
+# pas un avis juridique.
+ifc = [
+  "ifcopenshell==0.8.5",
+]
+
+ocr = [
+  # Plancher relevé à 0.3.13 (OCR-TIMEOUT-HARDENING-02) : l'annulation réelle de l'OCR
+  # repose sur `timeout=` accepté par image_to_osd, image_to_string ET image_to_data.
+  # 0.3.13 est la version sur laquelle ce contrat a été vérifié appel par appel ; le
+  # plancher précédent (0.3.10) n'était pas vérifié et rendrait le budget inopposable.
+  "pytesseract>=0.3.13,<0.4",
+  "Pillow>=10.0,<14.0",
+  "pypdfium2>=4.0,<5.0"
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "I"]
+ignore = ["E501"]
+
+[tool.ruff.per-file-ignores]
+# Copie du prototype FIGÉ du lot 13B (empreinte vérifiée par test) : on ne reformate pas.
+"apps/rag_core/services/ingest/visual/curve_digitization.py" = ["E702", "E731", "I001"]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]

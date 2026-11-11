@@ -1,0 +1,19 @@
+# APPROVISIONNEMENT (phase explicite, distincte de l'exécution nominale).
+#
+# Ajoute un réseau de sortie `provision` aux SEULS services qui doivent télécharger :
+#   · ollama      : `ollama pull` des modèles du registre Compact ;
+#   · ai-gateway  : partage son espace réseau avec le reranker TEI, qui télécharge
+#                   BAAI/bge-reranker-v2-m3 (révision épinglée) à son premier démarrage.
+# Usage : scripts/provision-models.sh (jamais pendant l'exploitation nominale).
+services:
+  ollama:
+    networks: [ai, provision]
+  ai-gateway:
+    networks: [ai, provision]
+  reranker:
+    environment:
+      HF_HUB_OFFLINE: "0"
+
+networks:
+  provision:
+    driver: bridge

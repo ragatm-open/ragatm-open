@@ -1,0 +1,14 @@
+{
+  "home": "Home",
+  "assistant": "Assistant",
+  "documents": "Documents",
+  "corpora": "Business corpora",
+  "workspaceAdmin": "Spaces & members",
+  "corpusAdmin": "Corpus admin",
+  "adminCore": "Admin Core",
+  "platformAdmin": "Platform administration",
+  "signOut": "Sign out",
+  "settings": "Settings",
+  "preferences": "Preferences",
+  "language": "Language"
+}

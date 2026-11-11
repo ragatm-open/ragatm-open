@@ -1,0 +1,83 @@
+{
+ "status": "ok",
+ "provider": "ai_gateway",
+ "upstream_provider": "ollama",
+ "schema_version": "2",
+ "task": "describe",
+ "visual_kind": "photo",
+ "request_id": "rgv2-fixture",
+ "summary": null,
+ "warnings": [],
+ "requires_visual_check": false,
+ "payload": {
+  "description": "L'image montre un fond blanc avec deux formes colorées.",
+  "setting": null,
+  "objects": [
+   {
+    "label": "carré rouge",
+    "count": 1,
+    "attributes": [],
+    "certainty": "exact"
+   },
+   {
+    "label": "cercle bleu",
+    "count": 1,
+    "attributes": [],
+    "certainty": "exact"
+   }
+  ],
+  "observable_relations": [],
+  "visible_text": [
+   {
+    "text": "Aucun texte visible.",
+    "certainty": "exact"
+   }
+  ]
+ },
+ "model": {
+  "logical": "vision-large",
+  "concrete": "mistral-small3.2:24b",
+  "digest": "5a408ab55df5c1b5cf46533c368813b30bf9e4d8fc39263bf2a3338cfa3b895b"
+ },
+ "pipeline": {
+  "prompt_profile": "vision_describe_v1",
+  "prompt_profile_version": "1",
+  "pipeline_id": "vision-large@5a408ab5/vision_describe_v1@v1",
+  "fingerprint": "vision-v1:9c68b7db03303789ffb1b34d5ff0da811a8c042cfc912eab89db0fd702dced39",
+  "system_prompt_sha256": "048ef7108332ecc3d52981dc430978d2ff9c892125576497eebec74c14115a87",
+  "task_prompt_sha256": "3ff92ee7123743f30a5eab621a0c071029aefc52704e0e07ba836766f2b54bb0",
+  "model_schema_sha256": "bcea8521454921d9a3dbd273420c19c3eee4b5c6833b63a38cee7ef4eb1954cd",
+  "model_schema_hash_algorithm": "json-sortkeys/1",
+  "inference": {
+   "temperature": 0.0,
+   "seed": 42,
+   "num_ctx": 8192,
+   "num_predict": 2048
+  },
+  "retry": {
+   "max_attempts": 2,
+   "trigger": "structural_invalid_or_truncated",
+   "temperature": 0.35,
+   "seed": 43
+  }
+ },
+ "image": {
+  "width": 160,
+  "height": 120,
+  "pixels": 19200,
+  "bytes": 609,
+  "format": "png",
+  "source_sha256": "112b6ae6675b6e19c43413bd2f48f10353b9f3185d86667dd2c68f66236ba126",
+  "normalized_sha256": "112b6ae6675b6e19c43413bd2f48f10353b9f3185d86667dd2c68f66236ba126",
+  "normalized_format": "png",
+  "normalizer_id": "vision-image-normalizer/1"
+ },
+ "usage": {
+  "prompt_tokens": 443,
+  "completion_tokens": 145,
+  "total_tokens": 588,
+  "attempts": 1
+ },
+ "latency_ms": 3490,
+ "truncated": false
+}

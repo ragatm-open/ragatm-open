@@ -1,0 +1,71 @@
+{
+  "status": "succeeded",
+  "result": {
+    "items": [
+      {
+        "id": "770cdf96b32a0e6e",
+        "sources": [
+          {
+            "page": 1,
+            "chunk_id": "3506382b-91fb-4c47-8c3e-333754f34999",
+            "filename": "d0.txt",
+            "document_id": "342286b6-1797-4288-b4c9-1db04e31ac29"
+          }
+        ],
+        "statement": "La cybersécurité fait l’objet d’un audit.",
+        "confidence": 0.9
+      }
+    ],
+    "query": "recherche dans toute la base les informations sur la cybersécurité",
+    "search": {
+      "batches_total": 1,
+      "batches_failed": 0,
+      "chunks_scanned": 5,
+      "query_attempts": [
+        {
+          "strategy": "or",
+          "candidate_chunks": 3
+        }
+      ],
+      "query_strategy": "or",
+      "batches_retried": 0,
+      "candidate_chunks": 3,
+      "processed_chunks": 3,
+      "estimated_batches": 1,
+      "fts_configuration": "simple",
+      "candidate_documents": 3,
+      "processed_documents": 3,
+      "documents_text_scanned": 5,
+      "estimated_input_tokens": 900
+    },
+    "result_version": "1",
+    "summary_markdown": "## Recherche globale — recherche dans toute la base les informations sur la cybersécurité\n\n1. La cybersécurité fait l’objet d’un audit. [1]\n\nLe préfiltre lexical a interrogé **5 extraits** répartis sur **5 documents exploitables**, et retenu **3 extraits candidats** dans **3 documents**.\n\nLa recherche lexicale peut ne pas reconnaître toutes les formulations équivalentes du sujet."
+  },
+  "coverage": {
+    "scope": {
+      "generated_at": "2026-07-13T18:06:10.467524+00:00",
+      "rag_space_id": "1dcb769d-99fd-45f4-8732-efe37247b1c5",
+      "filters_applied": [],
+      "corpus_fingerprint": "sha256:713f96f5532fffc243fabd9c5961bed5147a13b563123592e67f868b7c6408bd"
+    },
+    "coverage_level": "B",
+    "coverage_ratio": 0.8333,
+    "limits_applied": [],
+    "pages_analyzed": 0,
+    "chunks_analyzed": 5,
+    "documents_total": 6,
+    "items_extracted": 1,
+    "coverage_complete": false,
+    "documents_analyzed": 5,
+    "documents_excluded": [
+      {
+        "count": 1,
+        "label": "échec d’extraction",
+        "reason": "extraction_failed"
+      }
+    ],
+    "documents_considered": 6,
+    "items_without_source": 0,
+    "documents_with_results": 1
+  }
+}

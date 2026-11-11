@@ -1,0 +1,20 @@
+{
+  "showPassword": "Afficher le mot de passe",
+  "hidePassword": "Masquer le mot de passe",
+  "showLanguages": "Afficher les langues",
+  "closeLanguages": "Fermer le menu des langues",
+  "signingIn": "Connexion en cours",
+  "loginError": "Erreur de connexion",
+  "openMenu": "Ouvrir le menu",
+  "closeMenu": "Fermer le menu",
+  "openUserMenu": "Ouvrir le menu utilisateur",
+  "mainNavigation": "Navigation principale",
+  "breadcrumb": "Fil d'Ariane",
+  "goBack": "Revenir en arrière",
+  "loadingContent": "Contenu en cours de chargement",
+  "zoomIn": "Agrandir",
+  "zoomOut": "Réduire",
+  "previousPage": "Page précédente",
+  "nextPage": "Page suivante",
+  "closeDialog": "Fermer la boîte de dialogue"
+}

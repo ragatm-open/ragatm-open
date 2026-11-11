@@ -1,0 +1,296 @@
+{
+ "rasterizer_id": "ragatm-pdfium/1",
+ "provenance": "vecteurs de référence mesurés sur deux architectures CPU (Intel, AMD), identiques ; pypdfium2 4.30.0 / PDFium 126.0.6462.0",
+ "rule": "Ne JAMAIS mettre à jour ces valeurs silencieusement : un écart de pixels impose une évaluation et normalement ragatm-pdfium/2.",
+ "pdf_sha256": {
+  "F01_a4_text_vector.pdf": "8285237c87a4249c2b18ca41f32763fde6a61201d87566c00aa8257568fff06b",
+  "F02_shapes.pdf": "7089200ca51d58b354f3c9027c6fd85738c63563b02ca2cab5717b557838f4a0",
+  "F03_text_fine_lines.pdf": "9d1e8d307c8aad6931e0700b01c0cebe52ae298c9d624f86fa199eb54419d1e5",
+  "F04_raster_image.pdf": "82f29a5c5750e0b6907058186de385da229c1e0147a59d1553ecd3c75fe01635",
+  "F05_transparency.pdf": "e7dd17548e65b41faea46118754d2378d9b1d49c1acd9596c323d417f8243202",
+  "F06_cropbox.pdf": "e5c24b0311d28411da6320d5812278adcfe8c6259a5f48fff39553d52345ab0c",
+  "F07_rotate90.pdf": "85d8f133eeb73e742c3a232943645c0d37ed9f62c53d4314d26a0ceb0479afaa",
+  "F08_rotate180.pdf": "7bf9dca526b238d62d7f3bce456295e2de82deab5d6d6d442071a010ea995af1",
+  "F09_rotate270.pdf": "f18b3c0a3be51f8cd97f264448770e040e8ffe752c8585f6c7ab769443c61788",
+  "F10_annots_forms.pdf": "f30610c058e631577a01a91c9052c2446a14fc60c6b5644e45d325179725efe7",
+  "F11_a3.pdf": "1c2b65cef9e0cce0ca8eacba79a66ab6018479e2a1190bd299d3057457d919f2",
+  "F12_landscape.pdf": "8042d90364befd81245e08b881ac047e86416af1ea00ad619fe95cd79930608a",
+  "F13_nonembedded_font.pdf": "2d9dd95d039c444ad74d67fa5ec76ea7d28a1d83280ebca64da44eff013a3428"
+ },
+ "f13_cold_first_render_150dpi_pixels_sha256": "7222d6f846ee47f6027348be760a5e3544ab04f36a11c47879876f7f6058a106",
+ "vectors": [
+  {
+   "fixture": "F01_a4_text_vector.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "daeae1163aef246b408de0c1c738c1f80df886ac9cf4d64ad3e8f2f015eb7dd6"
+  },
+  {
+   "fixture": "F01_a4_text_vector.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "3af47832107e3a2fe9563b7c40b700ebf9dbdcb21923422fc2ced2bba6094e3c"
+  },
+  {
+   "fixture": "F01_a4_text_vector.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "1a64390b3590116041f79838bd9dd208f8e430525eafbaaf9b01ff2c1923a921"
+  },
+  {
+   "fixture": "F02_shapes.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "2735d0ed397dbdfa76cadd1b49253ef5c251552d110c18149d4a04ba48e2ef73"
+  },
+  {
+   "fixture": "F02_shapes.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "299f440807929d3f7a5e52874d468663e93abc664b0cf837bf60086ce2b3b936"
+  },
+  {
+   "fixture": "F02_shapes.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "57dd6cc7efac92da5e9867c508b8ebb9490f68d9ac8193ff269b2bde612fd1b7"
+  },
+  {
+   "fixture": "F03_text_fine_lines.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "d6f74d09b110331e16ef9b0ac655d7617d6b743dfda1208a0fa272f40dbacd95"
+  },
+  {
+   "fixture": "F03_text_fine_lines.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "edc130558787bea1147cac4fb05f40329c92bc6d01121b456cadab903e36d19f"
+  },
+  {
+   "fixture": "F03_text_fine_lines.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "33ce3c70b27407ed38d0c4437d5e562e36b2e99962f165b60205f3c2f3875698"
+  },
+  {
+   "fixture": "F04_raster_image.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "c757576daf551b3182f1575ec211d9ebe6c77804e29a78e0dd1ee9753e02b15f"
+  },
+  {
+   "fixture": "F04_raster_image.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "de08b4a314aec83bba317084e67b2e03d89b4ddd61f682ea0ba0526bfb2bd76a"
+  },
+  {
+   "fixture": "F04_raster_image.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "1afb2961aeffa7e6beff3d011a004275fd8932a86249565c3bfb32235732fb58"
+  },
+  {
+   "fixture": "F05_transparency.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "1a448ccab589ee73536bd1cb8197bca65f86568e7de0c01405bf67a72acbf212"
+  },
+  {
+   "fixture": "F05_transparency.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "9f48e28652dba91b24508d77fba3cc05a0249f83f83084803c776f0fc2a7a807"
+  },
+  {
+   "fixture": "F05_transparency.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "6c74c00577f470b13e0460036298a4f833b36f87bafe01464b8c6fa20e90dd88"
+  },
+  {
+   "fixture": "F06_cropbox.pdf",
+   "dpi": 150,
+   "width": 1032,
+   "height": 1338,
+   "pixels_sha256": "5ddf7926300aaac5a4ecd23bcd4b6bd6a1f5140678d948d7ad379eb94f7fb985"
+  },
+  {
+   "fixture": "F06_cropbox.pdf",
+   "dpi": 200,
+   "width": 1375,
+   "height": 1784,
+   "pixels_sha256": "0ea5854bd42fa5a8f8f6c3e5f241e0cfd69a7c60ba943f18e1b7feef97f5a1de"
+  },
+  {
+   "fixture": "F06_cropbox.pdf",
+   "dpi": 300,
+   "width": 2063,
+   "height": 2675,
+   "pixels_sha256": "99413443c4b6076784916a678144728b041e08feacf4234207c079187e6b0aec"
+  },
+  {
+   "fixture": "F07_rotate90.pdf",
+   "dpi": 150,
+   "width": 1755,
+   "height": 1240,
+   "pixels_sha256": "03ac348cc96eb0eac6a233130fe89693e8f4e8b97a1b57e33d02152703629c01"
+  },
+  {
+   "fixture": "F07_rotate90.pdf",
+   "dpi": 200,
+   "width": 2339,
+   "height": 1653,
+   "pixels_sha256": "e4a8a6bbe41f3e052efefe75a0983caedae9e65f9d955e86df63395cfed073d4"
+  },
+  {
+   "fixture": "F07_rotate90.pdf",
+   "dpi": 300,
+   "width": 3509,
+   "height": 2480,
+   "pixels_sha256": "8e9bb44797c6a7230b916dac672921e538a8ffb5b05cb41c711b91225f2d8f30"
+  },
+  {
+   "fixture": "F08_rotate180.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "f205a2c0324f83677dff5d6fbc0484eff28e9ff6540a473e2830815ab888f0fc"
+  },
+  {
+   "fixture": "F08_rotate180.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "6fac73c600644aa384d7f3f571c300fc6f429a105cd927f370b4720aaa708e95"
+  },
+  {
+   "fixture": "F08_rotate180.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "0c1495fbf45f1183355022c16643997f2f2be9962a28cd89f8dfbb3bbda6df1d"
+  },
+  {
+   "fixture": "F09_rotate270.pdf",
+   "dpi": 150,
+   "width": 1755,
+   "height": 1240,
+   "pixels_sha256": "6b18d3f48206ac8e0833d74a92350022464c82381026eb9c233cbfa45959d6b4"
+  },
+  {
+   "fixture": "F09_rotate270.pdf",
+   "dpi": 200,
+   "width": 2339,
+   "height": 1653,
+   "pixels_sha256": "43c57ff20af92f95479ed1a0eec09cc0361edc1b6b993e7c94635393c20fc6cd"
+  },
+  {
+   "fixture": "F09_rotate270.pdf",
+   "dpi": 300,
+   "width": 3509,
+   "height": 2480,
+   "pixels_sha256": "7b21392b1d6af49addd13a3fd6bf412a677f8d585029b6f1faef35f0341d1b41"
+  },
+  {
+   "fixture": "F10_annots_forms.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "5d44dbc2b4bd678adf56b625029dfc388a62559dccd92605ac91292d1165fd29"
+  },
+  {
+   "fixture": "F10_annots_forms.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "7a43de3f4453b410f61880b50a5f6529f90ad8c90a728cf790f2e0609e3c3d0f"
+  },
+  {
+   "fixture": "F10_annots_forms.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "e8edc1c6f35a1abeb6323c155fab4747d6a8751192f3ec0a6d5453b8c07dfe34"
+  },
+  {
+   "fixture": "F11_a3.pdf",
+   "dpi": 150,
+   "width": 1755,
+   "height": 2482,
+   "pixels_sha256": "e38e2444132dae14dda1ec92890c12adfb3c838b76f2beeb65c597c325fc8e1e"
+  },
+  {
+   "fixture": "F11_a3.pdf",
+   "dpi": 200,
+   "width": 2339,
+   "height": 3309,
+   "pixels_sha256": "3e3e2bccff6c5cf14aea5176681f18ab9d67964ee51674374b72828abc258fc7"
+  },
+  {
+   "fixture": "F11_a3.pdf",
+   "dpi": 300,
+   "width": 3509,
+   "height": 4963,
+   "pixels_sha256": "8288aab69beddca2052ed80a5913a400f0d826c70ff3000d09edfc7e6ae25253"
+  },
+  {
+   "fixture": "F12_landscape.pdf",
+   "dpi": 150,
+   "width": 1755,
+   "height": 1240,
+   "pixels_sha256": "f76b3decda1e829449f1c81650b71afac3ae1d93e2df29b1b7c3fdeed75d25cd"
+  },
+  {
+   "fixture": "F12_landscape.pdf",
+   "dpi": 200,
+   "width": 2339,
+   "height": 1653,
+   "pixels_sha256": "71cc6fc851cd94beb2db5a552c67d515f0fec2a6215f7057c9e1a0ee429569e0"
+  },
+  {
+   "fixture": "F12_landscape.pdf",
+   "dpi": 300,
+   "width": 3509,
+   "height": 2480,
+   "pixels_sha256": "f5fbdd7010c4c46bc4a4fc8e002b31427c1c0c76f26945e74f83cd4f783d2cfb"
+  },
+  {
+   "fixture": "F13_nonembedded_font.pdf",
+   "dpi": 150,
+   "width": 1240,
+   "height": 1755,
+   "pixels_sha256": "df176b755c2a20814c1e612bc2978475a9151fe1b3e090d09111fa60b0e7f0df"
+  },
+  {
+   "fixture": "F13_nonembedded_font.pdf",
+   "dpi": 200,
+   "width": 1653,
+   "height": 2339,
+   "pixels_sha256": "5619ea4af9b48811932b2eaa4bd9d6221324e2bd7789f910c035d465c6fa1970"
+  },
+  {
+   "fixture": "F13_nonembedded_font.pdf",
+   "dpi": 300,
+   "width": 2480,
+   "height": 3509,
+   "pixels_sha256": "fea3df07c98ba96a0ffd762aa1e4be43c0e4a26a23d5925f0c52948bf15cdbd5"
+  }
+ ]
+}

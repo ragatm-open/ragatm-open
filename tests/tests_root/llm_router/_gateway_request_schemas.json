@@ -1,0 +1,488 @@
+{
+ "_provenance": {
+  "lot": "contrat-strict-gateway",
+  "objet": "Schémas de REQUÊTE de l'AI Gateway v2, extraits de /openapi.json (sous-ensemble minimal : corps POST de /v1/generate, /v1/generate/stream, /v1/embeddings, /v1/rerank).",
+  "regle": "Ne pas éditer à la main : relever de nouveau depuis /openapi.json si un build change.",
+  "releve_le": "2026-09-17"
+ },
+ "builds": {
+  "0a0a0a0a": {
+   "environment": "production",
+   "git_sha": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+   "openapi_sha256": "a4917b652fcde64416932627c5ea16ecb53fd46e536bc7f5050552cd849a71fc",
+   "routes": {
+    "/v1/embeddings": "EmbeddingsRequest",
+    "/v1/generate": "GenerateRequest",
+    "/v1/generate/stream": "GenerateRequest",
+    "/v1/rerank": "RerankRequest"
+   },
+   "schemas": {
+    "EmbeddingsRequest": {
+     "additionalProperties": true,
+     "properties": {
+      "keep_alive": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Keep Alive"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "task": {
+       "anyOf": [
+        {
+         "enum": [
+          "query",
+          "document"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Task"
+      },
+      "texts": {
+       "items": {
+        "type": "string"
+       },
+       "minItems": 1,
+       "title": "Texts",
+       "type": "array"
+      }
+     },
+     "required": [
+      "texts"
+     ]
+    },
+    "GenerateRequest": {
+     "additionalProperties": true,
+     "properties": {
+      "format": {
+       "anyOf": [
+        {
+         "const": "json",
+         "type": "string"
+        },
+        {
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Format"
+      },
+      "keep_alive": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Keep Alive"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "options": {
+       "anyOf": [
+        {
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Options"
+      },
+      "prompt": {
+       "minLength": 1,
+       "title": "Prompt",
+       "type": "string"
+      },
+      "system": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "System"
+      },
+      "temperature": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": 0.2,
+       "title": "Temperature"
+      },
+      "think": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Think"
+      }
+     },
+     "required": [
+      "prompt"
+     ]
+    },
+    "RerankDocument": {
+     "additionalProperties": true,
+     "properties": {
+      "id": {
+       "maxLength": 128,
+       "minLength": 1,
+       "title": "Id",
+       "type": "string"
+      },
+      "text": {
+       "minLength": 1,
+       "title": "Text",
+       "type": "string"
+      }
+     },
+     "required": [
+      "id",
+      "text"
+     ]
+    },
+    "RerankRequest": {
+     "additionalProperties": true,
+     "properties": {
+      "documents": {
+       "items": {
+        "$ref": "#/components/schemas/RerankDocument"
+       },
+       "minItems": 1,
+       "title": "Documents",
+       "type": "array"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "query": {
+       "minLength": 1,
+       "title": "Query",
+       "type": "string"
+      },
+      "top_n": {
+       "anyOf": [
+        {
+         "minimum": 1.0,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Top N"
+      }
+     },
+     "required": [
+      "query",
+      "documents"
+     ]
+    }
+   },
+   "version": "2.0.0"
+  },
+  "5b5b5b5b": {
+   "environment": "staging",
+   "git_sha": "5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b",
+   "openapi_sha256": "e244fa8759916dc1d9607459b17ea1ea7e10618532f33ef298a6edfbe7490309",
+   "routes": {
+    "/v1/embeddings": "EmbeddingsRequest",
+    "/v1/generate": "GenerateRequest",
+    "/v1/generate/stream": "GenerateRequest",
+    "/v1/rerank": "RerankRequest"
+   },
+   "schemas": {
+    "EmbeddingsRequest": {
+     "additionalProperties": false,
+     "properties": {
+      "keep_alive": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Keep Alive"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "task": {
+       "anyOf": [
+        {
+         "enum": [
+          "query",
+          "document"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Task"
+      },
+      "texts": {
+       "items": {
+        "type": "string"
+       },
+       "minItems": 1,
+       "title": "Texts",
+       "type": "array"
+      }
+     },
+     "required": [
+      "texts"
+     ]
+    },
+    "GenerateRequest": {
+     "additionalProperties": false,
+     "properties": {
+      "format": {
+       "anyOf": [
+        {
+         "const": "json",
+         "type": "string"
+        },
+        {
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Format"
+      },
+      "keep_alive": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Keep Alive"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "options": {
+       "anyOf": [
+        {
+         "type": "object"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Options"
+      },
+      "prompt": {
+       "minLength": 1,
+       "title": "Prompt",
+       "type": "string"
+      },
+      "system": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "System"
+      },
+      "temperature": {
+       "anyOf": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "default": 0.2,
+       "title": "Temperature"
+      },
+      "think": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Think"
+      }
+     },
+     "required": [
+      "prompt"
+     ]
+    },
+    "RerankDocument": {
+     "additionalProperties": false,
+     "properties": {
+      "id": {
+       "maxLength": 128,
+       "minLength": 1,
+       "title": "Id",
+       "type": "string"
+      },
+      "text": {
+       "minLength": 1,
+       "title": "Text",
+       "type": "string"
+      }
+     },
+     "required": [
+      "id",
+      "text"
+     ]
+    },
+    "RerankRequest": {
+     "additionalProperties": false,
+     "properties": {
+      "documents": {
+       "items": {
+        "$ref": "#/components/schemas/RerankDocument"
+       },
+       "minItems": 1,
+       "title": "Documents",
+       "type": "array"
+      },
+      "model": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Model"
+      },
+      "query": {
+       "minLength": 1,
+       "title": "Query",
+       "type": "string"
+      },
+      "top_n": {
+       "anyOf": [
+        {
+         "minimum": 1.0,
+         "type": "integer"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Top N"
+      }
+     },
+     "required": [
+      "query",
+      "documents"
+     ]
+    }
+   },
+   "version": "2.0.0"
+  }
+ }
+}

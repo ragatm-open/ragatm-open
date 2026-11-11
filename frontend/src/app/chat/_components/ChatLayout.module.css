@@ -1,0 +1,206 @@
+/* Mise en page responsive de la page chat.
+ * Seuils recopiés de components/shell/breakpoints.ts :
+ *   mobile ≤ 767 · tablet 768–1199 · desktop ≥ 1200.
+ * Propriétaire du défilement : la conversation (.thread) et le panneau Sources
+ * défilent chacun seul ; la coquille `fill` vaut 100dvh, le document ne défile pas. */
+
+/* ---------------- Actions de la Topbar ----------------
+ * Les deux groupes deviennent des éléments de la grille de la Topbar
+ * (zones `toolbar` et `actions` d'AppShell.module.css). */
+.topbarActions {
+  display: contents;
+}
+
+.toolbar {
+  grid-area: toolbar;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.primaryActions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sourcesButton {
+  display: none;
+}
+
+.threadMenu {
+  min-width: 0;
+}
+
+/* ---------------- Espace de travail ---------------- */
+.workspace {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.conversation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.thread {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 26px 0;
+}
+
+.threadInner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Ligne de message (utilisateur ou assistant) : frontière de confinement.
+ * Sur un long fil, presque toutes les lignes sont hors écran ; sans frontière, le
+ * navigateur reparcourt leurs propriétés de peinture (PrePaint) à chaque image où le
+ * composer ou le message streamé change (~3,9 ms par frappe sur 450 messages).
+ * `layout style` SEULEMENT : pas de `paint` (il rognerait l'anneau de focus des
+ * actions au bord de la ligne), pas de `content-visibility` (il retire le contenu
+ * hors écran de l'arbre d'accessibilité et fausse la géométrie du fil). */
+.messageRow {
+  contain: layout style;
+}
+
+.composerBar {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 14px 28px 18px;
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+.composerInner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.sourcesBackdrop {
+  display: none;
+}
+
+/* ---------------- Tablette + mobile : Sources en tiroir ---------------- */
+@media (max-width: 1199px) {
+  .toolbar {
+    margin-top: 10px;
+  }
+  .threadMenu {
+    flex: 1 1 auto;
+  }
+  .threadMenuButton {
+    width: 100%;
+  }
+  .sourcesButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .sourcesButton[aria-expanded="true"] {
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .sourcesCount {
+    min-width: 18px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .sourcesBackdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(40, 28, 18, 0.34);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0s linear 0.2s;
+  }
+  .sourcesBackdrop[data-open="true"] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s;
+  }
+  /* Pastilles [n] : zone tactile agrandie de façon invisible, pastille inchangée. */
+  .citationChip {
+    position: relative;
+  }
+  .citationChip::before {
+    content: "";
+    position: absolute;
+    inset: -13px -6px;
+  }
+}
+
+/* ---------------- Mobile ---------------- */
+@media (max-width: 767px) {
+  .toolbar {
+    gap: 8px;
+  }
+  .primaryActions {
+    gap: 6px;
+  }
+  /* « Nouvelle conversation » : icône seule, nom accessible conservé. */
+  .newConversation {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .newConversationLabel,
+  .sourcesLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .sourcesButton {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+  }
+  .thread {
+    padding: 16px 0;
+  }
+  .threadInner {
+    padding: 0 16px;
+  }
+  .composerBar {
+    padding: 10px 12px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sourcesBackdrop,
+  .sourcesBackdrop[data-open="true"] {
+    transition: none;
+  }
+}

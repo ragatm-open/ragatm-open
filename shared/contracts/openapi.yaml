@@ -1,0 +1,1893 @@
+openapi: 3.0.3
+info:
+  title: ragATM API
+  version: 1.0.0
+  description: |
+    ragATM API v1 (Django/DRF). Authentication uses DRF Token: Authorization: Token <token>.
+servers:
+  - url: 'http://localhost:8011'
+    description: Local backend
+  - url: /api
+    description: 'Frontend proxy (/api/[...path])'
+tags:
+  - name: Auth
+  - name: Bootstrap
+  - name: Workspaces
+  - name: RagSpaces
+  - name: Documents
+  - name: Chat
+  - name: Corpus
+    description: |
+      Corpus documentaire métier (socle partagé). Administration réservée au propriétaire global ragATM ; lecture seule pour les membres de workspace.
+  - name: Analyses
+    description: |
+      Analyses globales de corpus. Toute analyse déclare son périmètre réel : documents considérés, analysés, exclus, et couverture mesurée. Un préfiltre lexical n'est jamais présenté comme une garantie sémantique.
+  - name: Prompts
+  - name: Audit
+security:
+  - TokenAuth: []
+paths:
+  allOf:
+    - /api/v1/documents/:
+        get:
+          tags:
+            - Documents
+          summary: List documents for a RagSpace
+          parameters:
+            - in: query
+              name: rag_space_id
+              required: true
+              schema:
+                type: string
+                format: uuid
+            - in: query
+              name: limit
+              required: false
+              schema:
+                type: integer
+                default: 50
+                minimum: 1
+                maximum: 200
+            - in: query
+              name: offset
+              required: false
+              schema:
+                type: integer
+                default: 0
+                minimum: 0
+          responses:
+            '200':
+              description: Document list
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/2/DocumentListResponse'
+            '400':
+              description: Missing rag_space_id
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      /api/v1/documents/search/:
+        get:
+          tags:
+            - Documents
+          summary: List documents that mention a term (document search/listing)
+          description: |
+            Returns a list of documents in the given RagSpace that mention the provided term. This endpoint is intended for "listing" queries like "liste des articles qui parlent de Nordexia" and is more appropriate than semantic RAG top-k chunk retrieval.
+          parameters:
+            - in: query
+              name: rag_space_id
+              required: true
+              schema:
+                type: string
+                format: uuid
+            - in: query
+              name: q
+              required: true
+              schema:
+                type: string
+                minLength: 1
+              description: Search term (case-insensitive). Example- Nordexia
+            - in: query
+              name: limit
+              required: false
+              schema:
+                type: integer
+                default: 200
+                minimum: 1
+                maximum: 1000
+            - in: query
+              name: fts
+              required: false
+              schema:
+                type: boolean
+                default: false
+              description: Use Postgres full-text search (requires the GIN FTS index on chunks).
+            - in: query
+              name: lang
+              required: false
+              schema:
+                type: string
+                default: simple
+              description: FTS language (only used when fts=true). Default is 'simple'.
+          responses:
+            '200':
+              description: Search results (documents mentioning the term)
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    required:
+                      - query
+                      - fts
+                      - limit
+                      - results
+                    properties:
+                      query:
+                        type: string
+                      fts:
+                        type: boolean
+                      lang:
+                        type: string
+                        nullable: true
+                      limit:
+                        type: integer
+                      results:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - document_id
+                            - filename
+                            - hits
+                            - pages
+                          properties:
+                            document_id:
+                              type: string
+                              format: uuid
+                            filename:
+                              type: string
+                            hits:
+                              type: integer
+                              minimum: 0
+                            pages:
+                              type: array
+                              items:
+                                type: integer
+            '400':
+              description: Missing/invalid rag_space_id or q
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '500':
+              description: Search failed
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      /api/v1/documents/ingest/:
+        post:
+          tags:
+            - Documents
+          summary: Ingest raw text into a document (sync)
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/allOf/2/DocumentIngestRequest'
+          responses:
+            '201':
+              description: Ingested
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/2/DocumentIngestResult'
+            '400':
+              description: Validation error
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      /api/v1/documents/upload/:
+        post:
+          tags:
+            - Documents
+          summary: Upload a file (sync ingest)
+          requestBody:
+            required: true
+            content:
+              multipart/form-data:
+                schema:
+                  $ref: '#/components/schemas/allOf/2/DocumentUploadMultipart'
+          responses:
+            '201':
+              description: Uploaded and ingested
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/2/DocumentIngestResult'
+            '400':
+              description: Validation error
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      '/api/v1/documents/{document_id}/':
+        delete:
+          tags:
+            - Documents
+          summary: Delete a document (and associated chunks)
+          parameters:
+            - in: path
+              name: document_id
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '204':
+              description: Deleted (no content)
+            '400':
+              description: Invalid document_id
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '404':
+              description: Not found
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      '/api/v1/documents/{document_id}/reindex/':
+        post:
+          tags:
+            - Documents
+          summary: Reindex an existing document
+          parameters:
+            - in: path
+              name: document_id
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '200':
+              description: Reindexed
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/2/DocumentIngestResult'
+            '400':
+              description: Invalid document_id / missing rag_space
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '404':
+              description: Not found
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '501':
+              description: Reindex not implemented
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+      '/api/v1/documents/{document_id}/download/':
+        get:
+          tags:
+            - Documents
+          summary: Download original file
+          parameters:
+            - in: path
+              name: document_id
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '200':
+              description: File download
+              content:
+                application/octet-stream:
+                  schema:
+                    type: string
+                    format: binary
+            '400':
+              description: Invalid document_id
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '403':
+              description: Forbidden
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+            '404':
+              description: Not found
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/0/Error'
+    - /api/v1/chat/:
+        post:
+          tags:
+            - Chat
+          summary: Chat (non-streaming)
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/allOf/1/ChatRequest'
+          responses:
+            '200':
+              description: Chat response
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/1/ChatResponse'
+      /api/v1/chat/stream/:
+        post:
+          tags:
+            - Chat
+          summary: Chat (streaming SSE)
+          description: |
+            Returns text/event-stream.
+            Events: meta, sources, token, done, error.
+            The stream closes right after `done`: on a `no_answer`, rephrasing suggestions are
+            generated asynchronously (Celery) and retrieved via
+            `GET /api/v1/chat/threads/{thread_id}/rephrasing-suggestions/`.
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/allOf/1/ChatRequest'
+          responses:
+            '200':
+              description: SSE stream
+              content:
+                text/event-stream:
+                  schema:
+                    type: string
+      '/api/v1/chat/threads/{thread_id}/rephrasing-suggestions/':
+        get:
+          tags:
+            - Chat
+          summary: Rephrasing suggestions for a no_answer turn (async result)
+          description: |
+            Poll the result of the asynchronous rephrasing-suggestions generation triggered on a
+            `no_answer`. Feature-flagged (`RAG_REPHRASING_SUGGESTIONS_ENABLED`, off by default):
+            when disabled no task is enqueued and the status stays `none`.
+            Returns 404 for a thread not owned by the caller (no enumeration).
+          parameters:
+            - name: thread_id
+              in: path
+              required: true
+              schema:
+                type: string
+                format: uuid
+            - name: request_id
+              in: query
+              required: false
+              description: Turn identifier (from the `meta` SSE event). Defaults to the latest result.
+              schema:
+                type: string
+          responses:
+            '200':
+              description: Current generation status
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/1/RephrasingSuggestionsResponse'
+            '404':
+              description: Thread not found or not owned by the caller
+    - /api/v1/admin/business-domains/:
+        get:
+          tags:
+            - Corpus
+          summary: Liste des domaines métier (propriétaire global)
+          responses:
+            '200':
+              description: Liste des domaines
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/allOf/3/BusinessDomain'
+            '401':
+              description: Non authentifié
+            '403':
+              description: Réservé au propriétaire global ragATM
+        post:
+          tags:
+            - Corpus
+          summary: Crée un domaine métier (propriétaire global)
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - slug
+                    - name
+                  properties:
+                    slug:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+          responses:
+            '201':
+              description: Domaine créé
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/BusinessDomain'
+            '403':
+              description: Réservé au propriétaire global ragATM
+            '409':
+              description: Slug déjà existant
+      '/api/v1/admin/business-domains/{domain_id}/':
+        parameters:
+          - in: path
+            name: domain_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        get:
+          tags:
+            - Corpus
+          summary: Détail d'un domaine
+          responses:
+            '200':
+              description: Domaine
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/BusinessDomain'
+            '403':
+              description: Réservé au propriétaire global ragATM
+            '404':
+              description: Introuvable
+        patch:
+          tags:
+            - Corpus
+          summary: Met à jour un domaine
+          responses:
+            '200':
+              description: Domaine mis à jour
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/BusinessDomain'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        delete:
+          tags:
+            - Corpus
+          summary: Supprime un domaine (cascade corpus/documents/chunks)
+          responses:
+            '204':
+              description: Supprimé
+            '403':
+              description: Réservé au propriétaire global ragATM
+      /api/v1/admin/domain-corpora/:
+        get:
+          tags:
+            - Corpus
+          summary: Liste des corpus métier (propriétaire global)
+          parameters:
+            - in: query
+              name: domain_id
+              required: false
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '200':
+              description: Liste des corpus
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/allOf/3/DomainCorpus'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        post:
+          tags:
+            - Corpus
+          summary: Crée un corpus métier
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - domain_id
+                    - slug
+                    - name
+                  properties:
+                    domain_id:
+                      type: string
+                      format: uuid
+                    slug:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    embedding_provider:
+                      type: string
+                      enum:
+                        - ai_gateway
+                    embedding_model:
+                      type: string
+          responses:
+            '201':
+              description: Corpus créé
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/DomainCorpus'
+            '403':
+              description: Réservé au propriétaire global ragATM
+            '409':
+              description: Slug déjà existant dans le domaine
+      '/api/v1/admin/domain-corpora/{corpus_id}/':
+        parameters:
+          - in: path
+            name: corpus_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        get:
+          tags:
+            - Corpus
+          summary: Détail d'un corpus
+          responses:
+            '200':
+              description: Corpus
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/DomainCorpus'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        patch:
+          tags:
+            - Corpus
+          summary: Met à jour un corpus
+          responses:
+            '200':
+              description: Corpus mis à jour
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/DomainCorpus'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        delete:
+          tags:
+            - Corpus
+          summary: Supprime un corpus (cascade documents/chunks/associations)
+          responses:
+            '204':
+              description: Supprimé
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/admin/domain-corpora/{corpus_id}/documents/':
+        parameters:
+          - in: path
+            name: corpus_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        get:
+          tags:
+            - Corpus
+          summary: Liste des documents d'un corpus
+          responses:
+            '200':
+              description: Documents
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/allOf/3/CorpusDocument'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        post:
+          tags:
+            - Corpus
+          summary: Upload + indexation d'un document de corpus (réutilise les garde-fous d'ingestion)
+          requestBody:
+            required: true
+            content:
+              multipart/form-data:
+                schema:
+                  type: object
+                  required:
+                    - file
+                  properties:
+                    file:
+                      type: string
+                      format: binary
+                    title:
+                      type: string
+                    source_url:
+                      type: string
+                    source_reference:
+                      type: string
+                    version_label:
+                      type: string
+          responses:
+            '201':
+              description: Document créé/indexé
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      ok:
+                        type: boolean
+                      deduped:
+                        type: boolean
+                      document:
+                        $ref: '#/components/schemas/allOf/3/CorpusDocument'
+            '400':
+              description: Fichier refusé (exécutable
+              archive: null
+              macro: null
+              type non supporté): null
+            '403':
+              description: Réservé au propriétaire global ragATM
+            '413':
+              description: Fichier trop volumineux
+            '415':
+              description: Type de média non supporté
+      '/api/v1/admin/domain-corpora/{corpus_id}/reindex/':
+        parameters:
+          - in: path
+            name: corpus_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        post:
+          tags:
+            - Corpus
+          summary: Réindexe tous les documents d'un corpus (n'affecte jamais le privé)
+          responses:
+            '200':
+              description: Résumé de réindexation
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      ok:
+                        type: boolean
+                      corpus_id:
+                        type: string
+                        format: uuid
+                      reindexed:
+                        type: integer
+                      failed:
+                        type: integer
+                      skipped:
+                        type: integer
+                      total:
+                        type: integer
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/admin/domain-corpus-documents/{document_id}/':
+        parameters:
+          - in: path
+            name: document_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        get:
+          tags:
+            - Corpus
+          summary: Détail d'un document de corpus
+          responses:
+            '200':
+              description: Document
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/CorpusDocument'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        delete:
+          tags:
+            - Corpus
+          summary: Supprime un document de corpus (et ses chunks)
+          responses:
+            '204':
+              description: Supprimé
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/admin/domain-corpus-documents/{document_id}/reindex/':
+        parameters:
+          - in: path
+            name: document_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        post:
+          tags:
+            - Corpus
+          summary: Réindexe un seul document de corpus
+          responses:
+            '200':
+              description: Document réindexé
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      ok:
+                        type: boolean
+                      document:
+                        $ref: '#/components/schemas/allOf/3/CorpusDocument'
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/admin/workspaces/{workspace_id}/domain-corpora/':
+        parameters:
+          - in: path
+            name: workspace_id
+            required: true
+            schema:
+              type: integer
+        get:
+          tags:
+            - Corpus
+          summary: Associations corpus d'un workspace (propriétaire global)
+          responses:
+            '200':
+              description: Associations
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/allOf/3/WorkspaceCorpusAccess'
+            '403':
+              description: Réservé au propriétaire global ragATM
+        post:
+          tags:
+            - Corpus
+          summary: Associe un corpus à un workspace
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  required:
+                    - corpus_id
+                  properties:
+                    corpus_id:
+                      type: string
+                      format: uuid
+                    enabled:
+                      type: boolean
+          responses:
+            '201':
+              description: Association créée
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/3/WorkspaceCorpusAccess'
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/admin/workspaces/{workspace_id}/domain-corpora/{corpus_id}/':
+        parameters:
+          - in: path
+            name: workspace_id
+            required: true
+            schema:
+              type: integer
+          - in: path
+            name: corpus_id
+            required: true
+            schema:
+              type: string
+              format: uuid
+        delete:
+          tags:
+            - Corpus
+          summary: Retire l'association corpus/workspace (idempotent)
+          responses:
+            '204':
+              description: Association retirée
+            '403':
+              description: Réservé au propriétaire global ragATM
+      '/api/v1/workspaces/{workspace_id}/domain-corpora/':
+        parameters:
+          - in: path
+            name: workspace_id
+            required: true
+            schema:
+              type: integer
+        get:
+          tags:
+            - Corpus
+          summary: 'Corpus métier actifs associés au workspace (lecture seule, tout membre)'
+          responses:
+            '200':
+              description: Corpus actifs (lecture seule)
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/allOf/3/WorkspaceActiveCorpus'
+            '403':
+              description: Non membre du workspace
+    - '/v1/rag-spaces/{rag_space_id}/analyses/':
+        post:
+          tags:
+            - Analyses
+          summary: Lancer une analyse globale sur un RagSpace
+          description: |
+            Crée un job, ou en réutilise un : un `request_id` rejoué, une analyse identique déjà en cours, ou un résultat déjà calculé sur un corpus inchangé ne créent jamais un second job. Le traitement est asynchrone, sur une queue dédiée. La permission de lecture sur le RagSpace est requise.
+          operationId: createCorpusAnalysis
+          parameters:
+            - name: rag_space_id
+              in: path
+              required: true
+              schema:
+                type: string
+                format: uuid
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/allOf/4/AnalysisCreateRequest'
+          responses:
+            '200':
+              description: |
+                Rien à faire : résultat déjà disponible (`reused: true`), ou analyse identique déjà en cours (`joined_active: true`).
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/4/CorpusAnalysis'
+            '202':
+              description: Job créé et mis en file.
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/4/CorpusAnalysis'
+            '400':
+              description: |
+                Type inconnu, paramètre non autorisé, volume hors limites, ou recherche globale sans sujet identifiable (`global_search_topic_required`).
+            '403':
+              description: Accès refusé au RagSpace.
+            '404':
+              description: RagSpace inexistant ou inaccessible (indistinguables).
+            '409':
+              description: |
+                Trop d'analyses coûteuses déjà en cours pour ce workspace (`analytics_concurrency_limit`). Aucun job impossible à honorer n'est créé.
+      '/v1/analyses/{analysis_id}/':
+        get:
+          tags:
+            - Analyses
+          summary: Consulter une analyse
+          description: |
+            L'accès au RagSpace est revérifié À CHAQUE lecture : la possession de l'UUID du job ne suffit jamais. Perdre l'accès à l'espace, c'est perdre l'accès au résultat déjà produit.
+          operationId: getCorpusAnalysis
+          parameters:
+            - name: analysis_id
+              in: path
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '200':
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/4/CorpusAnalysis'
+            '404':
+              description: Job inexistant OU inaccessible — strictement indistinguables.
+      '/v1/analyses/{analysis_id}/cancel/':
+        post:
+          tags:
+            - Analyses
+          summary: Annuler une analyse
+          description: |
+            Annulation COOPÉRATIVE, fondée sur le statut persistant. Un job `pending` passe immédiatement à `cancelled` ; un job `running` s'arrête au prochain point de contrôle. Idempotent : un job terminal n'est jamais modifié. Réservé au demandeur, aux owner/admin du workspace, et au superuser.
+          operationId: cancelCorpusAnalysis
+          parameters:
+            - name: analysis_id
+              in: path
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '202':
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/allOf/4/CorpusAnalysis'
+            '403':
+              description: Non autorisé à annuler cette analyse.
+            '404':
+              description: Job inexistant ou inaccessible.
+      '/v1/chat/threads/{thread_id}/analyses/':
+        get:
+          tags:
+            - Analyses
+            - Chat
+          summary: Analyses lancées depuis un fil de conversation
+          description: |
+            Permet au frontend de reprendre le suivi d'une analyse APRÈS un rechargement. Le lien fil → job est durable et persisté côté serveur : il n'est jamais reconstruit en parsant du Markdown ni en prenant « le dernier job ».
+          operationId: getThreadAnalyses
+          parameters:
+            - name: thread_id
+              in: path
+              required: true
+              schema:
+                type: string
+                format: uuid
+          responses:
+            '200':
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      analyses:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/allOf/4/CorpusAnalysis'
+            '404':
+              description: Fil inexistant ou inaccessible.
+components:
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use: "Token <token>"'
+  schemas:
+    allOf:
+      - Error:
+          type: object
+          properties:
+            detail:
+              type: string
+          required:
+            - detail
+        Ok:
+          type: object
+          properties:
+            ok:
+              type: boolean
+          required:
+            - ok
+      - SourceMeta:
+          type: object
+          additionalProperties: true
+          description: |
+            Métadonnées de CITATION d'une source (contrat v3). Toutes optionnelles : un TXT n'en a aucune, un PDF porte sa page au niveau racine (`page_number`), un classeur Excel porte ici sa feuille et sa plage de cellules.
+          properties:
+            kind:
+              type: string
+              description: |
+                `excel_table` | `excel_narrative` (classeur, lot E2) | `table` (tableau structuré PDF, P3). Absent pour un document texte ordinaire.
+            sheet_name:
+              type: string
+              description: Nom de la feuille du classeur (ex. "Synthèse").
+            sheet_index:
+              type: integer
+            cell_range:
+              type: string
+              description: |
+                Plage de cellules RÉELLEMENT citée (ex. "B8:F17"). Couvre les lignes de DONNÉES portées par ce chunk ; la ligne d'en-tête est indiquée par `header_row`.
+            row_start:
+              type: integer
+            row_end:
+              type: integer
+            column_start:
+              type: string
+            column_end:
+              type: string
+            header_row:
+              type:
+                - integer
+                - 'null'
+            headers:
+              type: array
+              items:
+                type: string
+            title:
+              type:
+                - string
+                - 'null'
+              description: 'Titre posé par l''auteur au-dessus du tableau, s''il existe.'
+            chunk_of:
+              type: integer
+            chunk_total:
+              type: integer
+            has_formulas:
+              type: boolean
+            page_type:
+              type: string
+            table_type:
+              type: string
+            confidence:
+              type: string
+            requires_visual_check:
+              type: boolean
+            source_is_ocr:
+              type: boolean
+        RagSourceV1:
+          type: object
+          additionalProperties: true
+          description: |
+            Source typée. `source_type` distingue un document privé du workspace ("workspace_document") d'un document de corpus métier partagé ("domain_corpus").
+            v3 (lot E3) : ajout de `meta`, qui porte la citation feuille + plage d'un classeur. Additif — les anciens logs v1/v2 restent lisibles tels quels (le client applique un fallback) et ne sont pas migrés.
+          required:
+            - schema_version
+            - rank
+            - document_id
+            - chunk_id
+            - score
+            - filename
+            - page_number
+            - snippet
+          properties:
+            schema_version:
+              type: integer
+              enum:
+                - 1
+                - 2
+                - 3
+            source_type:
+              type:
+                - string
+                - 'null'
+              enum:
+                - workspace_document
+                - domain_corpus
+                - null
+              description: Type de provenance de la source (v2).
+            rank:
+              type: integer
+              minimum: 1
+            document_id:
+              type:
+                - string
+                - 'null'
+            chunk_id:
+              type:
+                - string
+                - 'null'
+            score:
+              type: number
+            filename:
+              type:
+                - string
+                - 'null'
+            page_number:
+              type:
+                - integer
+                - 'null'
+              description: |
+                Page PDF. **`null` pour un classeur Excel** : une feuille n'est pas une page, et le client ne doit jamais en fabriquer une (la feuille vit dans `meta`).
+            document_date:
+              type:
+                - string
+                - 'null'
+              format: date
+              description: 'Date extraite du CONTENU du document (ISO), quand elle existe.'
+            snippet:
+              type: string
+              maxLength: 320
+            meta:
+              $ref: '#/components/schemas/allOf/1/SourceMeta'
+            corpus_id:
+              type:
+                - string
+                - 'null'
+            corpus_name:
+              type:
+                - string
+                - 'null'
+            business_domain_id:
+              type:
+                - string
+                - 'null'
+            business_domain_name:
+              type:
+                - string
+                - 'null'
+            workspace_id:
+              type:
+                - string
+                - integer
+                - 'null'
+            rag_space_id:
+              type:
+                - string
+                - 'null'
+        ChatRequest:
+          type: object
+          required:
+            - rag_space_id
+            - question
+          properties:
+            rag_space_id:
+              type: string
+              format: uuid
+            question:
+              type: string
+              description: |
+                Peut être vide UNIQUEMENT si `corpus_choice` est fourni : le serveur écrit alors lui-même le message utilisateur persisté.
+            thread_id:
+              type: string
+              format: uuid
+              nullable: true
+            corpus_choice:
+              type: string
+              enum:
+                - quick_response
+                - global_analysis
+              nullable: true
+              description: |
+                Choix du mode d'analyse, envoyé par un BOUTON — jamais tapé. Identifiant d'action stable : le libellé affiché peut changer sans casser le contrat. Quand il est présent, il fait autorité et `question` n'est plus interprétée. La question d'origine n'est jamais transmise par le client : le serveur la résout depuis le fil. Un choix sans clarification en attente renvoie 409 (`corpus_choice_expired`) et n'exécute rien.
+        ChatMeta:
+          type: object
+          properties:
+            request_id:
+              type: string
+              nullable: true
+            rag_space_id:
+              type: string
+              format: uuid
+              nullable: true
+            thread_id:
+              type: string
+              format: uuid
+              nullable: true
+            policy:
+              type: string
+              nullable: true
+            latency_ms:
+              type: integer
+              nullable: true
+            sources_count:
+              type: integer
+              nullable: true
+        ChatResponse:
+          type: object
+          required:
+            - status
+            - answer
+            - sources
+            - meta
+          properties:
+            status:
+              type: string
+              enum:
+                - ok
+                - fallback_general
+                - no_answer
+                - error
+            answer:
+              type: string
+            sources:
+              type: array
+              items:
+                $ref: '#/components/schemas/allOf/1/RagSourceV1'
+            meta:
+              $ref: '#/components/schemas/allOf/1/ChatMeta'
+            answer_kind:
+              type: string
+              description: |
+                Nature de la réponse. `excel_analytics_unavailable` (lot E4) : la question exigeait un calcul EXHAUSTIF sur un classeur (somme, moyenne, classement, regroupement, comptage). Le mode documentaire ne voit que les extraits retrouvés, jamais le classeur entier : la requête est interceptée par une garde DÉTERMINISTE, **avant tout retrieval et tout appel LLM**. Aucun `RagQueryLog` n'est créé (aucune recherche n'a eu lieu), `sources` est vide.
+              enum:
+                - ok
+                - explain
+                - partial
+                - news
+                - help
+                - no_answer
+                - quick_response
+                - mode_choice
+                - full_unavailable
+                - full_launched
+                - excel_analytics_unavailable
+            suggested_rephrasings:
+              type: array
+              maxItems: 3
+              description: |
+                Reformulations DOCUMENTAIRES sûres. Présentes sur `no_answer` et sur `excel_analytics_unavailable`. Aucune ne promet l'exhaustivité, aucune ne réintroduit le calcul refusé, aucune n'est envoyée automatiquement.
+              items:
+                type: string
+            analytics:
+              type: object
+              description: |
+                Présent uniquement avec `excel_analytics_unavailable`. Volontairement PAUVRE (intention + indisponibilité) : c'est une amorce pour le futur moteur tabulaire déterministe, pas un contrat analytique.
+              properties:
+                requested_intent:
+                  type: string
+                  enum:
+                    - exhaustive_aggregation
+                    - exhaustive_count
+                    - ranking
+                    - grouping
+                    - global_comparison
+                available:
+                  type: boolean
+            awaiting_corpus_choice:
+              type: boolean
+              description: |
+                Ce message attend un choix de mode : le client rend deux boutons. Décidé par le SERVEUR, à l'envoi comme à la relecture du fil — jamais déduit du Markdown, jamais réaffiché une fois le choix consommé.
+            global_analysis_available:
+              type: boolean
+              description: |
+                L'analyse globale est-elle réellement possible ? Sans sujet identifiable, le moteur n'a rien à chercher : le bouton n'est alors pas proposé.
+        RephrasingSuggestionsResponse:
+          type: object
+          required:
+            - status
+            - suggestions
+          properties:
+            status:
+              type: string
+              description: |
+                `none` = nothing enqueued (feature flag off, or unknown turn); `pending` = generation in flight; `ready` = suggestions available; `failed` = generation gave up (no technical detail exposed).
+              enum:
+                - none
+                - pending
+                - ready
+                - failed
+            suggestions:
+              type: array
+              description: Non-empty only when status is `ready` (at most 3 items).
+              maxItems: 3
+              items:
+                type: string
+      - DocumentListItem:
+          type: object
+          required:
+            - id
+            - rag_space_id
+            - filename
+            - content_type
+            - size_bytes
+            - sha256
+            - status
+            - error_message
+            - created_at
+          properties:
+            id:
+              type: string
+              format: uuid
+            rag_space_id:
+              type: string
+              format: uuid
+            filename:
+              type: string
+            content_type:
+              type: string
+            size_bytes:
+              type: integer
+            sha256:
+              type: string
+            status:
+              type: string
+            error_message:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+              nullable: true
+        DocumentListResponse:
+          type: object
+          required:
+            - items
+            - total
+            - limit
+            - offset
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/allOf/2/DocumentListItem'
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+        DocumentIngestRequest:
+          type: object
+          required:
+            - rag_space_id
+            - text
+          properties:
+            rag_space_id:
+              type: string
+              format: uuid
+            filename:
+              type: string
+              nullable: true
+            text:
+              type: string
+        DocumentUploadMultipart:
+          type: object
+          required:
+            - rag_space_id
+            - file
+          properties:
+            rag_space_id:
+              type: string
+              format: uuid
+            file:
+              type: string
+              format: binary
+        DocumentIngestResult:
+          type: object
+          required:
+            - document_id
+            - status
+            - chunks_created
+          properties:
+            document_id:
+              type: string
+              format: uuid
+            status:
+              type: string
+            chunks_created:
+              type: integer
+      - BusinessDomain:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            slug:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            is_active:
+              type: boolean
+            corpora_count:
+              type: integer
+            created_at:
+              type:
+                - string
+                - 'null'
+            updated_at:
+              type:
+                - string
+                - 'null'
+        DomainCorpus:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            domain_id:
+              type: string
+              format: uuid
+            domain_name:
+              type:
+                - string
+                - 'null'
+            slug:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            is_active:
+              type: boolean
+            embedding_provider:
+              type: string
+            embedding_model:
+              type: string
+            documents_count:
+              type: integer
+            created_at:
+              type:
+                - string
+                - 'null'
+            updated_at:
+              type:
+                - string
+                - 'null'
+        CorpusDocument:
+          type: object
+          description: Document de corpus métier (jamais de chemin disque exposé).
+          properties:
+            id:
+              type: string
+              format: uuid
+            corpus_id:
+              type: string
+              format: uuid
+            title:
+              type: string
+            original_filename:
+              type: string
+            mime_type:
+              type: string
+            size_bytes:
+              type: integer
+            status:
+              type: string
+              enum:
+                - PENDING
+                - INGESTING
+                - READY
+                - FAILED
+            error_message:
+              type: string
+            source_url:
+              type: string
+            source_reference:
+              type: string
+            version_label:
+              type: string
+            chunks_count:
+              type: integer
+            created_at:
+              type:
+                - string
+                - 'null'
+            updated_at:
+              type:
+                - string
+                - 'null'
+        WorkspaceCorpusAccess:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            workspace_id:
+              type: integer
+            corpus_id:
+              type: string
+              format: uuid
+            corpus_name:
+              type:
+                - string
+                - 'null'
+            enabled:
+              type: boolean
+            created_at:
+              type:
+                - string
+                - 'null'
+        WorkspaceActiveCorpus:
+          type: object
+          description: Vue lecture seule d'un corpus actif associé à un workspace.
+          properties:
+            corpus_id:
+              type: string
+              format: uuid
+            corpus_name:
+              type: string
+            corpus_slug:
+              type: string
+            description:
+              type: string
+            business_domain_id:
+              type: string
+              format: uuid
+            business_domain_name:
+              type:
+                - string
+                - 'null'
+            is_active:
+              type: boolean
+            read_only:
+              type: boolean
+            managed_by:
+              type: string
+            documents_count:
+              type: integer
+            updated_at:
+              type:
+                - string
+                - 'null'
+      - AnalysisStatus:
+          type: string
+          description: |
+            Cycle de vie d'un job. `partial` signale un résultat AMPUTÉ (au moins un lot n'a pas abouti) : il n'est jamais présenté comme complet.
+          enum:
+            - pending
+            - running
+            - succeeded
+            - partial
+            - failed
+            - cancelled
+        AnalysisErrorCode:
+          type: string
+          description: Code d'erreur stable. Le message associé est toujours sûr (jamais une trace).
+          enum:
+            - unknown_analysis_type
+            - preflight_limit_exceeded
+            - analytics_concurrency_limit
+            - global_search_topic_required
+            - candidate_limit_exceeded
+            - invalid_unsourced_result
+            - gateway_unavailable
+            - cancelled
+            - soft_time_limit
+            - handler_error
+            - invalid_result
+            - permission_revoked
+            - internal_error
+        AnalysisProgress:
+          type: object
+          required:
+            - phase
+            - current
+            - total
+            - percent
+          properties:
+            phase:
+              type: string
+              description: 'Phase stable et non sensible (aucun nom de table, de SQL ni de technologie).'
+              example: processing_batches
+            current:
+              type: integer
+              minimum: 0
+            total:
+              type: integer
+              minimum: 0
+            percent:
+              type: integer
+              minimum: 0
+              maximum: 100
+              description: Calculé côté serveur. Monotone — ne décroît jamais.
+        AnalysisPreflight:
+          type: object
+          description: 'Volumétrie du périmètre, établie AVANT toute dépense.'
+          properties:
+            documents_total:
+              type: integer
+            documents_ready:
+              type: integer
+            documents_failed:
+              type: integer
+            documents_without_chunks:
+              type: integer
+            chunks_total:
+              type: integer
+            pages_numbered_total:
+              type: integer
+            characters_total:
+              type: integer
+            estimated_tokens_total:
+              type: integer
+            corpus_fingerprint:
+              type: string
+            within_limits:
+              type: boolean
+            limits_exceeded:
+              type: array
+              items:
+                type: object
+                properties:
+                  limit:
+                    type: string
+                  value:
+                    type: integer
+                  max:
+                    type: integer
+        GlobalSearchSource:
+          type: object
+          required:
+            - chunk_id
+            - document_id
+          properties:
+            chunk_id:
+              type: string
+              format: uuid
+            document_id:
+              type: string
+              format: uuid
+            page:
+              type: integer
+              nullable: true
+            filename:
+              type: string
+              nullable: true
+              description: |
+                Nom du document cité, FIGÉ au moment de l'analyse — le résultat est persisté et doit rester lisible même si le document est supprimé ensuite. `null` si le document était déjà introuvable. Absent des résultats produits avant l'introduction du champ : le client doit tolérer son absence.
+        GlobalSearchItem:
+          type: object
+          description: |
+            Élément produit par la recherche globale. Il porte TOUJOURS au moins une source réelle : un identifiant inventé par le modèle est rejeté avant persistance, et un élément sans source n'est jamais publié.
+          required:
+            - id
+            - statement
+            - sources
+          properties:
+            id:
+              type: string
+            statement:
+              type: string
+            sources:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/allOf/4/GlobalSearchSource'
+            confidence:
+              type: number
+              nullable: true
+              minimum: 0
+              maximum: 1
+        GlobalSearchMetrics:
+          type: object
+          description: |
+            Trois compteurs DISTINCTS, jamais interchangeables : `chunks_scanned` = tout le contenu textuel exploitable interrogé par le préfiltre ; `candidate_chunks` = ce que le préfiltre a retenu ; `processed_chunks` = ce qui a réellement été traité.
+          properties:
+            chunks_scanned:
+              type: integer
+            documents_text_scanned:
+              type: integer
+            candidate_chunks:
+              type: integer
+            candidate_documents:
+              type: integer
+            processed_chunks:
+              type: integer
+            processed_documents:
+              type: integer
+            batches_total:
+              type: integer
+            batches_failed:
+              type: integer
+            fts_configuration:
+              type: string
+        GlobalSearchResult:
+          type: object
+          properties:
+            result_version:
+              type: string
+              example: '1'
+            query:
+              type: string
+            summary_markdown:
+              type: string
+              description: |
+                Synthèse sourcée. Déclare que tout le contenu textuel exploitable a été interrogé par le préfiltre LEXICAL, et rappelle explicitement que celui-ci peut ne pas reconnaître toutes les formulations équivalentes. Ne promet JAMAIS une exhaustivité sémantique.
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/allOf/4/GlobalSearchItem'
+            search:
+              $ref: '#/components/schemas/allOf/4/GlobalSearchMetrics'
+        CorpusAnalysis:
+          type: object
+          required:
+            - analysis_id
+            - rag_space_id
+            - analysis_type
+            - status
+            - progress
+          properties:
+            analysis_id:
+              type: string
+              format: uuid
+            rag_space_id:
+              type: string
+              format: uuid
+            analysis_type:
+              type: string
+              description: Clé d'un registre FERMÉ côté serveur. Jamais un chemin d'import.
+              enum:
+                - corpus.coverage_snapshot
+                - corpus.global_search
+            parameters:
+              type: object
+              additionalProperties: true
+            status:
+              $ref: '#/components/schemas/allOf/4/AnalysisStatus'
+            progress:
+              $ref: '#/components/schemas/allOf/4/AnalysisProgress'
+            preflight:
+              $ref: '#/components/schemas/allOf/4/AnalysisPreflight'
+            coverage:
+              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/allOf/4/Coverage'
+            result:
+              type: object
+              nullable: true
+              additionalProperties: true
+              description: Dépend du type. Pour `corpus.global_search` → `GlobalSearchResult`.
+            error_code:
+              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/allOf/4/AnalysisErrorCode'
+            error_message:
+              type: string
+              nullable: true
+              description: Message SÛR pour l'utilisateur. Jamais une exception ni une trace.
+            corpus_fingerprint:
+              type: string
+            is_stale:
+              type: boolean
+              nullable: true
+              description: |
+                Le corpus a-t-il changé depuis la génération du résultat ? `null` tant que le job n'est pas terminal (aucun recalcul d'empreinte pendant le polling). Un résultat périmé n'est jamais modifié ni supprimé — il est signalé.
+            created_at:
+              type: string
+              format: date-time
+              nullable: true
+            started_at:
+              type: string
+              format: date-time
+              nullable: true
+            finished_at:
+              type: string
+              format: date-time
+              nullable: true
+            expires_at:
+              type: string
+              format: date-time
+              nullable: true
+            tokens_in:
+              type: integer
+            tokens_out:
+              type: integer
+            cost_usd:
+              type: number
+              nullable: true
+            reused:
+              type: boolean
+              description: Un résultat déjà calculé sur un corpus inchangé a été réutilisé.
+            joined_active:
+              type: boolean
+              description: Une analyse identique était déjà en cours ; celle-ci l'a rejointe.
+        Coverage:
+          type: object
+          description: |
+            Périmètre RÉELLEMENT couvert. `coverage_complete` ne peut jamais être vrai s'il reste une exclusion ou une limite appliquée. Voir docs/coverage-semantics.md.
+          properties:
+            documents_total:
+              type: integer
+            documents_considered:
+              type: integer
+            documents_analyzed:
+              type: integer
+            documents_with_results:
+              type: integer
+            documents_excluded:
+              type: array
+              items:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  count:
+                    type: integer
+                  label:
+                    type: string
+            pages_analyzed:
+              type: integer
+            chunks_analyzed:
+              type: integer
+            items_extracted:
+              type: integer
+            items_without_source:
+              type: integer
+              description: Vaut TOUJOURS 0 dans un résultat accepté. Sinon le résultat est rejeté.
+            coverage_level:
+              type: string
+              description: |
+                A = documentaire, B = textuelle (toutes deux GARANTIES et mesurables). C (sémantique) et D (métier) ne sont jamais produits : ils ne sont pas garantissables techniquement.
+              enum:
+                - A
+                - B
+                - C
+                - D
+            coverage_complete:
+              type: boolean
+            coverage_ratio:
+              type: number
+              minimum: 0
+              maximum: 1
+            limits_applied:
+              type: array
+              items:
+                type: string
+        AnalysisCreateRequest:
+          type: object
+          required:
+            - analysis_type
+          properties:
+            analysis_type:
+              type: string
+              enum:
+                - corpus.coverage_snapshot
+                - corpus.global_search
+            parameters:
+              type: object
+              description: |
+                Pour `corpus.global_search` : `{query, language}` UNIQUEMENT. Le client ne peut fixer ni top_k, ni batch_size, ni provider, ni modèle, ni température, ni fallback, ni configuration FTS — ce sont des décisions serveur.
+              properties:
+                query:
+                  type: string
+                  maxLength: 500
+                language:
+                  type: string
+                  example: auto
+            request_id:
+              type: string
+              maxLength: 200
+              description: Idempotence — le même request_id ne crée jamais un second job.

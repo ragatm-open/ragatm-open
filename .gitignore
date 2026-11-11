@@ -1,0 +1,168 @@
+# --------------------
+# Python
+# --------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.*
+!.env.example
+!.env.staging.example
+# Modèle de configuration de PRODUCTION — sans secret (valeurs entre chevrons).
+# Le fichier réel `.env.prod` reste ignoré par la règle `.env.*` ci-dessus.
+!.env.prod.example
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Logs
+*.log
+
+# Logs de dev locaux (scripts/dev/up*.sh)
+.dev-logs/
+
+# Tests / coverage
+.pytest_cache/
+# Rapports JUnit produits par PYTEST_JUNIT_PATH (posé par la CI, jamais en local
+# par défaut). Publiés comme artefact du job backend, jamais versionnés.
+artifacts/
+.coverage
+.coverage.*
+htmlcov/
+.coverage.xml
+nosetests.xml
+pytestdebug.log
+
+# Type checkers / linters
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# --------------------
+# Django
+# --------------------
+media/
+static/
+staticfiles/
+local_settings.py
+
+# Django DB (si tu utilises sqlite en dev)
+*.sqlite3
+
+# --------------------
+# Node / Next
+# --------------------
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next env (si tu as des env front)
+frontend/.env
+frontend/.env.*
+frontend/.next/
+frontend/node_modules/
+frontend/out/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+
+# Lien symbolique recréé par frontend/scripts/link-test-deps.mjs (npm test)
+tests/frontend/node_modules
+
+# Caches de tests
+tests/backend/.pytest_cache/
+
+# --------------------
+# OS
+# --------------------
+.DS_Store
+Thumbs.db
+
+# --------------------
+# IDE
+# --------------------
+.idea/
+.vscode/
+*.iml
+
+# --------------------
+# Secrets / certs
+# --------------------
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# --------------------
+# Project-specific
+# --------------------
+Upload_test/*.pdf
+
+# Scratchpad personnel (contient des identifiants) — jamais versionné
+commands.md
+
+
+# ── Corpus .msg de qualification ─────────────────────────────────────────────
+# Un fichier Outlook exporté porte des adresses professionnelles réelles et des
+# identifiants d'infrastructure Exchange. Ces corpus ne sont JAMAIS versionnés : les
+# tests du format s'appuient sur des conteneurs CFB GÉNÉRÉS par le code
+# (`tests/backend/unit/extraction/_msg_builders.py`), et les tests sur fichiers réels
+# se sautent proprement en leur absence (cf. `test_msg_corpus_reel.py`).
+#
+# Même politique que le benchmark terrain : l'outillage est versionné, jamais les
+# documents. Sans cette ligne, un `git add -A` les embarque — c'est arrivé.
+tests/corpus/
+*.msg
+
+# ── Benchmark TERRAIN sur corpus réel (RagSpace "Mission") ───────────────────
+# Le corpus Mission contient des documents CLIENTS. Les questions et la vérité
+# terrain encodent des faits réels : elles ne doivent JAMAIS être committées.
+# Seul l'OUTILLAGE (manifeste, détection de dérive, métriques) est versionné.
+# Cf. backend/benchmarks/README.md § "Benchmark terrain".
+backend/benchmarks/datasets/mission/
+backend/benchmarks/baseline/mission-*
+backend/benchmarks/calibration/mission-*
+# `mission-*` ne couvre PAS un RÉPERTOIRE `mission/` (le motif exige le tiret) : sans
+# cette ligne, les artefacts par cas de P2.5-b auraient été versionnés.
+backend/benchmarks/calibration/mission/
+# Benchmark Excel dev_bench_excel : datasets + résultats contiennent des valeurs de
+# cellules issues de documents réels — jamais committés (même politique). Seul
+# l'outillage (générateur, manifeste, résolveur) est versionné.
+# Motif GLOBAL plutôt qu'énumération : toute variante (…_v2, …_gen2, régénération
+# ponctuelle) est ignorée par construction. Lister les répertoires un par un a déjà
+# laissé un lot régénéré hors couverture.
+backend/benchmarks/datasets/dev_bench_excel*/
+backend/benchmarks/results/dev_bench_excel*
+
+# Preuves de migration owner_scope (dumps/JSON, hors dépôt)
+.owner-scope-evidence/
+
+# Artefacts LOCAUX de calibration et de benchmark produits par les campagnes
+# (mesures, jeux gelés, rapports de lot). Jamais versionnés : ils pèsent plusieurs
+# dizaines de Mo, ne se rejouent pas à l'identique, et les décisions qu'ils portent
+# sont reprises dans le code, les tests et docs/.
+/calibration/
+/benchmark/
+
+# Archive LOCALE des artefacts volumineux lors de la qualification (chaîne de curation, chunks bruts).
+# Durable sur disque, JAMAIS dans Git : dumps de plusieurs Mo, étapes intermédiaires
+# redondantes et texte de corpus. Chaque fichier est référencé par sha256 dans
+# `artifact-registry.json`, seule source de vérité sur ce qui est exploitable.
+backend/benchmarks/calibration/evidence-sufficiency-feasibility/_archive-local/
+

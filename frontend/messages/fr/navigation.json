@@ -1,0 +1,14 @@
+{
+  "home": "Accueil",
+  "assistant": "Assistant",
+  "documents": "Documents",
+  "corpora": "Corpus métier",
+  "workspaceAdmin": "Espaces & membres",
+  "corpusAdmin": "Admin corpus",
+  "adminCore": "Admin Core",
+  "platformAdmin": "Administration plateforme",
+  "signOut": "Se déconnecter",
+  "settings": "Paramètres",
+  "preferences": "Préférences",
+  "language": "Langue"
+}

@@ -1,0 +1,1423 @@
+{
+ "defaut/corrompu": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 40,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 15,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "defaut/lie": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 35,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 10,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image liée",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "defaut/orphelin": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 47,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 18,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "defaut/principal": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 3,
+     "slide_title": null
+    },
+    "text": "[Diapositive 3]\n\n[Image : Schéma du réseau électrique]",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 10,
+   "chars": 593,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [
+     5,
+     12
+    ],
+    "extracted_chars": 245,
+    "image_only_slides": [
+     2,
+     3
+    ],
+    "indexed_slides": 10,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 13,
+    "table_cells": 4,
+    "tables": 1,
+    "unreadable_slides": []
+   },
+   "slides": 13,
+   "status": "success",
+   "tables": 1,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides",
+    "pptx_empty_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": false,
+     "kind": "pptx_slide",
+     "requires_visual_check": true,
+     "slide_number": 3,
+     "slide_title": null
+    },
+    "text": "[Diapositive 3]\n\n[Image : Schéma du réseau électrique]"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point\n\n[Diapositive 3]\n\n[Image : Schéma du réseau électrique]\n\n[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point\n\n[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |\n\n[Diapositive 7]\n\nTitre : Logo 0\n\n[Diapositive 8]\n\nTitre : Logo 1\n\n[Diapositive 9]\n\nTitre : Logo 2\n\n[Diapositive 10]\n\nTitre : Logo 3\n\n[Diapositive 11]\n\nTitre : Logo 4\n\n[Diapositive 13]\n\nTitre : Icône",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides",
+   "pptx_empty_slides"
+  ]
+ },
+ "defaut/vectoriel": {
+  "blocks": [],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "chars": 0,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 0,
+    "image_only_slides": [
+     1
+    ],
+    "indexed_slides": 0,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "empty",
+   "tables": 0,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [],
+  "status": "empty",
+  "tables": [],
+  "text": "",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides"
+  ]
+ },
+ "notes_et_alt/corrompu": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 40,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 15,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": true,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "notes_et_alt/lie": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 35,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 10,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": true,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image liée",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "notes_et_alt/orphelin": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 47,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 18,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": true,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "notes_et_alt/principal": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 3,
+     "slide_title": null
+    },
+    "text": "[Diapositive 3]\n\n[Image : Schéma du réseau électrique]",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 10,
+   "chars": 710,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [
+     5,
+     12
+    ],
+    "extracted_chars": 276,
+    "image_only_slides": [
+     2,
+     3
+    ],
+    "indexed_slides": 10,
+    "notes_included": true,
+    "notes_units": 2,
+    "slide_count": 13,
+    "table_cells": 4,
+    "tables": 1,
+    "unreadable_slides": []
+   },
+   "slides": 13,
+   "status": "success",
+   "tables": 1,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides",
+    "pptx_empty_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point"
+   },
+   {
+    "meta": {
+     "kind": "pptx_notes",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1 — notes du présentateur]\n\nNotes du présentateur"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": false,
+     "kind": "pptx_slide",
+     "requires_visual_check": true,
+     "slide_number": 3,
+     "slide_title": null
+    },
+    "text": "[Diapositive 3]\n\n[Image : Schéma du réseau électrique]"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point"
+   },
+   {
+    "meta": {
+     "kind": "pptx_notes",
+     "requires_visual_check": false,
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4 — notes du présentateur]\n\nAutre note"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point\n\n[Diapositive 1 — notes du présentateur]\n\nNotes du présentateur\n\n[Diapositive 3]\n\n[Image : Schéma du réseau électrique]\n\n[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point\n\n[Diapositive 4 — notes du présentateur]\n\nAutre note\n\n[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |\n\n[Diapositive 7]\n\nTitre : Logo 0\n\n[Diapositive 8]\n\nTitre : Logo 1\n\n[Diapositive 9]\n\nTitre : Logo 2\n\n[Diapositive 10]\n\nTitre : Logo 3\n\n[Diapositive 11]\n\nTitre : Logo 4\n\n[Diapositive 13]\n\nTitre : Icône",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides",
+   "pptx_empty_slides"
+  ]
+ },
+ "notes_et_alt/vectoriel": {
+  "blocks": [],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "chars": 0,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": true,
+    "empty_slides": [],
+    "extracted_chars": 0,
+    "image_only_slides": [
+     1
+    ],
+    "indexed_slides": 0,
+    "notes_included": true,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "empty",
+   "tables": 0,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [],
+  "status": "empty",
+  "tables": [],
+  "text": "",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides"
+  ]
+ },
+ "sans_alt/corrompu": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 40,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": false,
+    "empty_slides": [],
+    "extracted_chars": 15,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image corrompue"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image corrompue"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image corrompue",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "sans_alt/lie": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 35,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": false,
+    "empty_slides": [],
+    "extracted_chars": 10,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Image liée"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Image liée"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Image liée",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "sans_alt/orphelin": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 1,
+   "chars": 47,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": false,
+    "empty_slides": [],
+    "extracted_chars": 18,
+    "image_only_slides": [],
+    "indexed_slides": 1,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "success",
+   "tables": 0,
+   "type": "pptx"
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Avec orphelin"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Avec orphelin\n\n- texte",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": []
+ },
+ "sans_alt/principal": {
+  "blocks": [
+   {
+    "meta": {
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4",
+    "type": "BlockType.SECTION"
+   },
+   {
+    "meta": {
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône",
+    "type": "BlockType.SECTION"
+   }
+  ],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "blocks": 9,
+   "chars": 537,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": false,
+    "empty_slides": [
+     5,
+     12
+    ],
+    "extracted_chars": 245,
+    "image_only_slides": [
+     2,
+     3
+    ],
+    "indexed_slides": 9,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 13,
+    "table_cells": 4,
+    "tables": 1,
+    "unreadable_slides": []
+   },
+   "slides": 13,
+   "status": "success",
+   "tables": 1,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides",
+    "pptx_empty_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [
+   {
+    "meta": {
+     "has_images": false,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 1,
+     "slide_title": "Texte seul"
+    },
+    "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 4,
+     "slide_title": "Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles."
+    },
+    "text": "[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 6,
+     "slide_title": "Tableau et image"
+    },
+    "text": "[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 7,
+     "slide_title": "Logo 0"
+    },
+    "text": "[Diapositive 7]\n\nTitre : Logo 0"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 8,
+     "slide_title": "Logo 1"
+    },
+    "text": "[Diapositive 8]\n\nTitre : Logo 1"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 9,
+     "slide_title": "Logo 2"
+    },
+    "text": "[Diapositive 9]\n\nTitre : Logo 2"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 10,
+     "slide_title": "Logo 3"
+    },
+    "text": "[Diapositive 10]\n\nTitre : Logo 3"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 11,
+     "slide_title": "Logo 4"
+    },
+    "text": "[Diapositive 11]\n\nTitre : Logo 4"
+   },
+   {
+    "meta": {
+     "has_images": true,
+     "has_text": true,
+     "kind": "pptx_slide",
+     "requires_visual_check": false,
+     "slide_number": 13,
+     "slide_title": "Icône"
+    },
+    "text": "[Diapositive 13]\n\nTitre : Icône"
+   }
+  ],
+  "status": "success",
+  "tables": [],
+  "text": "[Diapositive 1]\n\nTitre : Texte seul\n\n- Premier point\n- Second point\n\n[Diapositive 4]\n\nTitre : Architecture de la plateforme : ce titre de diapositive porte assez de texte pour franchir sans ambiguïté le seuil applicatif de caractères utiles.\n\n- Un point\n\n[Diapositive 6]\n\nTitre : Tableau et image\n\nTableau :\n| A | B |\n|---|---|\n| 1 | 2 |\n\n[Diapositive 7]\n\nTitre : Logo 0\n\n[Diapositive 8]\n\nTitre : Logo 1\n\n[Diapositive 9]\n\nTitre : Logo 2\n\n[Diapositive 10]\n\nTitre : Logo 3\n\n[Diapositive 11]\n\nTitre : Logo 4\n\n[Diapositive 13]\n\nTitre : Icône",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides",
+   "pptx_empty_slides"
+  ]
+ },
+ "sans_alt/vectoriel": {
+  "blocks": [],
+  "detected_mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "metadata": {
+   "chars": 0,
+   "chunking_version": "1",
+   "extractor": "pptx",
+   "extractor_version": "1",
+   "format": "pptx",
+   "mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+   "ocr_used": false,
+   "pptx": {
+    "alt_text_included": false,
+    "empty_slides": [],
+    "extracted_chars": 0,
+    "image_only_slides": [
+     1
+    ],
+    "indexed_slides": 0,
+    "notes_included": false,
+    "notes_units": 0,
+    "slide_count": 1,
+    "table_cells": 0,
+    "tables": 0,
+    "unreadable_slides": []
+   },
+   "slides": 1,
+   "status": "empty",
+   "tables": 0,
+   "type": "pptx",
+   "warnings": [
+    "pptx_image_only_slides"
+   ]
+  },
+  "method": "pptx:python-pptx",
+  "partial": false,
+  "slides": [],
+  "status": "empty",
+  "tables": [],
+  "text": "",
+  "visual_assets": 0,
+  "visual_units": 0,
+  "warnings": [
+   "pptx_image_only_slides"
+  ]
+ }
+}

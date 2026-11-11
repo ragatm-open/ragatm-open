@@ -1,0 +1,5 @@
+TokenAuth:
+  type: apiKey
+  in: header
+  name: Authorization
+  description: 'Use: "Token <token>"'

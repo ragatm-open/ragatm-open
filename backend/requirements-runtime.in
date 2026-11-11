@@ -1,0 +1,9 @@
+# requirements-runtime.in — complément au pyproject pour l'image runtime.
+# Les versions sont des plages ici ; le lock (requirements*.lock) les fige avec empreintes.
+# Serveur WSGI :
+gunicorn>=21,<23
+# Backend de construction du paquet local (pyproject [build-system]) : installé depuis le lock pour que
+# `pip install --no-deps --no-build-isolation /app` fonctionne HORS LIGNE (python:3.12-slim ne fournit
+# pas setuptools) — même raison que ci/requirements-ci.in.
+setuptools>=68.0
+wheel

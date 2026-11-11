@@ -1,0 +1,346 @@
+# Corpus documentaire métier.
+# - Admin global (/api/v1/admin/...) : RÉSERVÉ au propriétaire global ragATM
+#   (superuser). Tout rôle de workspace reçoit 403.
+# - Lecture seule workspace (/api/v1/workspaces/{id}/domain-corpora/) : tout membre.
+
+/api/v1/admin/business-domains/:
+  get:
+    tags: [Corpus]
+    summary: Liste des domaines métier (propriétaire global)
+    responses:
+      "200":
+        description: Liste des domaines
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "../components/schemas/corpus.yaml#/BusinessDomain" }
+      "401": { description: Non authentifié }
+      "403": { description: Réservé au propriétaire global ragATM }
+  post:
+    tags: [Corpus]
+    summary: Crée un domaine métier (propriétaire global)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [slug, name]
+            properties:
+              slug: { type: string }
+              name: { type: string }
+              description: { type: string }
+    responses:
+      "201":
+        description: Domaine créé
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/BusinessDomain" }
+      "403": { description: Réservé au propriétaire global ragATM }
+      "409": { description: Slug déjà existant }
+
+/api/v1/admin/business-domains/{domain_id}/:
+  parameters:
+    - in: path
+      name: domain_id
+      required: true
+      schema: { type: string, format: uuid }
+  get:
+    tags: [Corpus]
+    summary: Détail d'un domaine
+    responses:
+      "200":
+        description: Domaine
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/BusinessDomain" }
+      "403": { description: Réservé au propriétaire global ragATM }
+      "404": { description: Introuvable }
+  patch:
+    tags: [Corpus]
+    summary: Met à jour un domaine
+    responses:
+      "200":
+        description: Domaine mis à jour
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/BusinessDomain" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  delete:
+    tags: [Corpus]
+    summary: Supprime un domaine (cascade corpus/documents/chunks)
+    responses:
+      "204": { description: Supprimé }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/domain-corpora/:
+  get:
+    tags: [Corpus]
+    summary: Liste des corpus métier (propriétaire global)
+    parameters:
+      - in: query
+        name: domain_id
+        required: false
+        schema: { type: string, format: uuid }
+    responses:
+      "200":
+        description: Liste des corpus
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "../components/schemas/corpus.yaml#/DomainCorpus" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  post:
+    tags: [Corpus]
+    summary: Crée un corpus métier
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [domain_id, slug, name]
+            properties:
+              domain_id: { type: string, format: uuid }
+              slug: { type: string }
+              name: { type: string }
+              description: { type: string }
+              embedding_provider: { type: string, enum: [ai_gateway] }
+              embedding_model: { type: string }
+    responses:
+      "201":
+        description: Corpus créé
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/DomainCorpus" }
+      "403": { description: Réservé au propriétaire global ragATM }
+      "409": { description: Slug déjà existant dans le domaine }
+
+/api/v1/admin/domain-corpora/{corpus_id}/:
+  parameters:
+    - in: path
+      name: corpus_id
+      required: true
+      schema: { type: string, format: uuid }
+  get:
+    tags: [Corpus]
+    summary: Détail d'un corpus
+    responses:
+      "200":
+        description: Corpus
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/DomainCorpus" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  patch:
+    tags: [Corpus]
+    summary: Met à jour un corpus
+    responses:
+      "200":
+        description: Corpus mis à jour
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/DomainCorpus" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  delete:
+    tags: [Corpus]
+    summary: Supprime un corpus (cascade documents/chunks/associations)
+    responses:
+      "204": { description: Supprimé }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/domain-corpora/{corpus_id}/documents/:
+  parameters:
+    - in: path
+      name: corpus_id
+      required: true
+      schema: { type: string, format: uuid }
+  get:
+    tags: [Corpus]
+    summary: Liste des documents d'un corpus
+    responses:
+      "200":
+        description: Documents
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "../components/schemas/corpus.yaml#/CorpusDocument" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  post:
+    tags: [Corpus]
+    summary: Upload + indexation d'un document de corpus (réutilise les garde-fous d'ingestion)
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required: [file]
+            properties:
+              file: { type: string, format: binary }
+              title: { type: string }
+              source_url: { type: string }
+              source_reference: { type: string }
+              version_label: { type: string }
+    responses:
+      "201":
+        description: Document créé/indexé
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ok: { type: boolean }
+                deduped: { type: boolean }
+                document: { $ref: "../components/schemas/corpus.yaml#/CorpusDocument" }
+      "400": { description: Fichier refusé (exécutable, archive, macro, type non supporté) }
+      "403": { description: Réservé au propriétaire global ragATM }
+      "413": { description: Fichier trop volumineux }
+      "415": { description: Type de média non supporté }
+
+/api/v1/admin/domain-corpora/{corpus_id}/reindex/:
+  parameters:
+    - in: path
+      name: corpus_id
+      required: true
+      schema: { type: string, format: uuid }
+  post:
+    tags: [Corpus]
+    summary: Réindexe tous les documents d'un corpus (n'affecte jamais le privé)
+    responses:
+      "200":
+        description: Résumé de réindexation
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ok: { type: boolean }
+                corpus_id: { type: string, format: uuid }
+                reindexed: { type: integer }
+                failed: { type: integer }
+                skipped: { type: integer }
+                total: { type: integer }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/domain-corpus-documents/{document_id}/:
+  parameters:
+    - in: path
+      name: document_id
+      required: true
+      schema: { type: string, format: uuid }
+  get:
+    tags: [Corpus]
+    summary: Détail d'un document de corpus
+    responses:
+      "200":
+        description: Document
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/CorpusDocument" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  delete:
+    tags: [Corpus]
+    summary: Supprime un document de corpus (et ses chunks)
+    responses:
+      "204": { description: Supprimé }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/domain-corpus-documents/{document_id}/reindex/:
+  parameters:
+    - in: path
+      name: document_id
+      required: true
+      schema: { type: string, format: uuid }
+  post:
+    tags: [Corpus]
+    summary: Réindexe un seul document de corpus
+    responses:
+      "200":
+        description: Document réindexé
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ok: { type: boolean }
+                document: { $ref: "../components/schemas/corpus.yaml#/CorpusDocument" }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/workspaces/{workspace_id}/domain-corpora/:
+  parameters:
+    - in: path
+      name: workspace_id
+      required: true
+      schema: { type: integer }
+  get:
+    tags: [Corpus]
+    summary: Associations corpus d'un workspace (propriétaire global)
+    responses:
+      "200":
+        description: Associations
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "../components/schemas/corpus.yaml#/WorkspaceCorpusAccess" }
+      "403": { description: Réservé au propriétaire global ragATM }
+  post:
+    tags: [Corpus]
+    summary: Associe un corpus à un workspace
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [corpus_id]
+            properties:
+              corpus_id: { type: string, format: uuid }
+              enabled: { type: boolean }
+    responses:
+      "201":
+        description: Association créée
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/corpus.yaml#/WorkspaceCorpusAccess" }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/admin/workspaces/{workspace_id}/domain-corpora/{corpus_id}/:
+  parameters:
+    - in: path
+      name: workspace_id
+      required: true
+      schema: { type: integer }
+    - in: path
+      name: corpus_id
+      required: true
+      schema: { type: string, format: uuid }
+  delete:
+    tags: [Corpus]
+    summary: Retire l'association corpus/workspace (idempotent)
+    responses:
+      "204": { description: Association retirée }
+      "403": { description: Réservé au propriétaire global ragATM }
+
+/api/v1/workspaces/{workspace_id}/domain-corpora/:
+  parameters:
+    - in: path
+      name: workspace_id
+      required: true
+      schema: { type: integer }
+  get:
+    tags: [Corpus]
+    summary: Corpus métier actifs associés au workspace (lecture seule, tout membre)
+    responses:
+      "200":
+        description: Corpus actifs (lecture seule)
+        content:
+          application/json:
+            schema:
+              type: array
+              items: { $ref: "../components/schemas/corpus.yaml#/WorkspaceActiveCorpus" }
+      "403": { description: Non membre du workspace }

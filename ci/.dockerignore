@@ -1,0 +1,25 @@
+# Contexte de construction de `ci/Dockerfile.ci` — TOUT est exclu par défaut.
+#
+# Ce fichier est à la RACINE DU CONTEXTE (`docker build --file ci/Dockerfile.ci ci/`).
+# C'est la seule forme honorée par les DEUX constructeurs : BuildKit et le
+# constructeur classique. La variante `<dockerfile>.dockerignore` a été essayée
+# et REJETÉE : mesurée ici, elle laisse `DOCKER_BUILDKIT=0` envoyer 8,27 Go.
+#
+# Deux garanties se cumulent, et la première suffirait :
+#   1. le CONTEXTE est `ci/`, pas la racine du dépôt. `.env`, `.env.prod`,
+#      `.venv/`, `backend/media/`, `node_modules/`, `.git/` sont hors d'atteinte
+#      par construction — aucun filtre à maintenir pour cela ;
+#   2. dans `ci/`, tout est exclu sauf le seul fichier réellement copié.
+#
+# POURQUOI UNE LISTE BLANCHE. Une liste noire énumère ce qu'on sait devoir
+# exclure ; elle laisse passer le prochain fichier auquel personne n'aura pensé.
+# Le `*` inverse la charge de la preuve : rien n'entre, sauf ce qui est réadmis.
+#
+# `ci/Dockerfile.ci` ne fait qu'un `COPY requirements-ci.lock`. Son autre
+# `COPY --from=` vient d'une image externe. L'étage `toolchain` ne copie rien :
+# `backend/pyproject.toml` et `ci/requirements-ci.in` lui arrivent par un
+# MONTAGE à l'exécution (cf. ci/lock-python.sh), jamais par le contexte.
+#
+# Ajouter une ligne ici doit rester un acte délibéré, justifié par un `COPY`.
+*
+!requirements-ci.lock

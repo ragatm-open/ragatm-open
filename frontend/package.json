@@ -1,0 +1,42 @@
+{
+  "name": "rag-atm-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "pretest": "node scripts/link-test-deps.mjs",
+    "test": "vitest run",
+    "test:watch": "node scripts/link-test-deps.mjs && vitest"
+  },
+  "dependencies": {
+    "next": "15.5.29",
+    "next-intl": "^4.13.4",
+    "qrcode": "^1.5.4",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^25.0.3",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "19.2.7",
+    "@vitejs/plugin-react": "4.7.0",
+    "jsdom": "^25.0.1",
+    "typescript": "5.9.3",
+    "vite": "7.3.8",
+    "vitest": "4.1.12"
+  },
+  "overrides": {
+    "@swc/helpers": "0.5.5",
+    "postcss": "8.5.23"
+  }
+}

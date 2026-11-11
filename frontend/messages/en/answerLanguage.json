@@ -1,0 +1,8 @@
+{
+  "label": "Answer language",
+  "aria": "Choose the assistant's answer language",
+  "auto": "Automatic",
+  "fr": "French",
+  "en": "English",
+  "autoHint": "Follows the language of your question"
+}

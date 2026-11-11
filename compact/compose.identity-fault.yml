@@ -1,0 +1,11 @@
+# TEST NÉGATIF (§3.3) : Gateway démarrée avec un registre dérivé dont le digest attendu de
+# `fr-en-retrieval` est volontairement FAUX. Attendu : le profil cesse d'être gouverné, la Gateway
+# refuse de servir des embeddings estampillés (400, registre strict), RAGatm refuse d'ingérer et
+# ne réindexe rien implicitement. À n'utiliser que sur une installation jetable.
+#   docker compose -f compose.yml -f compose.identity-fault.yml up -d ai-gateway
+services:
+  ai-gateway:
+    volumes:
+      - ./fixtures/registry-identity-fault.yaml:/app/registry-identity-fault.yaml:ro
+    environment:
+      AI_GATEWAY_MODELS_REGISTRY: /app/registry-identity-fault.yaml

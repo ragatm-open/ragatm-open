@@ -1,0 +1,245 @@
+# RAGatm Open Compact — installation autonome.
+#
+#   Navigateur ─► frontend (127.0.0.1:${COMPACT_FRONTEND_PORT}) ─► backend ─► db / redis
+#                                                                     └─► ai-gateway ─► ollama
+#                                                                                   └─► reranker (TEI, espace réseau de la Gateway)
+#
+# Doctrine :
+#   · un seul port publié sur l'hôte : le frontend, en boucle locale ;
+#   · réseaux `app`, `data`, `ai` INTERNES (aucune route de sortie) : backend, worker, beat,
+#     db, redis, ai-gateway, ollama et reranker n'ont pas d'accès Internet en exécution
+#     nominale ; l'approvisionnement des modèles passe par l'override compose.provision.yml ;
+#   · aucun secret dans ce fichier : tout vient de `.env` (généré par scripts/gen-secrets.sh) ;
+#   · images épinglées par digest ; les poids des modèles vivent dans des volumes, jamais
+#     dans les images ; aucun téléchargement n'est déclenché par une requête métier ;
+#   · aucun AI Gateway Pool ; aucun fournisseur d'IA externe.
+name: ${COMPOSE_PROJECT_NAME:-ragatm-compact}
+
+x-backend-image: &backend-image
+  image: ragatm-open-backend:compact
+  build:
+    context: ${RAGATM_OPEN_DIR:-..}/backend
+    args:
+      APP_GIT_SHA: "${APP_GIT_SHA:-}"
+      WITH_OCR: "0"
+      WITH_IFC: "0"
+      WITH_DWG: "0"
+      WITH_AUDIO: "0"
+
+x-backend-env: &backend-env
+  env_file:
+    # COMPACT_ENV_FILE : fichier de secrets de CETTE instance (défaut ./.env) ; une instance isolée
+    # (restauration) le pointe vers son propre fichier généré par gen-secrets.sh.
+    - ${COMPACT_ENV_FILE:-./.env}
+    - ./config/backend.env
+  environment:
+    DJANGO_SETTINGS_MODULE: config.settings.prod
+    DJANGO_ENV: prod
+
+services:
+  db:
+    # Qualification : digest `pgvector/pgvector:pg16` relevé le 2026-11-09 (PostgreSQL 16.15,
+    # Debian 12.15) — l'ancien digest (sha256:00ba258a…, 16.x/Debian 12.13) portait 15 avis CRITIQUES
+    # corrigeables au scan trivy ; détail : reports/TARGETED-REPAIR-IMAGE-AUDIT.md.
+    image: pgvector/pgvector:pg16@sha256:0dd3149a06e4579a0d70d8fef9945636cd514005e7237deb27f9b67886f8dc4f
+    environment:
+      POSTGRES_DB: ${DB_NAME:?DB_NAME requis (.env)}
+      POSTGRES_USER: ${DB_USER:?DB_USER requis (.env)}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD requis (.env)}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ${RAGATM_OPEN_DIR:-..}/infra/postgres/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [data]
+    mem_limit: ${COMPACT_MEM_DB:-1g}
+    restart: unless-stopped
+
+  redis:
+    # Redis 7.2 (licence BSD-3-Clause), DERNIÈRE lignée BSD ; 7.4+ est
+    # sous RSALv2/SSPL et 8.x ajoute l'AGPL. Digest relevé le 2026-11-09 (7.2.17).
+    image: redis:7.2-alpine@sha256:3d2b46efa3280299fe6e117a33fccdfeb495c39098f95d076fadd12a88005b0a
+    command: ["sh", "-c", "exec redis-server --requirepass \"$$REDIS_PASSWORD\" --appendonly yes --save 60 1 --maxmemory 192mb --maxmemory-policy noeviction"]
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD requis (.env)}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli --no-auth-warning -a \"$$REDIS_PASSWORD\" ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [data]
+    mem_limit: ${COMPACT_MEM_REDIS:-256m}
+    restart: unless-stopped
+
+  backend:
+    <<: [*backend-image, *backend-env]
+    volumes:
+      - media:/data/media
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      ai-gateway: { condition: service_healthy }
+    healthcheck:
+      # Liveness technique Django (aucune inférence, aucun accès Gateway).
+      test: ["CMD", "python", "-c", "import sys,urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8010/api/health/', timeout=5).status == 200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 5
+    networks: [app, data, ai]
+    mem_limit: ${COMPACT_MEM_BACKEND:-1536m}
+    restart: unless-stopped
+
+  worker:
+    <<: [*backend-image, *backend-env]
+    command: ["celery", "-A", "config", "worker", "-l", "INFO",
+              "-Q", "celery,reindex,maintenance,analytics",
+              "--concurrency", "${COMPACT_WORKER_CONCURRENCY:-2}", "--max-tasks-per-child", "50"]
+    volumes:
+      - media:/data/media
+    depends_on:
+      backend: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A config inspect ping -d celery@$$HOSTNAME --timeout 10 | grep -q pong"]
+      interval: 60s
+      timeout: 20s
+      start_period: 60s
+      retries: 3
+    networks: [data, ai]
+    mem_limit: ${COMPACT_MEM_WORKER:-2g}
+    restart: unless-stopped
+
+  beat:
+    <<: [*backend-image, *backend-env]
+    command: ["celery", "-A", "config", "beat", "-l", "INFO", "-s", "/tmp/celerybeat-schedule"]
+    depends_on:
+      backend: { condition: service_healthy }
+    networks: [data]
+    mem_limit: ${COMPACT_MEM_BEAT:-256m}
+    restart: unless-stopped
+
+  frontend:
+    image: ragatm-open-frontend:compact
+    build:
+      context: ${RAGATM_OPEN_DIR:-..}/frontend
+      args:
+        APP_GIT_SHA: "${APP_GIT_SHA:-}"
+    environment:
+      BACKEND_BASE_URL: http://backend:8010
+      NEXT_TELEMETRY_DISABLED: "1"
+      PORT: "3000"
+    ports:
+      - "127.0.0.1:${COMPACT_FRONTEND_PORT:-18080}:3000"
+    depends_on:
+      backend: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3000/login || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 5
+    networks: [edge, app]
+    mem_limit: ${COMPACT_MEM_FRONTEND:-512m}
+    restart: unless-stopped
+
+  ai-gateway:
+    image: ai-gateway-open:compact
+    build:
+      context: ${AI_GATEWAY_OPEN_DIR:-../../ai-gateway-open}
+      args:
+        AI_GATEWAY_BUILD_SHA: "${AI_GATEWAY_BUILD_SHA:-}"
+        AI_GATEWAY_SOURCE_URL: "${AI_GATEWAY_SOURCE_URL:-}"
+    env_file:
+      - ./config/gateway.env
+    depends_on:
+      ollama: { condition: service_healthy }
+    # HEALTHCHECK /health/live hérité du Dockerfile (strictement non inférentiel).
+    networks: [ai, inference]
+    mem_limit: ${COMPACT_MEM_GATEWAY:-512m}
+    restart: unless-stopped
+
+  ollama:
+    # ollama/ollama 0.30.8 — digest relevé lors de la qualification le 2026-11-09, identique au relevé de qualification.
+    image: ollama/ollama@sha256:05b6fe5143ed006d6d4abd39bdd575f962a5822bdf81e6fbb5e6894eb984ab9c
+    environment:
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-5m}
+      OLLAMA_NUM_PARALLEL: "1"
+      OLLAMA_MAX_LOADED_MODELS: "2"
+      OLLAMA_NOHISTORY: "1"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      # Inventaire local (/api/tags) : non inférentiel, ne charge aucun modèle.
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 5
+    # réseau `inference` dédié — seule la Gateway atteint Ollama ; le backend et le
+    # worker ne peuvent plus contourner le registre de modèles de la Gateway.
+    networks: [inference]
+    mem_limit: ${COMPACT_MEM_OLLAMA:-5g}
+    restart: unless-stopped
+
+  reranker:
+    # TEI CPU 1.8 — digest relevé lors de la qualification (source unique : config/gateway.env, variable
+    # AI_GATEWAY_RERANK_BACKEND_IMAGE_DIGEST, et ce fichier via .env).
+    image: ghcr.io/huggingface/text-embeddings-inference@${AI_GATEWAY_RERANK_BACKEND_IMAGE_DIGEST:?digest TEI requis (.env)}
+    # Espace réseau de la Gateway : joignable par elle seule sur 127.0.0.1:8300 (règle
+    # « backend reranker en boucle locale » du contrat Gateway).
+    network_mode: "service:ai-gateway"
+    command:
+      - --model-id
+      - BAAI/bge-reranker-v2-m3
+      - --revision
+      - 953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e
+      - --port
+      - "8300"
+      - --max-client-batch-size
+      - "64"
+      # CPU : 4096 tokens par lot + auto-truncate (mesuré : 8192/16384 => OOM à 7 Go).
+      # La troncature est INATTEIGNABLE par construction : la Gateway refuse déjà toute
+      # requête > 2 000 car. et tout document > 4 000 car. (reject) — vérifié lors de la qualification.
+      - --max-batch-tokens
+      - "4096"
+      - --max-batch-requests
+      - "8"
+      - --auto-truncate
+    environment:
+      # Exécution nominale HORS LIGNE : les poids sont dans le volume ; aucun appel au Hub.
+      HF_HUB_OFFLINE: ${TEI_HF_HUB_OFFLINE:-1}
+    volumes:
+      - tei_data:/data
+    depends_on:
+      ai-gateway: { condition: service_started }
+    mem_limit: ${COMPACT_MEM_RERANKER:-6g}
+    restart: unless-stopped
+
+networks:
+  edge:
+    driver: bridge
+  app:
+    driver: bridge
+    internal: true
+  data:
+    driver: bridge
+    internal: true
+  ai:
+    driver: bridge
+    internal: true
+  # Ollama n'est joignable que depuis la Gateway (et le reranker, qui partage son espace réseau).
+  inference:
+    driver: bridge
+    internal: true
+
+volumes:
+  db_data:
+  redis_data:
+  media:
+  ollama_data:
+  tei_data:

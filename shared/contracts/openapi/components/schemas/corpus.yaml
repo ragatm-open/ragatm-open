@@ -1,0 +1,72 @@
+BusinessDomain:
+  type: object
+  properties:
+    id: { type: string, format: uuid }
+    slug: { type: string }
+    name: { type: string }
+    description: { type: string }
+    is_active: { type: boolean }
+    corpora_count: { type: integer }
+    created_at: { type: [string, "null"] }
+    updated_at: { type: [string, "null"] }
+
+DomainCorpus:
+  type: object
+  properties:
+    id: { type: string, format: uuid }
+    domain_id: { type: string, format: uuid }
+    domain_name: { type: [string, "null"] }
+    slug: { type: string }
+    name: { type: string }
+    description: { type: string }
+    is_active: { type: boolean }
+    embedding_provider: { type: string }
+    embedding_model: { type: string }
+    documents_count: { type: integer }
+    created_at: { type: [string, "null"] }
+    updated_at: { type: [string, "null"] }
+
+CorpusDocument:
+  type: object
+  description: Document de corpus métier (jamais de chemin disque exposé).
+  properties:
+    id: { type: string, format: uuid }
+    corpus_id: { type: string, format: uuid }
+    title: { type: string }
+    original_filename: { type: string }
+    mime_type: { type: string }
+    size_bytes: { type: integer }
+    status: { type: string, enum: [PENDING, INGESTING, READY, FAILED] }
+    error_message: { type: string }
+    source_url: { type: string }
+    source_reference: { type: string }
+    version_label: { type: string }
+    chunks_count: { type: integer }
+    created_at: { type: [string, "null"] }
+    updated_at: { type: [string, "null"] }
+
+WorkspaceCorpusAccess:
+  type: object
+  properties:
+    id: { type: string, format: uuid }
+    workspace_id: { type: integer }
+    corpus_id: { type: string, format: uuid }
+    corpus_name: { type: [string, "null"] }
+    enabled: { type: boolean }
+    created_at: { type: [string, "null"] }
+
+WorkspaceActiveCorpus:
+  type: object
+  description: Vue lecture seule d'un corpus actif associé à un workspace.
+  properties:
+    corpus_id: { type: string, format: uuid }
+    corpus_name: { type: string }
+    corpus_slug: { type: string }
+    description: { type: string }
+    business_domain_id: { type: string, format: uuid }
+    business_domain_name: { type: [string, "null"] }
+    is_active: { type: boolean }
+    read_only: { type: boolean }
+    managed_by: { type: string }
+    documents_count: { type: integer }
+    updated_at: { type: [string, "null"] }

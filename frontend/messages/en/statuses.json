@@ -1,0 +1,18 @@
+{
+  "ready": "Ready",
+  "analyzing": "Analyzing",
+  "queued": "Queued",
+  "error": "Error",
+  "processing": "Processing",
+  "processingFailed": "Processing failed",
+  "uploading": "Uploading",
+  "ingesting": "Ingesting",
+  "reindexing": "Re-indexing",
+  "empty": "Empty document",
+  "unsupported": "Unsupported format",
+  "active": "Active",
+  "inactive": "Inactive",
+  "pending": "Pending",
+  "enabled": "Enabled",
+  "disabled": "Disabled"
+}

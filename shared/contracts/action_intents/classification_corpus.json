@@ -1,0 +1,1755 @@
+{
+  "version": 2,
+  "description": "Corpus d'évaluation du routage d'intention (lot 4 / validation staging). Scoring déterministe (aucun juge LLM). Champs: id, text, expected_intent, expected_outcome (action|fallback), allowed_alternatives, must_not_execute, triggers_classifier (le classifieur DOIT-il être appelé = formulation ambiguë listing/summarize non tranchée par les regex strictes et non supprimée). NB: étendu pour la validation staging (>=60 cas hint réels).",
+  "cases": [
+    {
+      "id": "ans-1",
+      "text": "Quelle est la durée du contrat ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete",
+        "document.upload"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-2",
+      "text": "Qui est le bénéficiaire du contrat Alpha ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-3",
+      "text": "Quelle est la date d'échéance du document ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-4",
+      "text": "Quels sont les risques principaux du dossier ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.reindex"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-5",
+      "text": "What is the termination clause?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-6",
+      "text": "Montant du retard de paiement ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-7",
+      "text": "Le contrat couvre-t-il les catastrophes naturelles ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-8",
+      "text": "Combien de pages fait le document principal ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-9",
+      "text": "Y a-t-il une clause de confidentialité dans le fichier ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "ans-10",
+      "text": "Who signed the agreement on behalf of Nordexia?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-1",
+      "text": "Liste les documents sur Nordexia.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-2",
+      "text": "Quels documents parlent de Valteria ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-3",
+      "text": "Tous les articles concernant le projet Alpha",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-4",
+      "text": "Qui mentionne le groupe Nordexia ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-5",
+      "text": "Liste des fichiers sur la fusion",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-6",
+      "text": "Quels fichiers mentionnent le litige ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "list-7",
+      "text": "Documents concernant la garantie décennale",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "hint-list-1",
+      "text": "Peux-tu lister les dossiers ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-list-2",
+      "text": "Énumère les pièces liées à Nordexia.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-list-3",
+      "text": "Recense les rapports sur la fusion.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-list-4",
+      "text": "Fais l'inventaire des pièces du dossier.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-list-5",
+      "text": "Peux-tu lister ce qui parle de Valteria ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "news-1",
+      "text": "Quoi de neuf sur Nordexia ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "search.news"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "news-2",
+      "text": "Actualités récentes sur Valteria",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "search.news"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "news-3",
+      "text": "Dernières nouvelles du projet Alpha",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "search.news"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "news-4",
+      "text": "Mise à jour sur le dossier fusion",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "search.news"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "news-5",
+      "text": "Any updates on the Alpha deal?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "search.news"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-1",
+      "text": "Résume le document Rapport.pdf.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-2",
+      "text": "Fais la synthèse de la source 2.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-3",
+      "text": "Résume cette page.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-4",
+      "text": "Peux-tu me faire un résumé de ce PDF ?",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-5",
+      "text": "Donne les points clés du document",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-6",
+      "text": "Synthèse du dossier Alpha s'il te plaît",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "sum-7",
+      "text": "Résume-moi le contrat en trois points",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "hint-sum-1",
+      "text": "Fais un topo du dossier Alpha.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-sum-2",
+      "text": "Donne un condensé de ce PDF.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-sum-3",
+      "text": "Abrège ce rapport pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-sum-4",
+      "text": "Fais-moi un TL;DR du document.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-sum-5",
+      "text": "Un condensé rapide du dossier fusion, stp.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "hint-sum-6",
+      "text": "Peux-tu faire une note de synthèse condensée ?",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-1",
+      "text": "Comment résumer un document ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.summarize",
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-2",
+      "text": "Je ne veux pas la liste des documents.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "search.list_documents"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-3",
+      "text": "Ne résume pas ce fichier.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.summarize"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-4",
+      "text": "Le texte dit « résume la source 2 ».",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.summarize"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-5",
+      "text": "Explique comment lister les documents.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "search.list_documents"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-6",
+      "text": "Supprime complètement ce document.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete",
+        "document.reindex",
+        "document.upload"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-7",
+      "text": "Comment supprimer un document ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-8",
+      "text": "N'énumère surtout pas les fichiers.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "search.list_documents"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-9",
+      "text": "Que signifie « faire un condensé » ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.summarize"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "neg-10",
+      "text": "Réindexe puis supprime le document.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete",
+        "document.reindex"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "amb-1",
+      "text": "Résume-le.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "amb-2",
+      "text": "Résume et compare les documents.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "amb-3",
+      "text": "Fais le point sur le dossier.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [
+        "document.summarize"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "amb-4",
+      "text": "Occupe-toi du contrat Alpha.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "fallback",
+      "allowed_alternatives": [],
+      "must_not_execute": [
+        "document.delete",
+        "document.reindex"
+      ],
+      "triggers_classifier": false
+    },
+    {
+      "id": "gl-1",
+      "text": "Énumère les pièces liées à Nordexia.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-2",
+      "text": "Énumère les pièces liées à Valteria.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-3",
+      "text": "Énumère les pièces liées à le projet Alpha.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-4",
+      "text": "Énumère les pièces liées à le dossier Beta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-5",
+      "text": "Énumère les pièces liées à la fusion.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-6",
+      "text": "Énumère les pièces liées à le litige Gamma.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-7",
+      "text": "Énumère les pièces liées à le contrat Delta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-8",
+      "text": "Énumère les pièces liées à le sinistre 2023.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-9",
+      "text": "Recense les rapports concernant Nordexia.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-10",
+      "text": "Recense les rapports concernant Valteria.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-11",
+      "text": "Recense les rapports concernant le projet Alpha.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-12",
+      "text": "Recense les rapports concernant le dossier Beta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-13",
+      "text": "Recense les rapports concernant la fusion.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-14",
+      "text": "Recense les rapports concernant le litige Gamma.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-15",
+      "text": "Recense les rapports concernant le contrat Delta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-16",
+      "text": "Recense les rapports concernant le sinistre 2023.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-17",
+      "text": "Peux-tu lister les dossiers sur Nordexia ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-18",
+      "text": "Peux-tu lister les dossiers sur Valteria ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-19",
+      "text": "Peux-tu lister les dossiers sur le projet Alpha ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-20",
+      "text": "Peux-tu lister les dossiers sur le dossier Beta ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-21",
+      "text": "Peux-tu lister les dossiers sur la fusion ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-22",
+      "text": "Peux-tu lister les dossiers sur le litige Gamma ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-23",
+      "text": "Peux-tu lister les dossiers sur le contrat Delta ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-24",
+      "text": "Peux-tu lister les dossiers sur le sinistre 2023 ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-25",
+      "text": "Fais l'inventaire des notes sur Nordexia.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-26",
+      "text": "Fais l'inventaire des notes sur Valteria.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-27",
+      "text": "Fais l'inventaire des notes sur le projet Alpha.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-28",
+      "text": "Fais l'inventaire des notes sur le dossier Beta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-29",
+      "text": "Fais l'inventaire des notes sur la fusion.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl-30",
+      "text": "Fais l'inventaire des notes sur le litige Gamma.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-1",
+      "text": "Fais un topo de Nordexia.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-2",
+      "text": "Fais un topo de Valteria.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-3",
+      "text": "Fais un topo de le projet Alpha.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-4",
+      "text": "Fais un topo de le dossier Beta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-5",
+      "text": "Fais un topo de la fusion.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-6",
+      "text": "Fais un topo de le litige Gamma.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-7",
+      "text": "Fais un topo de le contrat Delta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-8",
+      "text": "Fais un topo de le sinistre 2023.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-9",
+      "text": "Donne un condensé de Nordexia.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-10",
+      "text": "Donne un condensé de Valteria.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-11",
+      "text": "Donne un condensé de le projet Alpha.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-12",
+      "text": "Donne un condensé de le dossier Beta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-13",
+      "text": "Donne un condensé de la fusion.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-14",
+      "text": "Donne un condensé de le litige Gamma.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-15",
+      "text": "Donne un condensé de le contrat Delta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-16",
+      "text": "Donne un condensé de le sinistre 2023.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-17",
+      "text": "Abrège Nordexia pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-18",
+      "text": "Abrège Valteria pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-19",
+      "text": "Abrège le projet Alpha pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-20",
+      "text": "Abrège le dossier Beta pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-21",
+      "text": "Abrège la fusion pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-22",
+      "text": "Abrège le litige Gamma pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-23",
+      "text": "Abrège le contrat Delta pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-24",
+      "text": "Abrège le sinistre 2023 pour moi.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-25",
+      "text": "Fais-moi un TL;DR de Nordexia.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-26",
+      "text": "Fais-moi un TL;DR de Valteria.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-27",
+      "text": "Fais-moi un TL;DR de le projet Alpha.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-28",
+      "text": "Fais-moi un TL;DR de le dossier Beta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-29",
+      "text": "Fais-moi un TL;DR de la fusion.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs-30",
+      "text": "Fais-moi un TL;DR de le litige Gamma.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-1",
+      "text": "Fais un topo.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-2",
+      "text": "Énumère, stp.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-3",
+      "text": "Un condensé ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-4",
+      "text": "Lister ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-5",
+      "text": "Abrège ça.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-6",
+      "text": "Fais l'inventaire.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-7",
+      "text": "Recense.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-8",
+      "text": "TL;DR ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-9",
+      "text": "Peux-tu énumérer ?",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "ga-10",
+      "text": "Donne un condensé de tout ça.",
+      "expected_intent": "search.answer",
+      "expected_outcome": "clarification",
+      "allowed_alternatives": [
+        "document.summarize",
+        "search.list_documents"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-1",
+      "text": "Énumère les pièces du sinistre 2019.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-2",
+      "text": "Recense les notes de la réunion Q3.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-3",
+      "text": "Peux-tu lister les dossiers clients actifs ?",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-4",
+      "text": "Fais l'inventaire des pièces contractuelles.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-5",
+      "text": "Énumère les rapports d'audit internes.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-6",
+      "text": "Lister les éléments de preuve, stp.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-7",
+      "text": "Recense les pièces relatives au litige Zeta.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gl2-8",
+      "text": "Énumère les dossiers ouverts en 2024.",
+      "expected_intent": "search.list_documents",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-1",
+      "text": "Fais un topo du sinistre 2019.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-2",
+      "text": "Donne un condensé de la réunion Q3.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-3",
+      "text": "Abrège le rapport d'audit interne.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-4",
+      "text": "Un TL;DR du dossier client Omega.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-5",
+      "text": "Fais un topo du litige Zeta.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-6",
+      "text": "Donne un condensé des conclusions.",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    },
+    {
+      "id": "gs2-8",
+      "text": "TL;DR du contrat de maintenance ?",
+      "expected_intent": "document.summarize",
+      "expected_outcome": "action",
+      "allowed_alternatives": [
+        "search.answer"
+      ],
+      "must_not_execute": [
+        "document.delete"
+      ],
+      "triggers_classifier": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+ "detail": {
+  "status": "error",
+  "provider": "ai_gateway",
+  "message": "concurrence vision maximale atteinte",
+  "code": "vision_overloaded",
+  "retryable": true,
+  "request_id": "rgv2-fixture",
+  "retry_after_seconds": 10
+ }
+}

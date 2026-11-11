@@ -1,0 +1,14 @@
+# Bundler-only file.
+# Redocly will merge all these schema maps under components.schemas
+allOf:
+  - $ref: "./common.yaml"
+  - $ref: "./chat.yaml"
+  - $ref: "./documents.yaml"
+  - $ref: "./corpus.yaml"
+  - $ref: "./analyses.yaml"
+  # Add later:
+  # - $ref: "./auth.yaml"
+  # - $ref: "./workspaces.yaml"
+  # - $ref: "./ragspaces.yaml"
+  # - $ref: "./prompts.yaml"
+  # - $ref: "./audit.yaml"

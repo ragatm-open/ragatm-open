@@ -1,0 +1,40 @@
+# Build context = frontend/ (cf. deploy/docker/*/docker-compose.yml).
+# Le Dockerfile reinstalle les deps via `npm ci` (package.json + package-lock.json)
+# et rebuild `.next`. On exclut donc node_modules/.next du contexte.
+# NE PAS exclure: package.json, package-lock.json, src/, public/, next.config.mjs,
+# next-env.d.ts, tsconfig.json, scripts/.
+
+# --- Dependances / build Next (regeneres dans l'image) ---
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+
+# --- Secrets / env (jamais dans l'image) ---
+.env
+.env.*
+
+# --- Logs / debug ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Caches / coverage ---
+coverage/
+.cache/
+
+# --- VCS / IDE / OS ---
+.git/
+.gitignore
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# --- Docker (evite la recursion du contexte) ---
+Dockerfile
+.dockerignore

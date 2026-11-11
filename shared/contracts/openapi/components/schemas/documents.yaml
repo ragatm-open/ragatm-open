@@ -1,0 +1,86 @@
+DocumentListItem:
+  type: object
+  required:
+    - id
+    - rag_space_id
+    - filename
+    - content_type
+    - size_bytes
+    - sha256
+    - status
+    - error_message
+    - created_at
+  properties:
+    id:
+      type: string
+      format: uuid
+    rag_space_id:
+      type: string
+      format: uuid
+    filename:
+      type: string
+    content_type:
+      type: string
+    size_bytes:
+      type: integer
+    sha256:
+      type: string
+    status:
+      type: string
+    error_message:
+      type: string
+    created_at:
+      type: string
+      format: date-time
+      nullable: true
+
+DocumentListResponse:
+  type: object
+  required: [items, total, limit, offset]
+  properties:
+    items:
+      type: array
+      items:
+        $ref: "./documents.yaml#/DocumentListItem"
+    total:
+      type: integer
+    limit:
+      type: integer
+    offset:
+      type: integer
+
+DocumentIngestRequest:
+  type: object
+  required: [rag_space_id, text]
+  properties:
+    rag_space_id:
+      type: string
+      format: uuid
+    filename:
+      type: string
+      nullable: true
+    text:
+      type: string
+
+DocumentUploadMultipart:
+  type: object
+  required: [rag_space_id, file]
+  properties:
+    rag_space_id:
+      type: string
+      format: uuid
+    file:
+      type: string
+      format: binary
+
+DocumentIngestResult:
+  type: object
+  required: [document_id, status, chunks_created]
+  properties:
+    document_id:
+      type: string
+      format: uuid
+    status:
+      type: string
+    chunks_created:
+      type: integer

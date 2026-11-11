@@ -1,0 +1,18 @@
+{
+  "ready": "Prêt",
+  "analyzing": "En cours d'analyse",
+  "queued": "En attente",
+  "error": "Erreur",
+  "processing": "Traitement en cours",
+  "processingFailed": "Échec du traitement",
+  "uploading": "Envoi en cours",
+  "ingesting": "Ingestion en cours",
+  "reindexing": "Réindexation en cours",
+  "empty": "Document vide",
+  "unsupported": "Format non pris en charge",
+  "active": "Actif",
+  "inactive": "Inactif",
+  "pending": "En attente",
+  "enabled": "Activé",
+  "disabled": "Désactivé"
+}

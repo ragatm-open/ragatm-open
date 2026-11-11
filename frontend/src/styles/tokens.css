@@ -1,0 +1,96 @@
+/* RAGatm — design tokens
+ * Source unique de vérité pour les couleurs, rayons, ombres, typo.
+ * Importé une seule fois dans src/app/layout.tsx.
+ * Aucune couleur en dur ne doit exister hors de ce fichier.
+ */
+
+:root {
+  /* Surfaces — neutres chauds (jamais de gris bleuté froid) */
+  --bg:            #FBF9F6;
+  --surface:       #FFFFFF;
+  --sidebar:       #F6F3EF;
+  --ink:           #211C17;
+  --ink-2:         #6A6058;
+  --ink-3:         #9A9088;
+  --border:        #ECE6DF;
+  --border-strong: #DDD5CB;
+  --hover:         #F1ECE6;
+  --chip:          #F1ECE6;
+  --dot:           #EBD9CC;
+
+  /* Accent — terracotta (actions principales). Surchargé par applyTheme(). */
+  --accent:        #C2562F;
+  --accent-soft:   #F8E7DD;
+  --accent-ink:    #9A3D17;
+  --accent-glow:   rgba(194, 86, 47, .16);
+
+  /* Statuts */
+  --danger:        #C2402F;
+  --danger-soft:   #FBE7E3;
+  --danger-border: #F0C4BC;
+  --success:       #1F8A5B;
+  --success-soft:  #E7F4EC;
+  --warning:       #B5710E;
+  --warning-soft:  #FBF0DB;
+
+  /* Ombres */
+  --shadow-card:        0 1px 2px rgba(60, 40, 25, .04);
+  --shadow-card-hover:  0 6px 22px rgba(60, 40, 25, .09);
+  --shadow-modal:       0 24px 60px rgba(40, 28, 18, .28);
+  --shadow-pop:         0 14px 36px rgba(60, 40, 25, .16);
+
+  /* Typo */
+  --app-font: var(--font-hanken), "Hanken Grotesk", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--app-font);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--accent-soft); }
+
+/* Scrollbars chaudes */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: #C9C0B5; }
+::-webkit-scrollbar-track { background: transparent; }
+
+input::placeholder, textarea::placeholder { color: var(--ink-3); }
+
+/* Anneau de focus accessible et homogène pour le clavier */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Points de réflexion de l'assistant */
+.rg-dots { display: inline-flex; gap: 4px; }
+.rg-dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  animation: rg-bounce 1.1s infinite ease-in-out;
+}
+.rg-dots span:nth-child(2) { animation-delay: .15s; }
+.rg-dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes rg-bounce {
+  0%, 80%, 100% { transform: scale(.5); opacity: .4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+@keyframes rg-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rg-spin {
+  to { transform: rotate(360deg); }
+}

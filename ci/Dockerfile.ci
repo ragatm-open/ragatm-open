@@ -1,0 +1,113 @@
+# ci/Dockerfile.ci — image d'exécution de la CI RagATM.
+#
+# Fournit l'ENVIRONNEMENT dont les points d'entrée `ci/*.sh` ont besoin :
+# Python 3.12, Node.js 20, les outils système exercés par la suite, et les
+# dépendances Python installées depuis `ci/requirements-ci.lock` avec
+# vérification obligatoire des empreintes.
+#
+# Cette image N'EST PAS PUBLIÉE par le lot qui l'introduit. Elle est construite
+# de façon ÉPHÉMÈRE dans le run qui la valide, utilisée dans ce même run, puis
+# jetée avec l'environnement du runner. Aucun registre, aucun `push`, aucun
+# digest promu : la publication et la promotion viendront d'un lot ultérieur.
+#
+# ÉPINGLAGE — rien n'est flottant :
+#   - `FROM` par digest sha256 ;
+#   - `uv` par version ET digest ;
+#   - Node.js par version ET SHA-256 de l'archive officielle ;
+#   - dépendances Python par le lock, avec `--require-hashes`.
+#
+# ARCHITECTURE — seul `linux/amd64` est qualifié. Le SHA-256 de Node ci-dessous
+# vaut pour `linux-x64` ; une autre architecture exigerait d'autres empreintes.
+# Ce fichier ne prétend donc PAS être multiarchitecture.
+#
+# Construction et usage : voir ci/README.md.
+
+# ---------------------------------------------------------------------------
+# Étage 1 — TOOLCHAIN : langages et outils, sans aucune dépendance du projet.
+#
+# Isolé pour deux raisons : il change rarement (le cache de couches le
+# réutilise), et il sert à RÉGÉNÉRER le lock (`ci/lock-python.sh`) — le lock est
+# donc produit par le même `uv`, à la même version, que celui qui l'installe.
+# ---------------------------------------------------------------------------
+FROM python:3.12-slim@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea AS toolchain
+
+# uv — version explicite ET digest. Le binaire est copié depuis l'image
+# officielle plutôt que téléchargé par un script distant.
+COPY --from=ghcr.io/astral-sh/uv:0.12.9@sha256:8b940d3a9d65bed080436972241af2e21c84b5e8c9193f7014ed71479ee795ff /uv /uvx /usr/local/bin/
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    NPM_CONFIG_UPDATE_NOTIFIER=false \
+    NEXT_TELEMETRY_DISABLED=1
+
+# Outils système STRICTEMENT nécessaires, déterminés depuis le code :
+#   make       `ci/test-backend-standard.sh` délègue à `make test-backend-all`
+#   jq, zstd   exigés par tests/tests_root/deploy/test_backup_scripts.py
+#              (REQUIRED_TOOLS) ; sans eux ces tests seraient SAUTÉS, donc la
+#              couverture diminuerait silencieusement
+#   git        lu par l'outillage de benchmark (rev-parse) et par le checkout
+#   curl       télécharge Node ci-dessous
+#   xz-utils   décompresse l'archive Node
+# `bash`, `tar`, `sha256sum` et `flock` sont DÉJÀ dans l'image de base : ne pas
+# les réinstaller. Aucun `apt upgrade` global ; listes nettoyées dans la couche.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      curl \
+      git \
+      jq \
+      make \
+      xz-utils \
+      zstd \
+ && rm -rf /var/lib/apt/lists/*
+
+# Node.js — archive officielle, version épinglée, empreinte vérifiée.
+# Pas de `curl | sh`, pas de dépôt tiers : l'archive est téléchargée, son
+# SHA-256 est comparé, et l'extraction n'a lieu qu'ensuite.
+ARG NODE_VERSION=20.20.2
+ARG NODE_SHA256=df770b2a6f130ed8627c9782c988fda9669fa23898329a61a871e32f965e007d
+RUN set -eux; \
+    curl -fsSL --retry 3 --retry-delay 2 \
+      -o /tmp/node.tar.xz \
+      "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz"; \
+    printf '%s  /tmp/node.tar.xz\n' "${NODE_SHA256}" | sha256sum -c -; \
+    tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1 --no-same-owner \
+        --exclude CHANGELOG.md --exclude LICENSE --exclude README.md; \
+    rm -f /tmp/node.tar.xz; \
+    node --version; \
+    npm --version
+
+# ---------------------------------------------------------------------------
+# Étage 2 — RUNTIME : dépendances Python du projet, empreintes obligatoires.
+# ---------------------------------------------------------------------------
+FROM toolchain AS runtime
+
+# Seul le lock entre ici, et le CONTEXTE lui-même se limite à `ci/` (cf.
+# ci/.dockerignore) : le reste du dépôt n'est pas même transmis au démon.
+# Le code source arrive à l'exécution, par montage de l'espace de travail.
+#
+# Le chemin est relatif au contexte `ci/`, d'où `requirements-ci.lock` et non
+# `ci/requirements-ci.lock`. Construire depuis la racine du dépôt échouerait —
+# c'est voulu : la commande correcte est
+#     docker build --file ci/Dockerfile.ci ci/
+COPY requirements-ci.lock /tmp/requirements-ci.lock
+
+# `--require-hashes` : toute distribution dont l'empreinte manque ou diffère
+# fait ÉCHOUER la construction. C'est la garantie que l'image ne contient que
+# ce que le lock décrit.
+# `--system` : pas de venv dans l'image ; l'appelant crée au besoin un venv
+# `--system-site-packages` à la racine du dépôt (cf. ci/README.md), ce qui
+# satisfait le contrat du Makefile sans réinstaller quoi que ce soit.
+RUN uv pip install --system --no-cache --require-hashes \
+      --requirement /tmp/requirements-ci.lock \
+ && rm -f /tmp/requirements-ci.lock
+
+# Exécution non privilégiée. UID 1001 = celui du compte `runner` des runners
+# GitHub hébergés : l'espace de travail monté reste donc inscriptible sans
+# élévation. Un autre hôte peut imposer `--user` à l'exécution.
+RUN useradd --create-home --uid 1001 --shell /bin/bash ci
+USER ci
+WORKDIR /workspace
+
+CMD ["bash"]

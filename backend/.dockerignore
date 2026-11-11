@@ -1,0 +1,57 @@
+# Build context = backend/ (cf. deploy/docker/*/docker-compose.yml).
+# But: ne copier dans l'image QUE le code utile au build/run.
+# NE PAS exclure: pyproject.toml, entrypoint.sh, manage.py, apps/, api/, config/.
+
+# --- Caches Python / build ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+
+# --- Caches outils / tests ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+
+# --- Environnements virtuels ---
+.venv/
+venv/
+ENV/
+env/
+
+# --- Secrets / env (jamais dans l'image) ---
+.env
+.env.*
+
+# --- Outillage de test et de développement (jamais dans l'image) ---
+testing/
+conftest.py
+lock-runtime.sh
+
+# --- Media / uploads runtime (montes via volume) ---
+media/
+
+# --- Logs ---
+*.log
+
+# --- VCS / IDE / OS ---
+.git/
+.gitignore
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# --- Docker (evite la recursion du contexte) ---
+Dockerfile
+.dockerignore

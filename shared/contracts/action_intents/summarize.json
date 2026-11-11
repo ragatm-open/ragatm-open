@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "description": "Corpus commun front/back pour l'intention document.summarize (lot 3b). frontend_is_summary = parseSummaryIntent(text).isSummary (pré-détection UX, sans garde-fous). backend_action = ActionRouter.route(text).action (autorité, avec garde-fous explicatif/négation/citation). Les divergences sont intentionnelles et documentées (le backend est plus robuste).",
+  "cases": [
+    {
+      "text": "Résume le document Rapport.pdf.",
+      "category": "positive",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "cible = nom de fichier ; résoluble côté backend sans frontend"
+    },
+    {
+      "text": "Fais la synthèse de la source 2.",
+      "category": "positive",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "cible = numéro de source (résolue via l'historique de conversation)"
+    },
+    {
+      "text": "Résume cette page.",
+      "category": "positive",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "déictique"
+    },
+    {
+      "text": "Peux-tu me faire un résumé de ce PDF ?",
+      "category": "positive",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "déictique, formulation polie"
+    },
+    {
+      "text": "Comment résumer un document ?",
+      "category": "negative",
+      "frontend_is_summary": true,
+      "backend_action": "search.answer",
+      "note": "DIVERGENCE documentée : garde explicative backend -> search.answer ; le frontend (sans garde) sur-déclenche"
+    },
+    {
+      "text": "Ne résume pas ce document.",
+      "category": "negative",
+      "frontend_is_summary": true,
+      "backend_action": "search.answer",
+      "note": "DIVERGENCE documentée : garde de négation backend"
+    },
+    {
+      "text": "Le texte contient « résume la source 2 ».",
+      "category": "negative",
+      "frontend_is_summary": true,
+      "backend_action": "search.answer",
+      "note": "DIVERGENCE documentée : garde de citation backend"
+    },
+    {
+      "text": "Explique la différence entre résumé et synthèse.",
+      "category": "negative",
+      "frontend_is_summary": true,
+      "backend_action": "search.answer",
+      "note": "DIVERGENCE documentée : garde explicative backend"
+    },
+    {
+      "text": "Résume-le.",
+      "category": "ambiguous",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "routé summarize ; sans source récente -> clarification à l'exécution"
+    },
+    {
+      "text": "Résume le rapport.",
+      "category": "ambiguous",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "déictique ; résolu si un seul document cité, sinon clarification"
+    },
+    {
+      "text": "Résume les deux documents.",
+      "category": "ambiguous",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "plusieurs documents -> clarification à l'exécution"
+    },
+    {
+      "text": "Résume et compare les documents.",
+      "category": "ambiguous",
+      "frontend_is_summary": true,
+      "backend_action": "document.summarize",
+      "note": "multi-actions ; summarize prioritaire, compare ignoré"
+    }
+  ]
+}

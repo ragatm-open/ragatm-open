@@ -1,0 +1,264 @@
+/* Rendu Markdown des réponses assistant.
+ * Toutes les couleurs proviennent de src/styles/tokens.css (aucune valeur en dur).
+ */
+
+.root {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ---------------- Titres ----------------
+ * Échelle propre à la bulle : les tailles par défaut du navigateur (h1 = 2em)
+ * sont conçues pour une page, pas pour un message. `:first-child` supprime la
+ * marge haute du titre d'ouverture, qui décollerait le texte du haut de la bulle.
+ */
+
+.h1,
+.h2,
+.h3,
+.h4 {
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere; /* un titre long ne doit jamais élargir la bulle */
+}
+
+.h1 {
+  font-size: 19px;
+  margin: 0 0 14px;
+}
+
+.h2 {
+  font-size: 16px;
+  margin: 22px 0 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.h3 {
+  font-size: 14px;
+  margin: 14px 0 6px;
+  color: var(--ink-2);
+}
+
+.h4 {
+  font-size: 14px;
+  margin: 12px 0 6px;
+  color: var(--ink-2);
+}
+
+.h1:first-child,
+.h2:first-child,
+.h3:first-child,
+.h4:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* ---------------- Blocs de texte ---------------- */
+
+.p {
+  margin: 0 0 12px;
+}
+.p:last-child {
+  margin-bottom: 0;
+}
+
+.strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.em {
+  font-style: italic;
+}
+
+.ul,
+.ol {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+.ul:last-child,
+.ol:last-child {
+  margin-bottom: 0;
+}
+
+.li {
+  margin: 4px 0;
+  line-height: 1.6;
+}
+
+.blockquote {
+  margin: 12px 0;
+  padding: 6px 0 6px 12px;
+  border-left: 3px solid var(--border-strong);
+  color: var(--ink-2);
+}
+
+.hr {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+/* ---------------- Code ---------------- */
+
+.codeInline {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--chip);
+  color: var(--ink);
+}
+
+.pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.pre .codeInline,
+.codeBlock {
+  display: block;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+  white-space: pre;
+}
+
+/* ---------------- Liens ---------------- */
+
+.a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.a:hover {
+  color: var(--accent);
+}
+.a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Lien neutralisé (protocole non sûr) : rendu en texte, non cliquable. */
+.unsafeLink {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+/* ---------------- Tableaux ---------------- */
+
+/* Carte extérieure : reprend le style des cartes Sources. */
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  margin-block: 16px;
+}
+
+/* Zone scrollable : confine le débordement au tableau, jamais à la page. */
+.tableScroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.tableScroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 12px;
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.thead {
+  background: var(--bg);
+}
+
+.th {
+  background: var(--bg);
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-strong);
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.td {
+  padding: 12px 14px;
+  color: var(--ink);
+  line-height: 1.55;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Zebra discret + survol léger. La couleur ne porte aucune sémantique. */
+.tbody .tr:nth-child(even) .td {
+  background: var(--bg);
+}
+.tbody .tr {
+  transition: background 120ms ease;
+}
+.tbody .tr:hover .td {
+  background: var(--hover);
+}
+
+/* Pas de bordure basse sur la dernière ligne : la carte ferme déjà le tableau. */
+.tbody .tr:last-child .td {
+  border-bottom: none;
+}
+
+/* Colonnes fréquentes — améliorations visuelles, jamais structurelles.
+ * Le tableau reste correct si aucune de ces colonnes n'est reconnue.
+ */
+.td[data-col="date"],
+.th[data-col="date"] {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.td[data-col="page"],
+.th[data-col="page"] {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.td[data-col="source"],
+.td[data-col="reference"] {
+  color: var(--ink-2);
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .table {
+    min-width: 560px;
+  }
+}

@@ -1,0 +1,91 @@
+/* Panneau Sources : colonne permanente (≥ 1200 px) ou tiroir superposé (≤ 1199 px).
+ * Seuils recopiés de components/shell/breakpoints.ts. */
+
+.panel {
+  width: 340px;
+  flex: none;
+  border-left: 1px solid var(--border);
+  background: var(--sidebar);
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px 20px;
+}
+
+.closeButton {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  /* Fermé : aucune largeur réservée, ni visible ni tabulable. */
+  .panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: min(380px, 100%);
+    height: auto;
+    padding-top: max(22px, env(safe-area-inset-top));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+    box-shadow: var(--shadow-modal);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.2s ease, visibility 0s linear 0.2s;
+  }
+  .panel[data-open="true"] {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.2s ease;
+  }
+  /* En-tête collant : le bouton de fermeture reste visible quand le tiroir a
+   * défilé jusqu'à la source citée. Il recouvre le padding haut du panneau. */
+  .header {
+    position: sticky;
+    top: calc(-1 * max(22px, env(safe-area-inset-top)));
+    z-index: 1;
+    margin: calc(-1 * max(22px, env(safe-area-inset-top))) -20px 12px;
+    padding: max(22px, env(safe-area-inset-top)) 20px 12px;
+    background: var(--sidebar);
+    border-bottom: 1px solid var(--border);
+  }
+  .closeButton {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin: -12px -10px -12px auto;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile : un seul panneau métier à la fois — le tiroir couvre l'écran. */
+  .panel {
+    width: 100%;
+    border-left: none;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  .header {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .action {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-open="true"] {
+    transition: none;
+  }
+}

@@ -1,0 +1,121 @@
+# Analyses globales de corpus (L2 + L4).
+
+/v1/rag-spaces/{rag_space_id}/analyses/:
+  post:
+    tags: [Analyses]
+    summary: Lancer une analyse globale sur un RagSpace
+    description: >
+      Crée un job, ou en réutilise un : un `request_id` rejoué, une analyse
+      identique déjà en cours, ou un résultat déjà calculé sur un corpus inchangé
+      ne créent jamais un second job. Le traitement est asynchrone, sur une queue
+      dédiée. La permission de lecture sur le RagSpace est requise.
+    operationId: createCorpusAnalysis
+    parameters:
+      - name: rag_space_id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema: { $ref: "../components/schemas/analyses.yaml#/AnalysisCreateRequest" }
+    responses:
+      "202":
+        description: Job créé et mis en file.
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/analyses.yaml#/CorpusAnalysis" }
+      "200":
+        description: >
+          Rien à faire : résultat déjà disponible (`reused: true`), ou analyse
+          identique déjà en cours (`joined_active: true`).
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/analyses.yaml#/CorpusAnalysis" }
+      "400":
+        description: >
+          Type inconnu, paramètre non autorisé, volume hors limites, ou recherche
+          globale sans sujet identifiable (`global_search_topic_required`).
+      "403":
+        description: Accès refusé au RagSpace.
+      "404":
+        description: RagSpace inexistant ou inaccessible (indistinguables).
+      "409":
+        description: >
+          Trop d'analyses coûteuses déjà en cours pour ce workspace
+          (`analytics_concurrency_limit`). Aucun job impossible à honorer n'est créé.
+
+/v1/analyses/{analysis_id}/:
+  get:
+    tags: [Analyses]
+    summary: Consulter une analyse
+    description: >
+      L'accès au RagSpace est revérifié À CHAQUE lecture : la possession de l'UUID
+      du job ne suffit jamais. Perdre l'accès à l'espace, c'est perdre l'accès au
+      résultat déjà produit.
+    operationId: getCorpusAnalysis
+    parameters:
+      - name: analysis_id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "200":
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/analyses.yaml#/CorpusAnalysis" }
+      "404":
+        description: Job inexistant OU inaccessible — strictement indistinguables.
+
+/v1/analyses/{analysis_id}/cancel/:
+  post:
+    tags: [Analyses]
+    summary: Annuler une analyse
+    description: >
+      Annulation COOPÉRATIVE, fondée sur le statut persistant. Un job `pending`
+      passe immédiatement à `cancelled` ; un job `running` s'arrête au prochain
+      point de contrôle. Idempotent : un job terminal n'est jamais modifié.
+      Réservé au demandeur, aux owner/admin du workspace, et au superuser.
+    operationId: cancelCorpusAnalysis
+    parameters:
+      - name: analysis_id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "202":
+        content:
+          application/json:
+            schema: { $ref: "../components/schemas/analyses.yaml#/CorpusAnalysis" }
+      "403":
+        description: Non autorisé à annuler cette analyse.
+      "404":
+        description: Job inexistant ou inaccessible.
+
+/v1/chat/threads/{thread_id}/analyses/:
+  get:
+    tags: [Analyses, Chat]
+    summary: Analyses lancées depuis un fil de conversation
+    description: >
+      Permet au frontend de reprendre le suivi d'une analyse APRÈS un rechargement.
+      Le lien fil → job est durable et persisté côté serveur : il n'est jamais
+      reconstruit en parsant du Markdown ni en prenant « le dernier job ».
+    operationId: getThreadAnalyses
+    parameters:
+      - name: thread_id
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analyses:
+                  type: array
+                  items: { $ref: "../components/schemas/analyses.yaml#/CorpusAnalysis" }
+      "404":
+        description: Fil inexistant ou inaccessible.

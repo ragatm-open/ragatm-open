@@ -1,0 +1,7 @@
+apis:
+  ragatm@v1:
+    root: shared/contracts/openapi/root.yaml
+
+rules:
+  no-unused-components: off
+  no-unresolved-refs: error

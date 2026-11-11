@@ -1,0 +1,77 @@
+# Configuration pytest UNIQUE des deux arbres de tests backend.
+#
+# Les deux arbres — tests/tests_root et backend/tests_legacy — vivent de part et
+# d'autre de backend/. Aucune config sous backend/ ne peut donc servir de rootdir à
+# l'arbre racine invoqué seul. Ce fichier, au repo root, est le seul ancêtre commun :
+# il fixe rootdir = repo root et une configuration identique pour toute invocation
+# (chaque arbre seul, ou les deux ensemble).
+#
+# Historique : cette config vivait en double — tests/tests_root/pytest.ini (racine) et
+# backend/pyproject.toml (legacy). Les deux ont divergé (marqueurs déclarés d'un seul
+# côté), si bien qu'une invocation conjointe perdait les marqueurs et produisait des
+# PytestUnknownMarkWarning. Un fichier unique supprime cette divergence par construction.
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.dev"
+# --- Découverte : périmètre FERMÉ (incident OOM du poste de développement) --------
+# `python -m pytest` lancé depuis la racine SANS chemin parcourait tout le dépôt,
+# y compris `backend/media` (données d'upload runtime : ~373 000 fichiers,
+# ~688 000 dossiers). Mesuré : 330 s de collecte et 1,76 Gio de RSS RETENUS par
+# processus — et chaque worker xdist refait la collecte. À `-n 8`, OOM global.
+#
+# `testpaths` : racine par défaut quand aucun chemin n'est donné depuis la racine.
+# Sans effet sur une invocation explicite (`pytest tests/tests_root/...`, ou
+# `cd backend && pytest ../tests/tests_root` comme le fait le Makefile).
+testpaths = ["tests/tests_root"]
+# `norecursedirs` : couvre les cas que `testpaths` ne couvre pas — chemin large
+# explicite (`pytest .`, `pytest backend`) ou lancement sans chemin depuis un
+# sous-dossier (`cd backend && pytest`). Poser cette clé REMPLACE la liste par
+# défaut de pytest : les neuf motifs par défaut sont donc recopiés à l'identique.
+# `backend/media` contient un séparateur : pytest le compare au chemin complet
+# (`*/backend/media`), il n'exclut donc aucun autre dossier nommé `media`.
+# Seule la DÉCOUVERTE est interdite : un test peut toujours LIRE ce dossier.
+# Verrou : tests/tests_root/unit/test_pytest_collection_safety.py.
+norecursedirs = [
+    "*.egg",
+    ".*",
+    "_darcs",
+    "build",
+    "CVS",
+    "dist",
+    "node_modules",
+    "venv",
+    "{arch}",
+    "backend/media",
+]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+# -ra : motifs de skip/xfail visibles.
+# --durations : les tests les plus lents sont TOUJOURS affichés, en local comme en
+#   CI. C'est le minimum pour qu'une dérive de durée se voie au lieu de s'accumuler :
+#   la voie standard a doublé (5 000 -> 9 325 tests) sans que rien ne le signale.
+#   --durations-min évite de noyer la liste sous les milliers de tests à ~1 ms.
+addopts = [
+    "--import-mode=prepend",
+    "-ra",
+    "--durations=25",
+    "--durations-min=0.05",
+]
+markers = [
+    "embeddings: tests nécessitant un vrai provider d'embeddings (opt-in, cf. RAG_BENCH_REAL_EMBEDDINGS)",
+    "integration: tests nécessitant l'AI Gateway réelle (opt-in, réseau requis)",
+    # --- Dépendance à un service RÉEL ---------------------------------------
+    # Marqueur de FRÉQUENCE : `external` sort le test de la voie standard, quelle
+    # que soit sa nature (`integration`, `embeddings`, corpus non versionné). Il
+    # se cumule donc avec les marqueurs ci-dessus, qui disent ce qui est exercé.
+    # Activation : RAG_RUN_EXTERNAL_TESTS=1 (cf. backend/testing/external.py).
+    "external: test dépendant d'un service ou d'une donnée hors dépôt (exclu de la suite standard)",
+    # --- Moteur tabulaire : trois cercles concentriques ---------------------
+    # L'exclusion doit reposer sur un MARQUEUR, pas sur un nom de fichier : un
+    # fichier renommé sortirait silencieusement de l'exclusion et rallongerait la
+    # suite standard sans que personne ne s'en aperçoive.
+    "slow: test lent, exclu de la suite standard (pytest -m 'not slow')",
+    "tabular_volume: campagne volumétrique du moteur tabulaire (opt-in explicite)",
+    "staging_qualification: qualification d'activation staging (endpoint réel)",
+    "tabular_concurrency: campagne de concurrence du moteur tabulaire (opt-in)",
+]

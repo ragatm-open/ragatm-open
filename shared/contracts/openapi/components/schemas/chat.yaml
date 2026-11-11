@@ -1,0 +1,278 @@
+SourceMeta:
+  type: object
+  # ADDITIF, délibérément : le backend projette `Chunk.meta` sur une allowlist qui
+  # varie selon le TYPE de document (un classeur porte une feuille et une plage, un
+  # plan PDF porte un type de page et un drapeau de vérification visuelle). Fermer
+  # ce schéma casserait au prochain format supporté.
+  additionalProperties: true
+  description: >
+    Métadonnées de CITATION d'une source (contrat v3). Toutes optionnelles : un TXT
+    n'en a aucune, un PDF porte sa page au niveau racine (`page_number`), un classeur
+    Excel porte ici sa feuille et sa plage de cellules.
+  properties:
+    kind:
+      type: string
+      description: >
+        `excel_table` | `excel_narrative` (classeur, lot E2) | `table` (tableau
+        structuré PDF, P3). Absent pour un document texte ordinaire.
+    sheet_name:
+      type: string
+      description: Nom de la feuille du classeur (ex. "Synthèse").
+    sheet_index:
+      type: integer
+    cell_range:
+      type: string
+      description: >
+        Plage de cellules RÉELLEMENT citée (ex. "B8:F17"). Couvre les lignes de
+        DONNÉES portées par ce chunk ; la ligne d'en-tête est indiquée par
+        `header_row`.
+    row_start:
+      type: integer
+    row_end:
+      type: integer
+    column_start:
+      type: string
+    column_end:
+      type: string
+    header_row:
+      type: [integer, "null"]
+    headers:
+      type: array
+      items:
+        type: string
+    title:
+      type: [string, "null"]
+      description: Titre posé par l'auteur au-dessus du tableau, s'il existe.
+    chunk_of:
+      type: integer
+    chunk_total:
+      type: integer
+    has_formulas:
+      type: boolean
+    # Signaux hérités des plans / PDF OCRisés (P2-P3).
+    page_type:
+      type: string
+    table_type:
+      type: string
+    confidence:
+      type: string
+    requires_visual_check:
+      type: boolean
+    source_is_ocr:
+      type: boolean
+
+RagSourceV1:
+  type: object
+  # Le backend émet des clés additives selon le type de source. `false` faisait échouer
+  # toute validation stricte : `meta` et `document_date` étaient déjà envoyés sans être
+  # déclarés. On ouvre le schéma plutôt que de retirer des champs réellement utilisés.
+  additionalProperties: true
+  description: >
+    Source typée. `source_type` distingue un document privé du workspace
+    ("workspace_document") d'un document de corpus métier partagé ("domain_corpus").
+
+    v3 (lot E3) : ajout de `meta`, qui porte la citation feuille + plage d'un classeur.
+    Additif — les anciens logs v1/v2 restent lisibles tels quels (le client applique un
+    fallback) et ne sont pas migrés.
+  required:
+    - schema_version
+    - rank
+    - document_id
+    - chunk_id
+    - score
+    - filename
+    - page_number
+    - snippet
+  properties:
+    schema_version:
+      type: integer
+      enum: [1, 2, 3]
+    source_type:
+      type: [string, "null"]
+      enum: [workspace_document, domain_corpus, null]
+      description: Type de provenance de la source (v2).
+    rank:
+      type: integer
+      minimum: 1
+    document_id:
+      type: [string, "null"]
+    chunk_id:
+      type: [string, "null"]
+    score:
+      type: number
+    filename:
+      type: [string, "null"]
+    page_number:
+      type: [integer, "null"]
+      description: >
+        Page PDF. **`null` pour un classeur Excel** : une feuille n'est pas une page,
+        et le client ne doit jamais en fabriquer une (la feuille vit dans `meta`).
+    document_date:
+      type: [string, "null"]
+      format: date
+      description: Date extraite du CONTENU du document (ISO), quand elle existe.
+    snippet:
+      type: string
+      # Aligné sur MAX_SNIPPET_CHARS_UI (chat_sources.py). Valait 200 alors que le
+      # backend en envoie 320 : toute validation stricte échouait.
+      maxLength: 320
+    meta:
+      $ref: "./chat.yaml#/SourceMeta"
+    # Métadonnées présentes uniquement si source_type == "domain_corpus"
+    corpus_id:
+      type: [string, "null"]
+    corpus_name:
+      type: [string, "null"]
+    business_domain_id:
+      type: [string, "null"]
+    business_domain_name:
+      type: [string, "null"]
+    # Métadonnées présentes uniquement si source_type == "workspace_document"
+    workspace_id:
+      type: [string, integer, "null"]
+    rag_space_id:
+      type: [string, "null"]
+
+ChatRequest:
+  type: object
+  required: [rag_space_id, question]
+  properties:
+    rag_space_id:
+      type: string
+      format: uuid
+    question:
+      type: string
+      description: >
+        Peut être vide UNIQUEMENT si `corpus_choice` est fourni : le serveur écrit
+        alors lui-même le message utilisateur persisté.
+    thread_id:
+      type: string
+      format: uuid
+      nullable: true
+    corpus_choice:
+      type: string
+      enum: [quick_response, global_analysis]
+      nullable: true
+      description: >
+        Choix du mode d'analyse, envoyé par un BOUTON — jamais tapé. Identifiant
+        d'action stable : le libellé affiché peut changer sans casser le contrat.
+        Quand il est présent, il fait autorité et `question` n'est plus interprétée.
+        La question d'origine n'est jamais transmise par le client : le serveur la
+        résout depuis le fil. Un choix sans clarification en attente renvoie 409
+        (`corpus_choice_expired`) et n'exécute rien.
+
+ChatMeta:
+  type: object
+  properties:
+    request_id:
+      type: string
+      nullable: true
+    rag_space_id:
+      type: string
+      format: uuid
+      nullable: true
+    thread_id:
+      type: string
+      format: uuid
+      nullable: true
+    policy:
+      type: string
+      nullable: true
+    latency_ms:
+      type: integer
+      nullable: true
+    sources_count:
+      type: integer
+      nullable: true
+
+ChatResponse:
+  type: object
+  required: [status, answer, sources, meta]
+  properties:
+    status:
+      type: string
+      enum: [ok, fallback_general, no_answer, error]
+    answer:
+      type: string
+    sources:
+      type: array
+      items:
+        $ref: "./chat.yaml#/RagSourceV1"
+    meta:
+      $ref: "./chat.yaml#/ChatMeta"
+    answer_kind:
+      type: string
+      description: >
+        Nature de la réponse. `excel_analytics_unavailable` (lot E4) : la question
+        exigeait un calcul EXHAUSTIF sur un classeur (somme, moyenne, classement,
+        regroupement, comptage). Le mode documentaire ne voit que les extraits
+        retrouvés, jamais le classeur entier : la requête est interceptée par une
+        garde DÉTERMINISTE, **avant tout retrieval et tout appel LLM**. Aucun
+        `RagQueryLog` n'est créé (aucune recherche n'a eu lieu), `sources` est vide.
+      enum:
+        - ok
+        - explain
+        - partial
+        - news
+        - help
+        - no_answer
+        - quick_response
+        - mode_choice
+        - full_unavailable
+        - full_launched
+        - excel_analytics_unavailable
+    suggested_rephrasings:
+      type: array
+      maxItems: 3
+      description: >
+        Reformulations DOCUMENTAIRES sûres. Présentes sur `no_answer` et sur
+        `excel_analytics_unavailable`. Aucune ne promet l'exhaustivité, aucune ne
+        réintroduit le calcul refusé, aucune n'est envoyée automatiquement.
+      items:
+        type: string
+    analytics:
+      type: object
+      description: >
+        Présent uniquement avec `excel_analytics_unavailable`. Volontairement PAUVRE
+        (intention + indisponibilité) : c'est une amorce pour le futur moteur tabulaire
+        déterministe, pas un contrat analytique.
+      properties:
+        requested_intent:
+          type: string
+          enum:
+            - exhaustive_aggregation
+            - exhaustive_count
+            - ranking
+            - grouping
+            - global_comparison
+        available:
+          type: boolean
+    awaiting_corpus_choice:
+      type: boolean
+      description: >
+        Ce message attend un choix de mode : le client rend deux boutons. Décidé par
+        le SERVEUR, à l'envoi comme à la relecture du fil — jamais déduit du Markdown,
+        jamais réaffiché une fois le choix consommé.
+    global_analysis_available:
+      type: boolean
+      description: >
+        L'analyse globale est-elle réellement possible ? Sans sujet identifiable, le
+        moteur n'a rien à chercher : le bouton n'est alors pas proposé.
+
+RephrasingSuggestionsResponse:
+  type: object
+  required: [status, suggestions]
+  properties:
+    status:
+      type: string
+      description: >
+        `none` = nothing enqueued (feature flag off, or unknown turn);
+        `pending` = generation in flight; `ready` = suggestions available;
+        `failed` = generation gave up (no technical detail exposed).
+      enum: [none, pending, ready, failed]
+    suggestions:
+      type: array
+      description: Non-empty only when status is `ready` (at most 3 items).
+      maxItems: 3
+      items:
+        type: string

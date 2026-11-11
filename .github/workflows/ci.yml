@@ -1,0 +1,184 @@
+# CI générique RAGatm Open (préparée lors de la qualification, NON EXÉCUTÉE à ce jour : aucun dépôt public
+# n'existe, et la CI des dépôts privés était bloquée par la facturation GitHub Actions).
+# Adaptateur mince : la logique vit dans ci/*.sh (voir ci/README.md). Aucun secret requis.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-fast:
+    # Profil FAST : aucun service. Première porte, rapide ; la voie bloquante complète
+    # reste `backend` (profil STANDARD).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.dev
+      EMBEDDINGS_PROVIDER: stub
+      ALLOW_AI_GATEWAY_DISABLED_FOR_TESTS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked dependencies (hashes verified)
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --require-hashes --no-deps -r ci/requirements-ci.lock
+          .venv/bin/pip install --no-deps --no-build-isolation -e backend
+      - name: Backend tests (FAST profile, no database)
+        run: PATH="$PWD/.venv/bin:$PATH" PYTEST_JUNIT_PATH=junit-backend-fast.xml ci/test-backend-fast.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-junit-fast
+          path: junit-backend-fast.xml
+
+  backend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: ragatm
+          POSTGRES_PASSWORD: ci-only-not-a-secret
+          POSTGRES_DB: ragatm_open
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U ragatm" --health-interval 5s --health-timeout 5s --health-retries 20
+      redis:
+        image: redis:7.2-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 2s --health-timeout 2s --health-retries 15
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.dev
+      DB_HOST: 127.0.0.1
+      DB_PORT: "5432"
+      DB_NAME: ragatm_open
+      DB_USER: ragatm
+      DB_PASSWORD: ci-only-not-a-secret
+      CELERY_BROKER_URL: redis://127.0.0.1:6379/0
+      DJANGO_CACHE_URL: redis://127.0.0.1:6379/1
+      EMBEDDINGS_PROVIDER: stub
+      ALLOW_AI_GATEWAY_DISABLED_FOR_TESTS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install locked dependencies (hashes verified)
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --require-hashes --no-deps -r ci/requirements-ci.lock
+          .venv/bin/pip install --no-deps --no-build-isolation -e backend
+      - name: Lock drift (runtime image locks must match pyproject)
+        run: backend/lock-runtime.sh --check
+      - name: Format & lint (advisory — see note)
+        # État mesuré sur le candidat de publication : `black --check` signale 1 127 fichiers à
+        # reformater et `ruff check` 894 erreurs, héritage antérieur à la publication.
+        # Un reformatage global est un lot de style à part (il toucherait aussi des
+        # fichiers dont l'empreinte est vérifiée par test). Jusqu'à cette décision,
+        # l'étape est non bloquante : elle informe sans masquer le résultat des tests.
+        continue-on-error: true
+        run: |
+          .venv/bin/ruff check backend tests
+          .venv/bin/black --check backend tests
+      - name: Config & docs consistency
+        run: |
+          PATH="$PWD/.venv/bin:$PATH" ci/check-config.sh
+          PATH="$PWD/.venv/bin:$PATH" ci/check-docs.sh
+      - name: Backend tests (STANDARD profile)
+        run: PATH="$PWD/.venv/bin:$PATH" PYTEST_JUNIT_PATH=junit-backend.xml ci/test-backend-standard.sh
+      - name: Dependency vulnerability audit (locks)
+        run: |
+          .venv/bin/pip install pip-audit
+          .venv/bin/pip-audit --require-hashes --no-deps -r backend/requirements.lock
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-junit
+          path: junit-backend.xml
+
+  frontend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"  # Qualification : aligné sur l'image runtime node:22-alpine (Node 20 en fin de vie)
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install (lockfile, integrity verified)
+        working-directory: frontend
+        run: npm ci
+      - name: Tests, types, build
+        run: ci/test-frontend.sh
+      - name: Dependency vulnerability audit (production deps)
+        working-directory: frontend
+        run: npm audit --omit=dev --audit-level=high
+
+  supply-chain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Secret scan (detect-secrets, full tree)
+        run: |
+          pipx run detect-secrets scan --all-files --exclude-lines '\b[0-9a-f]{40}\b|\b[0-9a-f]{64}\b' . > .secrets.json
+          python3 - <<'PY'
+          import json, sys
+          r = json.load(open(".secrets.json")).get("results", {})
+          # Les faux positifs connus sont listés nominativement dans ci/secrets-triage.txt (chemin | type).
+          ok = set()
+          try:
+              for l in open("ci/secrets-triage.txt"):
+                  l = l.strip()
+                  if l and not l.startswith("#"):
+                      p, t = [x.strip() for x in l.split("|")[:2]]; ok.add((p.lstrip("./"), t))
+          except FileNotFoundError:
+              pass
+          bad = [(p, i["type"], i["line_number"]) for p, its in r.items() for i in its if (p.lstrip("./"), i["type"]) not in ok]
+          print("untriaged:", bad); sys.exit(1 if bad else 0)
+          PY
+      - name: License inventory (Python locks)
+        run: |
+          pipx run pip-licenses --help >/dev/null
+          python3 -m venv .lic && .lic/bin/pip install --require-hashes --no-deps -r backend/requirements.lock >/dev/null
+          .lic/bin/pip install pip-licenses >/dev/null
+          .lic/bin/pip-licenses --format=markdown --fail-on="GPL-3.0-only;GPL-3.0-or-later;AGPL-3.0-only;AGPL-3.0-or-later;SSPL-1.0"
+      - name: SBOM (CycloneDX)
+        run: |
+          pipx run cyclonedx-bom requirements backend/requirements.lock --of JSON -o sbom-backend.cdx.json
+          (cd frontend && npm sbom --sbom-format cyclonedx --package-lock-only --omit dev > ../sbom-frontend.cdx.json)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom-*.cdx.json
+
+  images:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build backend image (hash-locked, no push)
+        run: docker build --build-arg APP_GIT_SHA=${{ github.sha }} -t ragatm-open-backend:ci backend
+      - name: Build frontend image (no push)
+        run: docker build --build-arg APP_GIT_SHA=${{ github.sha }} -t ragatm-open-frontend:ci frontend
+      - name: Installed versions match the lock
+        run: |
+          docker run --rm --entrypoint pip ragatm-open-backend:ci freeze --all | sort > installed.txt
+          grep -E '^[a-z0-9_.-]+==' backend/requirements.lock | sed 's/ \\$//' | tr 'A-Z' 'a-z' | sort > locked.txt
+          comm -13 <(tr 'A-Z' 'a-z' < installed.txt | sed 's/_/-/g' | sort) <(sed 's/_/-/g' locked.txt | sort) | grep -v '^rag-atm-backend' | tee missing.txt
+          test ! -s missing.txt

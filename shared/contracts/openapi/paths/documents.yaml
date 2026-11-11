@@ -1,0 +1,291 @@
+/api/v1/documents/:
+  get:
+    tags: [Documents]
+    summary: List documents for a RagSpace
+    parameters:
+      - in: query
+        name: rag_space_id
+        required: true
+        schema: { type: string, format: uuid }
+      - in: query
+        name: limit
+        required: false
+        schema: { type: integer, default: 50, minimum: 1, maximum: 200 }
+      - in: query
+        name: offset
+        required: false
+        schema: { type: integer, default: 0, minimum: 0 }
+    responses:
+      "200":
+        description: Document list
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/documents.yaml#/DocumentListResponse"
+      "400":
+        description: Missing rag_space_id
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/search/:
+  get:
+    tags: [Documents]
+    summary: List documents that mention a term (document search/listing)
+    description: >
+      Returns a list of documents in the given RagSpace that mention the provided term.
+      This endpoint is intended for "listing" queries like "liste des articles qui parlent de Nordexia"
+      and is more appropriate than semantic RAG top-k chunk retrieval.
+    parameters:
+      - in: query
+        name: rag_space_id
+        required: true
+        schema: { type: string, format: uuid }
+      - in: query
+        name: q
+        required: true
+        schema: { type: string, minLength: 1 }
+        description: Search term (case-insensitive). Example- Nordexia
+      - in: query
+        name: limit
+        required: false
+        schema: { type: integer, default: 200, minimum: 1, maximum: 1000 }
+      - in: query
+        name: fts
+        required: false
+        schema: { type: boolean, default: false }
+        description: Use Postgres full-text search (requires the GIN FTS index on chunks).
+      - in: query
+        name: lang
+        required: false
+        schema: { type: string, default: simple }
+        description: FTS language (only used when fts=true). Default is 'simple'.
+    responses:
+      "200":
+        description: Search results (documents mentioning the term)
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [query, fts, limit, results]
+              properties:
+                query:
+                  type: string
+                fts:
+                  type: boolean
+                lang:
+                  type: string
+                  nullable: true
+                limit:
+                  type: integer
+                results:
+                  type: array
+                  items:
+                    type: object
+                    required: [document_id, filename, hits, pages]
+                    properties:
+                      document_id:
+                        type: string
+                        format: uuid
+                      filename:
+                        type: string
+                      hits:
+                        type: integer
+                        minimum: 0
+                      pages:
+                        type: array
+                        items:
+                          type: integer
+      "400":
+        description: Missing/invalid rag_space_id or q
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "500":
+        description: Search failed
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/ingest/:
+  post:
+    tags: [Documents]
+    summary: Ingest raw text into a document (sync)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/documents.yaml#/DocumentIngestRequest"
+    responses:
+      "201":
+        description: Ingested
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/documents.yaml#/DocumentIngestResult"
+      "400":
+        description: Validation error
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/upload/:
+  post:
+    tags: [Documents]
+    summary: Upload a file (sync ingest)
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            $ref: "../components/schemas/documents.yaml#/DocumentUploadMultipart"
+    responses:
+      "201":
+        description: Uploaded and ingested
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/documents.yaml#/DocumentIngestResult"
+      "400":
+        description: Validation error
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/{document_id}/:
+  delete:
+    tags: [Documents]
+    summary: Delete a document (and associated chunks)
+    parameters:
+      - in: path
+        name: document_id
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "204":
+        description: Deleted (no content)
+      "400":
+        description: Invalid document_id
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "404":
+        description: Not found
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/{document_id}/reindex/:
+  post:
+    tags: [Documents]
+    summary: Reindex an existing document
+    parameters:
+      - in: path
+        name: document_id
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "200":
+        description: Reindexed
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/documents.yaml#/DocumentIngestResult"
+      "400":
+        description: Invalid document_id / missing rag_space
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "404":
+        description: Not found
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "501":
+        description: Reindex not implemented
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+
+/api/v1/documents/{document_id}/download/:
+  get:
+    tags: [Documents]
+    summary: Download original file
+    parameters:
+      - in: path
+        name: document_id
+        required: true
+        schema: { type: string, format: uuid }
+    responses:
+      "200":
+        description: File download
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      "400":
+        description: Invalid document_id
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "403":
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"
+      "404":
+        description: Not found
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/common.yaml#/Error"

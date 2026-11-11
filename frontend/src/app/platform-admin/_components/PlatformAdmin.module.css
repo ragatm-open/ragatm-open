@@ -1,0 +1,19 @@
+/* Mise en page responsive locale de /platform-admin.
+ * Seuil mobile = celui du shell (components/shell/breakpoints.ts : ≤ 767 px). */
+
+.page {
+  padding: 24px 32px 56px;
+}
+
+/* Quatre onglets avec icônes (≈ 454 px) : retour à la ligne contrôlé dès que la
+ * largeur manque (mobile, et tablette 768 px où il manquait 8 px). */
+.tabs {
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding: 16px 16px 40px;
+  }
+}
